@@ -1,0 +1,282 @@
+/* ─── AUTOZENT — INTERNATIONALISATION ─── */
+const I18N = {
+  fr: {
+    /* NAV */
+    nav_home: "Accueil",
+    nav_services: "Services",
+    nav_realisations: "Réalisations",
+    nav_rdv: "Rendez-vous",
+    nav_contact: "Contact",
+    nav_agenda: "Espace équipe",
+    nav_call: "📞 Appeler",
+
+    /* FOOTER */
+    footer_desc: "Spécialistes High-Tech Auto & Mobile en Île-de-France. CarPlay, caméra, LED, son et entretien.",
+    footer_pages: "Pages",
+    footer_services_title: "Services",
+    footer_contact_title: "Contact",
+    footer_copy: "© 2025 AutoZent Services. Tous droits réservés.",
+    footer_idf: "Île-de-France",
+    svc_carplay: "CarPlay / Android Auto",
+    svc_camera: "Caméra de recul",
+    svc_led: "LED & Éclairage",
+    svc_son: "Enceintes & Son",
+    svc_reparation: "Réparation",
+    svc_vidange: "Vidanges & Entretien",
+
+    /* INDEX */
+    hero_badge: "High-Tech Auto & Mobile",
+    hero_title_1: "Votre voiture,",
+    hero_title_2: "réinventée.",
+    hero_sub: "Installation CarPlay, caméras, LED, enceintes et entretien — sur toute l'Île-de-France, à domicile.",
+    hero_zone: "Zone : Île-de-France",
+    hero_cta1: "Prendre RDV",
+    hero_cta2: "Voir nos réalisations",
+    hero_stat1_n: "200+",
+    hero_stat1_l: "Véhicules",
+    hero_stat2_n: "5★",
+    hero_stat2_l: "Satisfaction",
+    hero_stat3_n: "24h",
+    hero_stat3_l: "Réponse",
+    services_eyebrow: "Ce qu'on fait",
+    services_title: "Nos Services",
+    services_cta: "Voir tous nos services",
+    why_eyebrow: "Pourquoi nous",
+    why_title: "La différence AutoZent",
+    why_1_t: "Déplacement à domicile",
+    why_1_d: "On vient chez vous, partout en Île-de-France.",
+    why_2_t: "Pose soignée, garanti",
+    why_2_d: "Aucun fil apparent. Travail propre et durée.",
+    why_3_t: "Devis gratuit",
+    why_3_d: "Estimation claire avant toute intervention.",
+    why_4_t: "Réponse rapide",
+    why_4_d: "Contact en moins de 24h, intervention sous 48h.",
+    cta_title: "Prêt à transformer votre véhicule ?",
+    cta_sub: "Réservez votre intervention en ligne en 2 minutes.",
+    cta_btn: "Prendre rendez-vous",
+
+    /* SERVICES PAGE */
+    svc_page_eyebrow: "Expertise",
+    svc_page_title: "Tous nos services",
+    svc_page_sub: "Des solutions high-tech pour votre véhicule, installées par des experts.",
+    svc_carplay_d: "Intégration d'écrans tactiles Android/CarPlay sur tous modèles de véhicules. Compatible sans fil.",
+    svc_camera_d: "Caméra de recul HD connectée à l'écran de bord. Vision nette de nuit comme de jour.",
+    svc_led_d: "Kits LED pour phares, feux, habitacle. Rendu premium, durée de vie 10× supérieure.",
+    svc_son_d: "Enceintes, amplis, caissons intégrés discrètement. Une qualité sonore studio dans votre voiture.",
+    svc_rep_d: "Diagnostics, entretien courant, petites réparations mécaniques sur Île-de-France.",
+    svc_vid_d: "Vidanges, filtres, niveaux. Entretien régulier pour garder votre véhicule au top.",
+    svc_rdv_btn: "Prendre RDV",
+    svc_price: "Devis gratuit",
+
+    /* REALISATIONS */
+    real_eyebrow: "Réalisations",
+    real_title: "Avant & Après",
+    real_sub: "Des transformations réelles sur des véhicules de nos clients.",
+    real_filter_all: "Tous",
+    real_add_btn: "Ajouter une réalisation",
+    real_avis_title: "Avis client",
+    real_avis_btn: "Laisser un avis",
+    real_avant: "Avant",
+    real_apres: "Après",
+    modal_real_title: "Ajouter une réalisation",
+    modal_real_client: "Nom du client",
+    modal_real_vehicule: "Véhicule",
+    modal_real_service: "Service réalisé",
+    modal_real_ville: "Ville",
+    modal_real_avant: "Photo AVANT",
+    modal_real_apres: "Photo APRÈS",
+    modal_real_submit: "Publier la réalisation",
+    modal_avis_title: "Laisser un avis",
+    modal_avis_nom: "Votre nom",
+    modal_avis_vehicule: "Votre véhicule",
+    modal_avis_note: "Votre note",
+    modal_avis_msg: "Votre commentaire",
+    modal_avis_submit: "Publier l'avis",
+    login_required: "Connexion équipe requise pour ajouter une réalisation.",
+
+    /* RDV */
+    rdv_eyebrow: "Réservation",
+    rdv_title: "Prendre Rendez-Vous",
+    rdv_sub: "Réservez en ligne. Nous vous confirmons rapidement et intervenons partout en IDF.",
+    rdv_nom: "Nom",
+    rdv_prenom: "Prénom",
+    rdv_tel: "Téléphone",
+    rdv_email: "Email",
+    rdv_vehicule: "Véhicule",
+    rdv_service: "Service souhaité",
+    rdv_date: "Date souhaitée",
+    rdv_creneau: "Créneau",
+    rdv_ville: "Ville / Code postal",
+    rdv_details: "Précisions",
+    rdv_submit: "Envoyer ma demande",
+    rdv_ok: "✅ Demande envoyée ! Nous vous contactons très prochainement.",
+    rdv_err: "❌ Erreur d'envoi. Contactez-nous directement.",
+    creneau_matin: "Matin (8h–12h)",
+    creneau_am: "Après-midi (12h–17h)",
+    creneau_soir: "Soirée (17h–20h)",
+    creneau_flex: "Flexible",
+
+    /* CONTACT */
+    contact_eyebrow: "Nous joindre",
+    contact_title: "Contact",
+    contact_sub: "Une question, un devis ? Contactez-nous par le moyen qui vous convient.",
+    contact_call: "Appel direct",
+    contact_call_d: "Disponible 7j/7",
+    contact_wa: "WhatsApp",
+    contact_wa_d: "Réponse rapide",
+    contact_insta: "Instagram",
+    contact_insta_d: "@autozent_services",
+    contact_form_nom: "Votre nom",
+    contact_form_info: "Email ou Téléphone",
+    contact_form_msg: "Votre message",
+    contact_form_submit: "Envoyer",
+    contact_ok: "✅ Message envoyé ! On vous répond au plus vite.",
+    contact_err: "❌ Erreur. Contactez-nous via WhatsApp.",
+
+    /* AGENDA */
+    agenda_eyebrow: "Espace équipe",
+    agenda_title: "Agenda Interne",
+    agenda_sub: "Gérez et partagez vos interventions de la semaine.",
+    login_title: "Connexion équipe",
+    login_sub: "Accédez à l'agenda et aux réalisations.",
+    login_nom: "Votre prénom",
+    login_pass: "Mot de passe",
+    login_btn: "Se connecter",
+    login_err: "Identifiants incorrects.",
+    agenda_week: "Semaine du",
+    agenda_prev: "← Préc.",
+    agenda_today: "Aujourd'hui",
+    agenda_next: "Suiv. →",
+    agenda_add: "+ Ajouter",
+    agenda_logout: "Déconnexion",
+    agenda_filter: "Filtrer :",
+    agenda_mine: "Ma couleur",
+    agenda_other: "Autre technicien",
+    modal_rdv_title: "Nouvelle intervention",
+    modal_client: "Client",
+    modal_vehicule: "Véhicule",
+    modal_service: "Service",
+    modal_tech: "Technicien",
+    modal_date: "Date",
+    modal_heure: "Heure",
+    modal_ville: "Ville",
+    modal_notes: "Notes",
+    modal_save: "Enregistrer",
+  },
+
+  en: {
+    nav_home: "Home", nav_services: "Services", nav_realisations: "Portfolio", nav_rdv: "Booking", nav_contact: "Contact", nav_agenda: "Team Space", nav_call: "📞 Call",
+    footer_desc: "High-Tech Auto & Mobile specialists in Île-de-France. CarPlay, cameras, LED, sound and maintenance.", footer_pages: "Pages", footer_services_title: "Services", footer_contact_title: "Contact", footer_copy: "© 2025 AutoZent Services. All rights reserved.", footer_idf: "Île-de-France",
+    svc_carplay: "CarPlay / Android Auto", svc_camera: "Reversing Camera", svc_led: "LED & Lighting", svc_son: "Speakers & Sound", svc_reparation: "Repair", svc_vidange: "Oil Changes & Maintenance",
+    hero_badge: "High-Tech Auto & Mobile", hero_title_1: "Your car,", hero_title_2: "reinvented.", hero_sub: "CarPlay installation, cameras, LED, speakers and maintenance — across all of Île-de-France, at your doorstep.", hero_zone: "Area: Île-de-France", hero_cta1: "Book Now", hero_cta2: "See our work",
+    hero_stat1_n: "200+", hero_stat1_l: "Vehicles", hero_stat2_n: "5★", hero_stat2_l: "Satisfaction", hero_stat3_n: "24h", hero_stat3_l: "Response",
+    services_eyebrow: "What we do", services_title: "Our Services", services_cta: "See all services",
+    why_eyebrow: "Why us", why_title: "The AutoZent difference",
+    why_1_t: "Home visit", why_1_d: "We come to you, anywhere in Île-de-France.", why_2_t: "Clean install, guaranteed", why_2_d: "No visible wires. Professional and lasting.", why_3_t: "Free quote", why_3_d: "Clear estimate before any work.", why_4_t: "Fast response", why_4_d: "Reply within 24h, service within 48h.",
+    cta_title: "Ready to transform your car?", cta_sub: "Book your appointment online in 2 minutes.", cta_btn: "Book an appointment",
+    svc_page_eyebrow: "Expertise", svc_page_title: "All our services", svc_page_sub: "High-tech solutions for your vehicle, installed by experts.",
+    svc_carplay_d: "Touchscreen integration for all vehicle models. Wireless compatible.", svc_camera_d: "HD reversing camera connected to your dashboard. Clear night and day.", svc_led_d: "LED kits for headlights, daytime running lights, interior. Premium look, 10× longer life.", svc_son_d: "Speakers, amps, subwoofers discreetly integrated. Studio quality in your car.", svc_rep_d: "Diagnostics, regular maintenance, small repairs across Île-de-France.", svc_vid_d: "Oil changes, filters, fluid levels. Regular maintenance to keep your vehicle in top shape.",
+    svc_rdv_btn: "Book", svc_price: "Free quote",
+    real_eyebrow: "Portfolio", real_title: "Before & After", real_sub: "Real transformations on our customers' vehicles.", real_filter_all: "All", real_add_btn: "Add a project", real_avis_title: "Customer review", real_avis_btn: "Leave a review", real_avant: "Before", real_apres: "After",
+    modal_real_title: "Add a project", modal_real_client: "Customer name", modal_real_vehicule: "Vehicle", modal_real_service: "Service done", modal_real_ville: "City", modal_real_avant: "BEFORE photo", modal_real_apres: "AFTER photo", modal_real_submit: "Publish",
+    modal_avis_title: "Leave a review", modal_avis_nom: "Your name", modal_avis_vehicule: "Your vehicle", modal_avis_note: "Your rating", modal_avis_msg: "Your comment", modal_avis_submit: "Submit review",
+    login_required: "Team login required to add a project.",
+    rdv_eyebrow: "Booking", rdv_title: "Book an Appointment", rdv_sub: "Book online. We confirm quickly and visit you across IDF.", rdv_nom: "Last name", rdv_prenom: "First name", rdv_tel: "Phone", rdv_email: "Email", rdv_vehicule: "Vehicle", rdv_service: "Desired service", rdv_date: "Preferred date", rdv_creneau: "Time slot", rdv_ville: "City / Postcode", rdv_details: "Details", rdv_submit: "Send request", rdv_ok: "✅ Request sent! We'll contact you shortly.", rdv_err: "❌ Error. Please contact us directly.",
+    creneau_matin: "Morning (8–12)", creneau_am: "Afternoon (12–17)", creneau_soir: "Evening (17–20)", creneau_flex: "Flexible",
+    contact_eyebrow: "Get in touch", contact_title: "Contact", contact_sub: "A question or a quote? Contact us the way you prefer.", contact_call: "Direct call", contact_call_d: "Available 7 days", contact_wa: "WhatsApp", contact_wa_d: "Quick reply", contact_insta: "Instagram", contact_insta_d: "@autozent_services",
+    contact_form_nom: "Your name", contact_form_info: "Email or Phone", contact_form_msg: "Your message", contact_form_submit: "Send", contact_ok: "✅ Message sent! We'll reply asap.", contact_err: "❌ Error. Contact us via WhatsApp.",
+    agenda_eyebrow: "Team Space", agenda_title: "Internal Schedule", agenda_sub: "Manage and share your weekly appointments.", login_title: "Team login", login_sub: "Access the schedule and portfolio.", login_nom: "Your first name", login_pass: "Password", login_btn: "Log in", login_err: "Wrong credentials.",
+    agenda_week: "Week of", agenda_prev: "← Prev", agenda_today: "Today", agenda_next: "Next →", agenda_add: "+ Add", agenda_logout: "Log out", agenda_filter: "Filter:", agenda_mine: "My color", agenda_other: "Other technician",
+    modal_rdv_title: "New appointment", modal_client: "Customer", modal_vehicule: "Vehicle", modal_service: "Service", modal_tech: "Technician", modal_date: "Date", modal_heure: "Time", modal_ville: "City", modal_notes: "Notes", modal_save: "Save",
+  },
+
+  ar: {
+    nav_home: "الرئيسية", nav_services: "الخدمات", nav_realisations: "الأعمال", nav_rdv: "حجز موعد", nav_contact: "اتصل بنا", nav_agenda: "فضاء الفريق", nav_call: "📞 اتصل",
+    footer_desc: "متخصصون في تقنيات السيارات في إيل دو فرانس. CarPlay، كاميرات، LED، صوت وصيانة.", footer_pages: "الصفحات", footer_services_title: "الخدمات", footer_contact_title: "التواصل", footer_copy: "© 2025 AutoZent Services. جميع الحقوق محفوظة.", footer_idf: "إيل دو فرانس",
+    svc_carplay: "CarPlay / Android Auto", svc_camera: "كاميرا الرجوع", svc_led: "LED والإضاءة", svc_son: "مكبرات الصوت", svc_reparation: "الإصلاح", svc_vidange: "تغيير الزيت والصيانة",
+    hero_badge: "تقنيات السيارات والموبايل", hero_title_1: "سيارتك،", hero_title_2: "بشكل جديد.", hero_sub: "تركيب CarPlay، كاميرات، LED، مكبرات صوت وصيانة في كل أرجاء إيل دو فرانس، في منزلك.", hero_zone: "منطقة الخدمة: إيل دو فرانس", hero_cta1: "احجز موعدًا", hero_cta2: "اطلع على أعمالنا",
+    hero_stat1_n: "+200", hero_stat1_l: "سيارة", hero_stat2_n: "5★", hero_stat2_l: "رضا العملاء", hero_stat3_n: "24س", hero_stat3_l: "استجابة",
+    services_eyebrow: "ما نقدمه", services_title: "خدماتنا", services_cta: "عرض كل الخدمات",
+    why_eyebrow: "لماذا نحن", why_title: "الفرق مع AutoZent",
+    why_1_t: "نأتي إليك", why_1_d: "نصل إليك أينما كنت في إيل دو فرانس.", why_2_t: "تركيب محكم ومضمون", why_2_d: "لا أسلاك ظاهرة. عمل نظيف ودائم.", why_3_t: "تقدير مجاني", why_3_d: "تقدير واضح قبل أي تدخل.", why_4_t: "استجابة سريعة", why_4_d: "رد في أقل من 24 ساعة.",
+    cta_title: "هل أنت مستعد لتحويل سيارتك؟", cta_sub: "احجز موعدك عبر الإنترنت في دقيقتين.", cta_btn: "احجز موعدًا",
+    svc_page_eyebrow: "الخبرة", svc_page_title: "جميع خدماتنا", svc_page_sub: "حلول تقنية متقدمة لسيارتك، يركبها خبراء.",
+    svc_carplay_d: "تركيب شاشات لمس على جميع أنواع السيارات. متوافق مع الاتصال اللاسلكي.", svc_camera_d: "كاميرا رجوع HD متصلة بشاشة لوحة القيادة.", svc_led_d: "مجموعات LED للمصابيح الأمامية والداخلية.", svc_son_d: "مكبرات صوت ومضخمات مدمجة بشكل خفي.", svc_rep_d: "تشخيص وصيانة دورية وإصلاحات صغيرة.", svc_vid_d: "تغيير الزيت والفلاتر. صيانة منتظمة لإبقاء سيارتك في أفضل حالة.",
+    svc_rdv_btn: "احجز", svc_price: "تقدير مجاني",
+    real_eyebrow: "الأعمال", real_title: "قبل وبعد", real_sub: "تحولات حقيقية لسيارات عملائنا.", real_filter_all: "الكل", real_add_btn: "إضافة عمل", real_avis_title: "تقييم العميل", real_avis_btn: "اترك تقييمًا", real_avant: "قبل", real_apres: "بعد",
+    modal_real_title: "إضافة عمل", modal_real_client: "اسم العميل", modal_real_vehicule: "السيارة", modal_real_service: "الخدمة المنجزة", modal_real_ville: "المدينة", modal_real_avant: "صورة قبل", modal_real_apres: "صورة بعد", modal_real_submit: "نشر",
+    modal_avis_title: "اترك تقييمًا", modal_avis_nom: "اسمك", modal_avis_vehicule: "سيارتك", modal_avis_note: "تقييمك", modal_avis_msg: "تعليقك", modal_avis_submit: "إرسال التقييم",
+    login_required: "يجب تسجيل الدخول لإضافة عمل.",
+    rdv_eyebrow: "الحجز", rdv_title: "احجز موعدًا", rdv_sub: "احجز عبر الإنترنت. نؤكد بسرعة ونأتي إليك.", rdv_nom: "اللقب", rdv_prenom: "الاسم", rdv_tel: "الهاتف", rdv_email: "البريد الإلكتروني", rdv_vehicule: "السيارة", rdv_service: "الخدمة المطلوبة", rdv_date: "التاريخ المفضل", rdv_creneau: "الفترة الزمنية", rdv_ville: "المدينة / الرمز البريدي", rdv_details: "تفاصيل إضافية", rdv_submit: "إرسال الطلب", rdv_ok: "✅ تم إرسال الطلب! سنتصل بك قريبًا.", rdv_err: "❌ خطأ في الإرسال. اتصل بنا مباشرة.",
+    creneau_matin: "صباحًا (8–12)", creneau_am: "بعد الظهر (12–17)", creneau_soir: "مساءً (17–20)", creneau_flex: "مرن",
+    contact_eyebrow: "تواصل معنا", contact_title: "اتصل بنا", contact_sub: "سؤال أو طلب تقدير؟ تواصل معنا بالطريقة التي تناسبك.", contact_call: "اتصال مباشر", contact_call_d: "متاح 7 أيام", contact_wa: "واتساب", contact_wa_d: "رد سريع", contact_insta: "إنستغرام", contact_insta_d: "@autozent_services",
+    contact_form_nom: "اسمك", contact_form_info: "البريد أو الهاتف", contact_form_msg: "رسالتك", contact_form_submit: "إرسال", contact_ok: "✅ تم إرسال الرسالة! سنرد في أقرب وقت.", contact_err: "❌ خطأ. تواصل معنا عبر واتساب.",
+    agenda_eyebrow: "فضاء الفريق", agenda_title: "جدول الأعمال الداخلي", agenda_sub: "إدارة ومشاركة تدخلات الأسبوع.", login_title: "دخول الفريق", login_sub: "الوصول إلى الجدول والأعمال.", login_nom: "اسمك الأول", login_pass: "كلمة المرور", login_btn: "تسجيل الدخول", login_err: "بيانات غير صحيحة.",
+    agenda_week: "أسبوع", agenda_prev: "← السابق", agenda_today: "اليوم", agenda_next: "التالي →", agenda_add: "+ إضافة", agenda_logout: "تسجيل الخروج", agenda_filter: "تصفية:", agenda_mine: "لوني", agenda_other: "تقني آخر",
+    modal_rdv_title: "تدخل جديد", modal_client: "العميل", modal_vehicule: "السيارة", modal_service: "الخدمة", modal_tech: "التقني", modal_date: "التاريخ", modal_heure: "الوقت", modal_ville: "المدينة", modal_notes: "ملاحظات", modal_save: "حفظ",
+  },
+
+  zh: {
+    nav_home: "首页", nav_services: "服务", nav_realisations: "案例", nav_rdv: "预约", nav_contact: "联系", nav_agenda: "团队空间", nav_call: "📞 致电",
+    footer_desc: "法兰西岛地区高科技汽车与手机专家。CarPlay、倒车摄像头、LED、音响及保养。", footer_pages: "页面", footer_services_title: "服务", footer_contact_title: "联系", footer_copy: "© 2025 AutoZent Services. 保留所有权利。", footer_idf: "法兰西岛",
+    svc_carplay: "CarPlay / Android Auto", svc_camera: "倒车摄像头", svc_led: "LED灯改装", svc_son: "音响系统", svc_reparation: "维修", svc_vidange: "换机油与保养",
+    hero_badge: "高科技汽车与手机", hero_title_1: "您的爱车，", hero_title_2: "焕然一新。", hero_sub: "CarPlay安装、摄像头、LED灯、音响及保养 — 覆盖法兰西岛全境，上门服务。", hero_zone: "服务范围：法兰西岛", hero_cta1: "立即预约", hero_cta2: "查看我们的案例",
+    hero_stat1_n: "200+", hero_stat1_l: "辆车", hero_stat2_n: "5★", hero_stat2_l: "满意度", hero_stat3_n: "24小时", hero_stat3_l: "响应",
+    services_eyebrow: "我们的服务", services_title: "服务项目", services_cta: "查看全部服务",
+    why_eyebrow: "为什么选择我们", why_title: "AutoZent的优势",
+    why_1_t: "上门服务", why_1_d: "我们来您家，覆盖法兰西岛全境。", why_2_t: "精心安装，有保障", why_2_d: "无外露线材，工艺精湛，经久耐用。", why_3_t: "免费报价", why_3_d: "施工前提供清晰报价。", why_4_t: "快速响应", why_4_d: "24小时内回复，48小时内上门。",
+    cta_title: "准备好改装您的爱车了吗？", cta_sub: "2分钟在线预约，轻松搞定。", cta_btn: "立即预约",
+    svc_page_eyebrow: "专业技术", svc_page_title: "全部服务", svc_page_sub: "专业团队为您的爱车提供高科技解决方案。",
+    svc_carplay_d: "适配各类车型触摸屏集成，支持无线连接。", svc_camera_d: "高清倒车摄像头，接入车载屏幕，昼夜清晰。", svc_led_d: "大灯、日行灯及内饰LED改装，效果高端，寿命超长。", svc_son_d: "音箱、功放、低音炮隐蔽安装，车内音效媲美录音棚。", svc_rep_d: "诊断、日常保养、小型机械维修，覆盖法兰西岛。", svc_vid_d: "换机油、滤清器、液位检查，定期保养让爱车保持最佳状态。",
+    svc_rdv_btn: "预约", svc_price: "免费报价",
+    real_eyebrow: "改装案例", real_title: "改装前后对比", real_sub: "客户车辆的真实改装记录。", real_filter_all: "全部", real_add_btn: "添加案例", real_avis_title: "客户评价", real_avis_btn: "留下评价", real_avant: "改装前", real_apres: "改装后",
+    modal_real_title: "添加案例", modal_real_client: "客户姓名", modal_real_vehicule: "车型", modal_real_service: "服务项目", modal_real_ville: "城市", modal_real_avant: "改装前照片", modal_real_apres: "改装后照片", modal_real_submit: "发布案例",
+    modal_avis_title: "留下评价", modal_avis_nom: "您的姓名", modal_avis_vehicule: "您的车型", modal_avis_note: "评分", modal_avis_msg: "您的评论", modal_avis_submit: "提交评价",
+    login_required: "需要团队登录才能添加案例。",
+    rdv_eyebrow: "预约", rdv_title: "在线预约", rdv_sub: "在线预约，我们快速确认并上门服务。", rdv_nom: "姓", rdv_prenom: "名", rdv_tel: "电话", rdv_email: "邮箱", rdv_vehicule: "车型", rdv_service: "所需服务", rdv_date: "首选日期", rdv_creneau: "时间段", rdv_ville: "城市 / 邮编", rdv_details: "补充说明", rdv_submit: "发送预约请求", rdv_ok: "✅ 预约已发送！我们将尽快联系您。", rdv_err: "❌ 发送失败，请直接联系我们。",
+    creneau_matin: "上午 (8–12时)", creneau_am: "下午 (12–17时)", creneau_soir: "傍晚 (17–20时)", creneau_flex: "灵活",
+    contact_eyebrow: "联系我们", contact_title: "联系方式", contact_sub: "有问题或需要报价？选择最方便的方式联系我们。", contact_call: "直接致电", contact_call_d: "每天可用", contact_wa: "WhatsApp", contact_wa_d: "快速回复", contact_insta: "Instagram", contact_insta_d: "@autozent_services",
+    contact_form_nom: "您的姓名", contact_form_info: "邮箱或电话", contact_form_msg: "您的留言", contact_form_submit: "发送", contact_ok: "✅ 消息已发送！我们将尽快回复。", contact_err: "❌ 发送失败，请通过WhatsApp联系我们。",
+    agenda_eyebrow: "团队空间", agenda_title: "内部日程", agenda_sub: "管理和分配本周的服务工单。", login_title: "团队登录", login_sub: "访问日程和案例管理。", login_nom: "您的名字", login_pass: "密码", login_btn: "登录", login_err: "账号或密码错误。",
+    agenda_week: "周", agenda_prev: "← 上一周", agenda_today: "今天", agenda_next: "下一周 →", agenda_add: "+ 添加", agenda_logout: "退出登录", agenda_filter: "筛选：", agenda_mine: "我的颜色", agenda_other: "其他技师",
+    modal_rdv_title: "新建工单", modal_client: "客户", modal_vehicule: "车型", modal_service: "服务项目", modal_tech: "技师", modal_date: "日期", modal_heure: "时间", modal_ville: "城市", modal_notes: "备注", modal_save: "保存",
+  }
+};
+
+// ─── RTL SUPPORT ───
+const RTL_LANGS = ['ar'];
+function applyLang(code) {
+  const t = I18N[code] || I18N.fr;
+  localStorage.setItem('az_lang', code);
+  // RTL
+  if (RTL_LANGS.includes(code)) {
+    document.documentElement.dir = 'rtl';
+    document.documentElement.lang = code;
+  } else {
+    document.documentElement.dir = 'ltr';
+    document.documentElement.lang = code;
+  }
+  // Apply to all [data-i18n] elements
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (t[key] !== undefined) {
+      if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+        el.placeholder = t[key];
+      } else if (el.tagName === 'OPTION') {
+        el.textContent = t[key];
+      } else {
+        el.textContent = t[key];
+      }
+    }
+  });
+  // Activate lang buttons
+  document.querySelectorAll('.lang-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.lang === code);
+  });
+  // Dispatch event for page-specific logic
+  window.dispatchEvent(new CustomEvent('langchange', { detail: { lang: code, t } }));
+}
+function t(key) {
+  const code = localStorage.getItem('az_lang') || 'fr';
+  return (I18N[code] || I18N.fr)[key] || key;
+}

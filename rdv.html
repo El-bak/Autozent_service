@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rendez-vous — AutoZent Services</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.page-hero{background:var(--gris-1);padding:6rem 3rem 4rem;text-align:center;border-bottom:1px solid var(--gris-2);}
+.rdv-layout{display:grid;grid-template-columns:1fr 1.6fr;gap:4rem;align-items:start;}
+.info-list{display:flex;flex-direction:column;gap:1.2rem;margin-top:1.5rem;}
+.info-card{display:flex;gap:1rem;align-items:flex-start;padding:1.2rem 1.4rem;background:var(--blanc);border:1px solid var(--gris-2);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);}
+.info-card-ico{font-size:1.6rem;flex-shrink:0;margin-top:.1rem;}
+.info-card strong{display:block;font-size:.92rem;color:var(--noir);margin-bottom:.2rem;}
+.info-card p{font-size:.83rem;color:var(--gris-5);line-height:1.5;}
+.rdv-form-wrap{background:var(--blanc);border:1px solid var(--gris-2);border-radius:var(--radius-xl);padding:2.5rem;box-shadow:var(--shadow-md);}
+.rdv-form-wrap h3{font-family:var(--font-titre);font-size:1.6rem;font-weight:700;color:var(--noir);margin-bottom:.3rem;}
+.rdv-form-wrap p.sub{font-size:.88rem;color:var(--gris-4);margin-bottom:1.8rem;}
+.step-indicator{display:flex;gap:.5rem;margin-bottom:2rem;}
+.step-dot{flex:1;height:4px;border-radius:2px;background:var(--gris-2);transition:background .3s;}
+.step-dot.done{background:var(--orange);}
+.select-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:1rem;}
+.svc-pick{padding:.9rem .8rem;border:1.5px solid var(--gris-2);border-radius:var(--radius-md);text-align:center;cursor:pointer;transition:all .2s;font-size:.82rem;color:var(--gris-5);font-weight:500;}
+.svc-pick:hover{border-color:var(--orange);color:var(--orange);background:var(--orange-bg);}
+.svc-pick.selected{border-color:var(--orange);background:var(--orange-bg);color:var(--orange);font-weight:600;}
+.svc-pick-ico{font-size:1.4rem;display:block;margin-bottom:.3rem;}
+@media(max-width:900px){.rdv-layout{grid-template-columns:1fr;gap:2rem;}.select-grid{grid-template-columns:repeat(2,1fr);}.page-hero{padding:5rem 1.5rem 3rem;}}
+@media(max-width:480px){.select-grid{grid-template-columns:1fr 1fr;}.rdv-form-wrap{padding:1.5rem;}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">Auto<span>Zent</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html" data-i18n="nav_home">Accueil</a></li>
+    <li><a href="services.html" data-i18n="nav_services">Services</a></li>
+    <li><a href="realisations.html" data-i18n="nav_realisations">Réalisations</a></li>
+    <li><a href="rdv.html" data-i18n="nav_rdv">Rendez-vous</a></li>
+    <li><a href="contact.html" data-i18n="nav_contact">Contact</a></li>
+    <li><a href="agenda.html" data-i18n="nav_agenda">Espace équipe</a></li>
+    <div class="nav-lang">
+      <button class="lang-btn" data-lang="fr">FR</button><button class="lang-btn" data-lang="en">EN</button><button class="lang-btn" data-lang="ar">AR</button><button class="lang-btn" data-lang="zh">中</button>
+    </div>
+  </ul>
+  <div id="hamburger" class="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="page-top">
+  <div class="page-hero">
+    <div class="eyebrow" style="justify-content:center;"><span data-i18n="rdv_eyebrow">Réservation</span></div>
+    <h1 class="display anim-fade-up d1" data-i18n="rdv_title">Prendre Rendez-Vous</h1>
+    <div class="divider-orange center"></div>
+    <p class="lead center anim-fade-up d2" data-i18n="rdv_sub">Réservez en ligne. Nous vous confirmons rapidement et intervenons partout en IDF.</p>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="rdv-layout">
+        <!-- LEFT: INFO -->
+        <div class="scroll-reveal">
+          <div class="eyebrow"><span>Infos pratiques</span></div>
+          <h2 class="display" style="font-size:1.8rem;">Comment ça marche ?</h2>
+          <div class="divider-orange"></div>
+          <div class="info-list">
+            <div class="info-card"><div class="info-card-ico">1️⃣</div><div><strong>Remplissez le formulaire</strong><p>Indiquez votre véhicule, le service souhaité, la date et votre localisation.</p></div></div>
+            <div class="info-card"><div class="info-card-ico">2️⃣</div><div><strong>On vous rappelle</strong><p>Nous vous contactons sous 24h pour confirmer le créneau et le devis gratuit.</p></div></div>
+            <div class="info-card"><div class="info-card-ico">3️⃣</div><div><strong>On vient chez vous</strong><p>Le technicien se déplace à l'adresse convenue. Installation propre, sans tracas.</p></div></div>
+            <div class="info-card"><div class="info-card-ico">✅</div><div><strong>C'est terminé</strong><p>Vous vérifiez le travail et payez une fois satisfait. Garantie incluse.</p></div></div>
+          </div>
+          <div style="margin-top:2rem;padding:1.5rem;background:var(--orange-bg);border-radius:var(--radius-md);border:1px solid rgba(244,96,12,.15);">
+            <p style="font-size:.88rem;color:var(--orange-dk);font-weight:500;">📍 Zone de déplacement : <strong>toute l'Île-de-France</strong> — 75, 77, 78, 91, 92, 93, 94, 95</p>
+          </div>
+        </div>
+
+        <!-- RIGHT: FORM -->
+        <div class="scroll-reveal delay-2">
+          <div class="rdv-form-wrap">
+            <h3>📅 Votre demande de RDV</h3>
+            <p class="sub">Tous les champs marqués * sont obligatoires.</p>
+
+            <!-- Progress -->
+            <div class="step-indicator" id="stepDots">
+              <div class="step-dot done"></div>
+              <div class="step-dot"></div>
+              <div class="step-dot"></div>
+            </div>
+
+            <form id="rdvForm">
+              <!-- STEP 1: Identité -->
+              <div id="step1">
+                <p style="font-family:var(--font-mono);font-size:.7rem;color:var(--gris-4);letter-spacing:1.5px;margin-bottom:1rem;">ÉTAPE 1 — VOS COORDONNÉES</p>
+                <div class="form-row">
+                  <div class="form-group"><label data-i18n="rdv_prenom">Prénom *</label><input type="text" id="fPrenom" required placeholder="Jean"></div>
+                  <div class="form-group"><label data-i18n="rdv_nom">Nom *</label><input type="text" id="fNom" required placeholder="Dupont"></div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group"><label data-i18n="rdv_tel">Téléphone *</label><input type="tel" id="fTel" required placeholder="06 12 34 56 78"></div>
+                  <div class="form-group"><label data-i18n="rdv_email">Email</label><input type="email" id="fEmail" placeholder="jean@email.com"></div>
+                </div>
+                <div class="form-group"><label data-i18n="rdv_vehicule">Véhicule *</label><input type="text" id="fVehicule" required placeholder="Ex: Peugeot 208 2019"></div>
+                <div style="display:flex;justify-content:flex-end;margin-top:.5rem;">
+                  <button type="button" class="btn btn-primary" onclick="goStep(2)">Suivant →</button>
+                </div>
+              </div>
+
+              <!-- STEP 2: Service -->
+              <div id="step2" style="display:none;">
+                <p style="font-family:var(--font-mono);font-size:.7rem;color:var(--gris-4);letter-spacing:1.5px;margin-bottom:1rem;">ÉTAPE 2 — SERVICE SOUHAITÉ</p>
+                <div class="form-group"><label>Choisissez un service *</label></div>
+                <div class="select-grid" id="svcGrid">
+                  <div class="svc-pick" data-svc="CarPlay / Android Auto" onclick="pickSvc(this)"><span class="svc-pick-ico">📱</span>CarPlay</div>
+                  <div class="svc-pick" data-svc="Caméra de recul" onclick="pickSvc(this)"><span class="svc-pick-ico">📷</span>Caméra</div>
+                  <div class="svc-pick" data-svc="LED & Éclairage" onclick="pickSvc(this)"><span class="svc-pick-ico">💡</span>LED</div>
+                  <div class="svc-pick" data-svc="Enceintes & Son" onclick="pickSvc(this)"><span class="svc-pick-ico">🔊</span>Son</div>
+                  <div class="svc-pick" data-svc="Réparation" onclick="pickSvc(this)"><span class="svc-pick-ico">🔧</span>Réparation</div>
+                  <div class="svc-pick" data-svc="Vidange & Entretien" onclick="pickSvc(this)"><span class="svc-pick-ico">🛢️</span>Vidange</div>
+                </div>
+                <input type="hidden" id="fService">
+                <div class="form-group" style="margin-top:1rem;">
+                  <label data-i18n="rdv_details">Précisions</label>
+                  <textarea id="fDetails" placeholder="Décrivez votre besoin..." style="min-height:80px;"></textarea>
+                </div>
+                <div style="display:flex;justify-content:space-between;margin-top:.5rem;">
+                  <button type="button" class="btn btn-outline" onclick="goStep(1)">← Retour</button>
+                  <button type="button" class="btn btn-primary" onclick="goStep(3)">Suivant →</button>
+                </div>
+              </div>
+
+              <!-- STEP 3: Date & Lieu -->
+              <div id="step3" style="display:none;">
+                <p style="font-family:var(--font-mono);font-size:.7rem;color:var(--gris-4);letter-spacing:1.5px;margin-bottom:1rem;">ÉTAPE 3 — DATE & LIEU</p>
+                <div class="form-row">
+                  <div class="form-group"><label data-i18n="rdv_date">Date souhaitée *</label><input type="date" id="fDate" required></div>
+                  <div class="form-group">
+                    <label data-i18n="rdv_creneau">Créneau préféré</label>
+                    <select id="fCreneau">
+                      <option data-i18n="creneau_matin">Matin (8h–12h)</option>
+                      <option data-i18n="creneau_am">Après-midi (12h–17h)</option>
+                      <option data-i18n="creneau_soir">Soirée (17h–20h)</option>
+                      <option data-i18n="creneau_flex">Flexible</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group"><label data-i18n="rdv_ville">Ville / Code postal *</label><input type="text" id="fVille" required placeholder="Ex: Boulogne-Billancourt 92100"></div>
+                <div class="msg-ok" id="rdvOk" data-i18n="rdv_ok"></div>
+                <div class="msg-err" id="rdvErr" data-i18n="rdv_err"></div>
+                <div style="display:flex;justify-content:space-between;margin-top:.5rem;">
+                  <button type="button" class="btn btn-outline" onclick="goStep(2)">← Retour</button>
+                  <button type="submit" class="btn btn-primary" id="rdvSubmitBtn">📅 <span data-i18n="rdv_submit">Envoyer ma demande</span></button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div><div class="footer-logo">Auto<span>Zent</span></div><p class="footer-desc" data-i18n="footer_desc">Spécialistes High-Tech Auto & Mobile en Île-de-France.</p></div>
+    <div class="footer-col"><h4 data-i18n="footer_pages">Pages</h4><ul><li><a href="index.html" data-i18n="nav_home">Accueil</a></li><li><a href="services.html" data-i18n="nav_services">Services</a></li><li><a href="realisations.html" data-i18n="nav_realisations">Réalisations</a></li><li><a href="rdv.html" data-i18n="nav_rdv">Rendez-vous</a></li><li><a href="contact.html" data-i18n="nav_contact">Contact</a></li></ul></div>
+    <div class="footer-col"><h4 data-i18n="footer_contact_title">Contact</h4><ul><li><a href="contact.html">📞 06 00 00 00 00</a></li><li><a href="https://wa.me/33600000000" target="_blank">💬 WhatsApp</a></li><li><a href="https://instagram.com/autozent_services" target="_blank">📸 Instagram</a></li></ul></div>
+    <div class="footer-col"><h4 data-i18n="footer_idf">Zone</h4><ul><li><a href="#">Paris</a></li><li><a href="#">92 · 93 · 94</a></li><li><a href="#">78 · 91 · 95 · 77</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><p data-i18n="footer_copy">© 2025 AutoZent Services.</p><div class="footer-socials"><a href="https://wa.me/33600000000" class="social-btn" target="_blank">💬</a><a href="https://instagram.com/autozent_services" class="social-btn" target="_blank">📸</a></div></div>
+</footer>
+
+<script src="i18n.js"></script>
+<script src="app.js"></script>
+<script>
+// Date min = today
+document.getElementById('fDate').min = new Date().toISOString().split('T')[0];
+
+// Step navigation
+function goStep(n) {
+  // validate step 1
+  if (n > 1) {
+    const prenom = document.getElementById('fPrenom').value.trim();
+    const tel = document.getElementById('fTel').value.trim();
+    const vehicule = document.getElementById('fVehicule').value.trim();
+    if (!prenom || !tel || !vehicule) { toast('Veuillez remplir tous les champs obligatoires.', 'err'); return; }
+  }
+  // validate step 2
+  if (n > 2) {
+    if (!document.getElementById('fService').value) { toast('Veuillez choisir un service.', 'err'); return; }
+  }
+  [1,2,3].forEach(i => {
+    document.getElementById('step'+i).style.display = i===n ? 'block' : 'none';
+  });
+  // progress dots
+  document.querySelectorAll('.step-dot').forEach((d,i) => d.classList.toggle('done', i < n));
+}
+
+function pickSvc(el) {
+  document.querySelectorAll('.svc-pick').forEach(x => x.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('fService').value = el.dataset.svc;
+}
+
+// Submit
+document.getElementById('rdvForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const btn = document.getElementById('rdvSubmitBtn');
+  btn.disabled = true;
+  btn.innerHTML = '⏳ Envoi...';
+
+  const rdv = {
+    client: document.getElementById('fPrenom').value + ' ' + document.getElementById('fNom').value,
+    telephone: document.getElementById('fTel').value,
+    email: document.getElementById('fEmail').value,
+    vehicule: document.getElementById('fVehicule').value,
+    service: document.getElementById('fService').value,
+    date: document.getElementById('fDate').value,
+    creneau: document.getElementById('fCreneau').value,
+    ville: document.getElementById('fVille').value,
+    notes: document.getElementById('fDetails').value,
+    technicien: 'Non assigné',
+    heure: '09:00',
+  };
+
+  // Simulate send (replace with EmailJS in production)
+  await new Promise(r => setTimeout(r, 1000));
+  DB.addRdv(rdv);
+
+  document.getElementById('rdvOk').style.display = 'block';
+  btn.innerHTML = '✅ Envoyé !';
+  toast('✅ Votre demande a bien été envoyée !');
+});
+</script>
+</body>
+</html>

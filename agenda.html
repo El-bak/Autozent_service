@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Espace Équipe — AutoZent Services</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.page-hero{background:var(--gris-1);padding:6rem 3rem 4rem;text-align:center;border-bottom:1px solid var(--gris-2);}
+
+/* LOGIN */
+.login-wrap{max-width:440px;margin:0 auto;}
+.login-card{background:var(--blanc);border:1px solid var(--gris-2);border-radius:var(--radius-xl);padding:3rem;box-shadow:var(--shadow-md);text-align:center;}
+.login-icon{font-size:3rem;margin-bottom:1rem;}
+.login-card h2{font-family:var(--font-titre);font-size:2rem;font-weight:800;margin-bottom:.4rem;}
+.login-card p{font-size:.88rem;color:var(--gris-4);margin-bottom:2rem;}
+.members-hint{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;margin-bottom:1.5rem;}
+.member-chip{background:var(--gris-1);border:1px solid var(--gris-2);color:var(--gris-5);font-size:.75rem;padding:.25rem .7rem;border-radius:100px;cursor:pointer;transition:all .15s;}
+.member-chip:hover{background:var(--orange-bg);color:var(--orange);border-color:rgba(244,96,12,.3);}
+
+/* AGENDA PANEL */
+.agenda-panel{display:none;}
+.agenda-panel.active{display:block;}
+.agenda-topbar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;margin-bottom:1.5rem;}
+.agenda-topbar h2{font-family:var(--font-titre);font-size:1.6rem;font-weight:800;}
+.topbar-right{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;}
+.user-badge{display:flex;align-items:center;gap:.5rem;background:var(--orange-bg);color:var(--orange-dk);font-size:.82rem;font-weight:600;padding:.35rem .8rem;border-radius:100px;}
+
+/* WEEK NAV */
+.week-nav{display:flex;align-items:center;gap:.5rem;background:var(--gris-1);border:1px solid var(--gris-2);border-radius:var(--radius-md);padding:.4rem .6rem;}
+.week-nav button{background:none;border:none;color:var(--gris-5);cursor:pointer;padding:.2rem .5rem;border-radius:var(--radius-sm);font-size:.9rem;transition:all .15s;}
+.week-nav button:hover{background:var(--gris-2);color:var(--noir);}
+.week-nav span{font-family:var(--font-mono);font-size:.75rem;color:var(--noir);white-space:nowrap;padding:0 .3rem;}
+
+/* TECH FILTER */
+.tech-filters{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.5rem;align-items:center;}
+.tech-filters label{font-family:var(--font-mono);font-size:.68rem;color:var(--gris-4);letter-spacing:1.5px;}
+
+/* CALENDAR */
+.calendar{border:1px solid var(--gris-2);border-radius:var(--radius-lg);overflow:hidden;background:var(--blanc);}
+.cal-header{display:grid;grid-template-columns:repeat(7,1fr);background:var(--noir);}
+.cal-dayname{text-align:center;padding:.7rem .3rem;font-family:var(--font-mono);font-size:.68rem;color:rgba(255,255,255,.5);letter-spacing:1.5px;text-transform:uppercase;}
+.cal-body{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:var(--gris-2);}
+.cal-cell{background:var(--blanc);min-height:130px;padding:.5rem;position:relative;transition:background .2s;}
+.cal-cell:hover{background:var(--gris-1);}
+.cal-cell.today{background:#FFFBF0;}
+.cal-cell.today .cal-date{background:var(--orange);color:#fff;border-radius:50%;}
+.cal-date{font-family:var(--font-mono);font-size:.72rem;font-weight:600;color:var(--gris-4);width:22px;height:22px;display:flex;align-items:center;justify-content:center;margin-bottom:.35rem;}
+.cal-event{font-size:.67rem;font-weight:600;padding:.2rem .45rem;border-radius:4px;margin-bottom:3px;cursor:pointer;line-height:1.35;word-break:break-word;transition:opacity .15s;}
+.cal-event:hover{opacity:.85;}
+.cal-event.mine{background:var(--orange);color:#fff;}
+.cal-event.other{background:var(--gris-2);color:var(--gris-5);}
+.cal-event.pending{background:#FEF3C7;color:#92400E;}
+.cal-add{position:absolute;bottom:.3rem;right:.3rem;width:18px;height:18px;border-radius:50%;background:none;border:1.5px dashed var(--gris-3);color:var(--gris-3);font-size:.8rem;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;transition:all .2s;}
+.cal-add:hover{border-color:var(--orange);color:var(--orange);background:var(--orange-bg);}
+
+/* LEGEND */
+.legend{display:flex;gap:1.5rem;flex-wrap:wrap;margin-top:1rem;}
+.legend-item{display:flex;align-items:center;gap:.45rem;font-size:.78rem;color:var(--gris-5);}
+.legend-dot{width:12px;height:12px;border-radius:3px;flex-shrink:0;}
+
+/* RDV LIST (incoming from form) */
+.rdv-inbox{margin-top:3rem;}
+.rdv-inbox h3{font-family:var(--font-titre);font-size:1.3rem;font-weight:700;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem;}
+.rdv-inbox-badge{background:var(--orange);color:#fff;font-size:.72rem;font-weight:700;padding:.1rem .5rem;border-radius:100px;}
+.inbox-table{width:100%;border-collapse:collapse;}
+.inbox-table th{text-align:left;font-family:var(--font-mono);font-size:.68rem;color:var(--gris-4);letter-spacing:1px;padding:.5rem .8rem;border-bottom:2px solid var(--gris-2);}
+.inbox-table td{padding:.6rem .8rem;border-bottom:1px solid var(--gris-2);font-size:.85rem;vertical-align:middle;}
+.inbox-table tr:hover td{background:var(--gris-1);}
+.inbox-actions{display:flex;gap:.5rem;}
+.btn-assign{background:var(--orange-bg);color:var(--orange-dk);border:none;padding:.3rem .7rem;border-radius:var(--radius-sm);font-size:.75rem;font-weight:600;cursor:pointer;transition:all .15s;}
+.btn-assign:hover{background:var(--orange);color:#fff;}
+.btn-del{background:var(--gris-2);color:var(--gris-5);border:none;padding:.3rem .5rem;border-radius:var(--radius-sm);font-size:.75rem;cursor:pointer;transition:all .15s;}
+.btn-del:hover{background:#fee2e2;color:#ef4444;}
+
+/* MODAL RDV */
+.modal-box h3{font-family:var(--font-titre);font-size:1.5rem;font-weight:700;margin-bottom:1.5rem;color:var(--orange);}
+
+@media(max-width:900px){
+  .cal-body,.cal-header{grid-template-columns:repeat(3,1fr);}
+  .page-hero{padding:5rem 1.5rem 3rem;}
+  .inbox-table{display:block;overflow-x:auto;}
+}
+@media(max-width:480px){
+  .cal-body,.cal-header{grid-template-columns:repeat(2,1fr);}
+  .login-card{padding:2rem 1.5rem;}
+}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">Auto<span>Zent</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html" data-i18n="nav_home">Accueil</a></li>
+    <li><a href="services.html" data-i18n="nav_services">Services</a></li>
+    <li><a href="realisations.html" data-i18n="nav_realisations">Réalisations</a></li>
+    <li><a href="rdv.html" data-i18n="nav_rdv">Rendez-vous</a></li>
+    <li><a href="contact.html" data-i18n="nav_contact">Contact</a></li>
+    <li><a href="agenda.html" data-i18n="nav_agenda">Espace équipe</a></li>
+    <div class="nav-lang">
+      <button class="lang-btn" data-lang="fr">FR</button><button class="lang-btn" data-lang="en">EN</button><button class="lang-btn" data-lang="ar">AR</button><button class="lang-btn" data-lang="zh">中</button>
+    </div>
+  </ul>
+  <div id="hamburger" class="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="page-top">
+  <div class="page-hero">
+    <div class="eyebrow" style="justify-content:center;"><span data-i18n="agenda_eyebrow">Espace équipe</span></div>
+    <h1 class="display anim-fade-up d1" data-i18n="agenda_title">Agenda Interne</h1>
+    <div class="divider-orange center"></div>
+    <p class="lead center anim-fade-up d2" data-i18n="agenda_sub">Gérez et partagez vos interventions de la semaine.</p>
+  </div>
+
+  <section class="section">
+    <div class="container">
+
+      <!-- LOGIN FORM -->
+      <div class="login-wrap" id="loginWrap">
+        <div class="scroll-reveal">
+          <div class="login-card">
+            <div class="login-icon">🔐</div>
+            <h2 data-i18n="login_title">Connexion équipe</h2>
+            <p data-i18n="login_sub">Accédez à l'agenda et aux réalisations.</p>
+            <!-- Quick pick -->
+            <p style="font-family:var(--font-mono);font-size:.65rem;color:var(--gris-3);letter-spacing:1.5px;margin-bottom:.5rem;">SÉLECTION RAPIDE</p>
+            <div class="members-hint" id="memberHints"></div>
+            <form id="loginForm">
+              <div class="form-group" style="text-align:left;">
+                <label data-i18n="login_nom">Votre prénom</label>
+                <input type="text" id="loginNom" required placeholder="Ex: Karim">
+              </div>
+              <div class="form-group" style="text-align:left;">
+                <label data-i18n="login_pass">Mot de passe</label>
+                <input type="password" id="loginPass" required placeholder="••••••••">
+              </div>
+              <div class="msg-err" id="loginErr" data-i18n="login_err" style="text-align:left;"></div>
+              <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:.5rem;">
+                <span data-i18n="login_btn">Se connecter</span> →
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- AGENDA PANEL -->
+      <div class="agenda-panel" id="agendaPanel">
+
+        <!-- TOP BAR -->
+        <div class="agenda-topbar">
+          <div>
+            <div class="user-badge" id="userBadge">👋 Bonjour !</div>
+            <h2 style="margin-top:.5rem;"><span data-i18n="agenda_week">Semaine du</span> <span id="weekLabel"></span></h2>
+          </div>
+          <div class="topbar-right">
+            <div class="week-nav">
+              <button onclick="shiftWeek(-1)" data-i18n="agenda_prev">← Préc.</button>
+              <button onclick="shiftWeek(0)" data-i18n="agenda_today">Aujourd'hui</button>
+              <span id="weekRange"></span>
+              <button onclick="shiftWeek(1)" data-i18n="agenda_next">Suiv. →</button>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="openModal('modalAddRdv')" data-i18n="agenda_add">+ Ajouter</button>
+            <button class="btn btn-outline btn-sm" onclick="doLogout()" data-i18n="agenda_logout">Déconnexion</button>
+          </div>
+        </div>
+
+        <!-- TECH FILTER -->
+        <div class="tech-filters">
+          <label data-i18n="agenda_filter">Filtrer :</label>
+          <div id="techBadges"></div>
+        </div>
+
+        <!-- CALENDAR -->
+        <div class="calendar">
+          <div class="cal-header" id="calHeader"></div>
+          <div class="cal-body" id="calBody"></div>
+        </div>
+
+        <!-- LEGEND -->
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot" style="background:var(--orange);"></div><span data-i18n="agenda_mine">Mon intervention</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--gris-2);border:1px solid var(--gris-3);"></div><span data-i18n="agenda_other">Autre technicien</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:#FEF3C7;border:1px solid #FDE68A;"></div><span>Non assigné</span></div>
+        </div>
+
+        <!-- INBOX: RDVs from public form -->
+        <div class="rdv-inbox">
+          <h3>📥 Demandes de RDV <span class="rdv-inbox-badge" id="inboxBadge">0</span></h3>
+          <div id="inboxWrap"></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- MODAL: ADD RDV -->
+<div class="modal-overlay" id="modalAddRdv">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modalAddRdv')">×</button>
+    <h3 data-i18n="modal_rdv_title">Nouvelle intervention</h3>
+    <form id="addRdvForm">
+      <div class="form-row">
+        <div class="form-group"><label data-i18n="modal_client">Client *</label><input type="text" id="aClient" required placeholder="Nom du client"></div>
+        <div class="form-group"><label data-i18n="modal_vehicule">Véhicule *</label><input type="text" id="aVehicule" required placeholder="Ex: Golf 7"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label data-i18n="modal_service">Service *</label>
+          <select id="aService">
+            <option>CarPlay / Android Auto</option><option>Caméra de recul</option><option>LED & Éclairage</option><option>Enceintes & Son</option><option>Réparation</option><option>Vidange & Entretien</option><option>Autre</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label data-i18n="modal_tech">Technicien *</label>
+          <select id="aTech"></select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label data-i18n="modal_date">Date *</label><input type="date" id="aDate" required></div>
+        <div class="form-group"><label data-i18n="modal_heure">Heure</label><input type="time" id="aHeure" value="09:00"></div>
+      </div>
+      <div class="form-group"><label data-i18n="modal_ville">Ville</label><input type="text" id="aVille" placeholder="Ex: Vincennes 94300"></div>
+      <div class="form-group"><label data-i18n="modal_notes">Notes</label><textarea id="aNotes" style="min-height:70px;" placeholder="Informations supplémentaires..."></textarea></div>
+      <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;" data-i18n="modal_save">Enregistrer</button>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL: ASSIGN (inbox) -->
+<div class="modal-overlay" id="modalAssign">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modalAssign')">×</button>
+    <h3>📋 Assigner & planifier</h3>
+    <input type="hidden" id="assignRdvId">
+    <div id="assignInfo" style="background:var(--gris-1);border-radius:var(--radius-sm);padding:1rem;margin-bottom:1.5rem;font-size:.88rem;color:var(--gris-5);"></div>
+    <div class="form-row">
+      <div class="form-group"><label>Technicien</label><select id="assignTech"></select></div>
+      <div class="form-group"><label>Date confirmée</label><input type="date" id="assignDate"></div>
+    </div>
+    <div class="form-group"><label>Heure</label><input type="time" id="assignHeure" value="09:00"></div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="confirmAssign()">✅ Confirmer & ajouter à l'agenda</button>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div><div class="footer-logo">Auto<span>Zent</span></div><p class="footer-desc" data-i18n="footer_desc">Spécialistes High-Tech Auto & Mobile en Île-de-France.</p></div>
+    <div class="footer-col"><h4 data-i18n="footer_pages">Pages</h4><ul><li><a href="index.html" data-i18n="nav_home">Accueil</a></li><li><a href="services.html" data-i18n="nav_services">Services</a></li><li><a href="realisations.html" data-i18n="nav_realisations">Réalisations</a></li><li><a href="rdv.html" data-i18n="nav_rdv">Rendez-vous</a></li><li><a href="contact.html" data-i18n="nav_contact">Contact</a></li></ul></div>
+    <div class="footer-col"><h4 data-i18n="footer_contact_title">Contact</h4><ul><li><a href="contact.html">📞 06 00 00 00 00</a></li><li><a href="https://wa.me/33600000000" target="_blank">💬 WhatsApp</a></li><li><a href="https://instagram.com/autozent_services" target="_blank">📸 Instagram</a></li></ul></div>
+    <div class="footer-col"><h4 data-i18n="footer_idf">Zone</h4><ul><li><a href="#">Paris</a></li><li><a href="#">92 · 93 · 94</a></li><li><a href="#">78 · 91 · 95 · 77</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><p data-i18n="footer_copy">© 2025 AutoZent Services.</p><div class="footer-socials"><a href="https://wa.me/33600000000" class="social-btn" target="_blank">💬</a><a href="https://instagram.com/autozent_services" class="social-btn" target="_blank">📸</a></div></div>
+</footer>
+
+<script src="i18n.js"></script>
+<script src="app.js"></script>
+<script>
+const JOURS_SHORT = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
+const MOIS = ['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'];
+let weekOffset = 0;
+let filterTech = 'Tous';
+let currentUser = null;
+
+// ─── INIT ───
+document.addEventListener('DOMContentLoaded', () => {
+  currentUser = AUTH.getUser();
+  if (currentUser) showAgenda();
+  else showLogin();
+  populateMemberHints();
+  document.getElementById('aDate').min = new Date().toISOString().split('T')[0];
+  document.getElementById('assignDate').min = new Date().toISOString().split('T')[0];
+});
+
+function populateMemberHints() {
+  const hints = document.getElementById('memberHints');
+  AUTH.MEMBERS.forEach(m => {
+    const chip = document.createElement('div');
+    chip.className = 'member-chip';
+    chip.textContent = m.name;
+    chip.onclick = () => { document.getElementById('loginNom').value = m.name; };
+    hints.appendChild(chip);
+  });
+}
+
+// ─── LOGIN ───
+document.getElementById('loginForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const nom = document.getElementById('loginNom').value;
+  const pass = document.getElementById('loginPass').value;
+  const user = AUTH.login(nom, pass);
+  if (user) {
+    currentUser = { name: user.name, ts: Date.now() };
+    showAgenda();
+  } else {
+    const errEl = document.getElementById('loginErr');
+    errEl.style.display = 'block';
+    setTimeout(() => errEl.style.display = 'none', 3000);
+  }
+});
+
+function doLogout() {
+  AUTH.logout();
+  currentUser = null;
+  showLogin();
+}
+
+function showLogin() {
+  document.getElementById('loginWrap').style.display = 'block';
+  document.getElementById('agendaPanel').classList.remove('active');
+}
+
+function showAgenda() {
+  document.getElementById('loginWrap').style.display = 'none';
+  document.getElementById('agendaPanel').classList.add('active');
+  document.getElementById('userBadge').textContent = '👋 Bonjour ' + currentUser.name + ' !';
+  renderTechBadges();
+  populateTechSelects();
+  renderCalendar();
+  renderInbox();
+}
+
+// ─── TECH BADGES ───
+function getAllTechs() {
+  return ['Tous', ...AUTH.MEMBERS.map(m => m.name)];
+}
+
+function renderTechBadges() {
+  const container = document.getElementById('techBadges');
+  container.innerHTML = getAllTechs().map(t =>
+    `<button class="filter-btn ${filterTech===t?'active':''}" onclick="setTechFilter('${t}')">${t}</button>`
+  ).join('');
+}
+
+function setTechFilter(t) {
+  filterTech = t;
+  renderTechBadges();
+  renderCalendar();
+}
+
+function populateTechSelects() {
+  const techs = AUTH.MEMBERS.map(m => m.name);
+  ['aTech','assignTech'].forEach(id => {
+    const sel = document.getElementById(id);
+    if (!sel) return;
+    sel.innerHTML = techs.map(t => `<option ${t===currentUser.name?'selected':''}>${t}</option>`).join('');
+  });
+}
+
+// ─── CALENDAR ───
+function getWeekDates(offset) {
+  const now = new Date();
+  const day = now.getDay();
+  const monday = new Date(now);
+  monday.setDate(now.getDate() - (day===0?6:day-1) + offset*7);
+  monday.setHours(0,0,0,0);
+  return Array.from({length:7},(_,i)=>{const d=new Date(monday);d.setDate(monday.getDate()+i);return d;});
+}
+
+function renderCalendar() {
+  const dates = getWeekDates(weekOffset);
+  const today = dateToStr(new Date());
+  const rdvs = DB.getRdvs();
+  // Week label
+  const start = dates[0], end = dates[6];
+  document.getElementById('weekLabel').textContent = `${start.getDate()} ${MOIS[start.getMonth()]}`;
+  document.getElementById('weekRange').textContent = `${start.getDate()} ${MOIS[start.getMonth()]} – ${end.getDate()} ${MOIS[end.getMonth()]} ${end.getFullYear()}`;
+
+  // Header
+  const header = document.getElementById('calHeader');
+  header.innerHTML = dates.map(d =>
+    `<div class="cal-dayname">${JOURS_SHORT[d.getDay()===0?6:d.getDay()-1]}</div>`
+  ).join('');
+
+  // Body
+  const body = document.getElementById('calBody');
+  body.innerHTML = dates.map(d => {
+    const ds = dateToStr(d);
+    const isToday = ds===today;
+    const dayRdvs = rdvs.filter(r => {
+      if (r.date !== ds) return false;
+      if (filterTech==='Tous') return true;
+      return r.technicien===filterTech;
+    });
+    const events = dayRdvs.map(r => {
+      const isMine = r.technicien===currentUser.name;
+      const isPending = !r.technicien || r.technicien==='Non assigné';
+      const cls = isPending?'pending':isMine?'mine':'other';
+      return `<div class="cal-event ${cls}" onclick="showRdvDetail(${r.id})" title="${r.client} — ${r.service}">
+        ${r.heure?r.heure+' ':''}${r.client}<br><span style="font-weight:400;opacity:.8;">${r.service||''}${r.technicien&&r.technicien!=='Non assigné'?' · '+r.technicien:''}</span>
+      </div>`;
+    }).join('');
+    return `<div class="cal-cell ${isToday?'today':''}">
+      <div class="cal-date">${d.getDate()}</div>
+      ${events}
+      <button class="cal-add" onclick="openAddWithDate('${ds}')" title="Ajouter">+</button>
+    </div>`;
+  }).join('');
+}
+
+function shiftWeek(dir) {
+  weekOffset = dir===0?0:weekOffset+dir;
+  renderCalendar();
+}
+
+function openAddWithDate(ds) {
+  populateTechSelects();
+  document.getElementById('aDate').value = ds;
+  openModal('modalAddRdv');
+}
+
+// ─── ADD RDV FORM ───
+document.getElementById('addRdvForm').addEventListener('submit', e => {
+  e.preventDefault();
+  DB.addRdv({
+    client: document.getElementById('aClient').value,
+    vehicule: document.getElementById('aVehicule').value,
+    service: document.getElementById('aService').value,
+    technicien: document.getElementById('aTech').value,
+    date: document.getElementById('aDate').value,
+    heure: document.getElementById('aHeure').value,
+    ville: document.getElementById('aVille').value,
+    notes: document.getElementById('aNotes').value,
+  });
+  closeModal('modalAddRdv');
+  document.getElementById('addRdvForm').reset();
+  renderCalendar();
+  renderInbox();
+  toast('✅ Intervention ajoutée à l\'agenda !');
+});
+
+// ─── RDV DETAIL ───
+function showRdvDetail(id) {
+  const rdvs = DB.getRdvs();
+  const r = rdvs.find(x => x.id===id);
+  if (!r) return;
+  const msg = `📋 Intervention\n\nClient : ${r.client}\nVéhicule : ${r.vehicule||'—'}\nService : ${r.service||'—'}\nTechnicien : ${r.technicien||'—'}\nDate : ${r.date||'—'} ${r.heure||''}\nVille : ${r.ville||'—'}\nNotes : ${r.notes||'—'}\n\nSupprimer cette intervention ?`;
+  if (confirm(msg)) { DB.deleteRdv(id); renderCalendar(); renderInbox(); }
+}
+
+// ─── INBOX ───
+function renderInbox() {
+  const rdvs = DB.getRdvs();
+  const pending = rdvs.filter(r => !r.technicien || r.technicien==='Non assigné');
+  const badge = document.getElementById('inboxBadge');
+  badge.textContent = pending.length;
+  badge.style.display = pending.length>0?'inline-block':'none';
+  const wrap = document.getElementById('inboxWrap');
+  if (rdvs.length===0) { wrap.innerHTML = '<p style="color:var(--gris-4);font-size:.88rem;">Aucune demande de RDV pour l\'instant.</p>'; return; }
+  wrap.innerHTML = `<table class="inbox-table">
+    <thead><tr>
+      <th>Client</th><th>Véhicule</th><th>Service</th><th>Date souhaitée</th><th>Créneau</th><th>Ville</th><th>Technicien</th><th>Actions</th>
+    </tr></thead>
+    <tbody>${rdvs.map(r=>`<tr>
+      <td><strong>${r.client||'—'}</strong>${r.telephone?`<br><span style="font-size:.75rem;color:var(--gris-4);">${r.telephone}</span>`:''}</td>
+      <td>${r.vehicule||'—'}</td>
+      <td><span class="chip" style="font-size:.72rem;">${r.service||'—'}</span></td>
+      <td>${r.date||'—'}</td>
+      <td style="font-size:.78rem;color:var(--gris-4);">${r.creneau||'—'}</td>
+      <td style="font-size:.82rem;">${r.ville||'—'}</td>
+      <td><span style="font-size:.8rem;font-weight:600;color:${r.technicien&&r.technicien!=='Non assigné'?'var(--orange)':'var(--gris-4)'};">${r.technicien||'Non assigné'}</span></td>
+      <td><div class="inbox-actions">
+        <button class="btn-assign" onclick="openAssign(${r.id})">Assigner</button>
+        <button class="btn-del" onclick="deleteInboxRdv(${r.id})">✕</button>
+      </div></td>
+    </tr>`).join('')}</tbody>
+  </table>`;
+}
+
+function openAssign(id) {
+  const r = DB.getRdvs().find(x=>x.id===id);
+  if (!r) return;
+  document.getElementById('assignRdvId').value = id;
+  document.getElementById('assignInfo').innerHTML = `<strong>${r.client}</strong> — ${r.vehicule||'—'}<br>${r.service||'—'} · ${r.ville||'—'}<br>Date souhaitée : <strong>${r.date||'—'}</strong> ${r.creneau||''}`;
+  if (r.date) document.getElementById('assignDate').value = r.date;
+  populateTechSelects();
+  openModal('modalAssign');
+}
+
+function confirmAssign() {
+  const id = +document.getElementById('assignRdvId').value;
+  const tech = document.getElementById('assignTech').value;
+  const date = document.getElementById('assignDate').value;
+  const heure = document.getElementById('assignHeure').value;
+  if (!date) { toast('Choisissez une date.','err'); return; }
+  const rdvs = DB.getRdvs();
+  const r = rdvs.find(x=>x.id===id);
+  if (r) { r.technicien=tech; r.date=date; r.heure=heure; DB.saveRdvs(rdvs); }
+  closeModal('modalAssign');
+  renderCalendar();
+  renderInbox();
+  toast(`✅ RDV assigné à ${tech} le ${date}`);
+}
+
+function deleteInboxRdv(id) {
+  if (confirm('Supprimer cette demande de RDV ?')) { DB.deleteRdv(id); renderCalendar(); renderInbox(); }
+}
+</script>
+</body>
+</html>

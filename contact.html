@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — AutoZent Services</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.page-hero{background:var(--gris-1);padding:6rem 3rem 4rem;text-align:center;border-bottom:1px solid var(--gris-2);}
+.contact-layout{display:grid;grid-template-columns:1fr 1.4fr;gap:4rem;align-items:start;}
+.contact-cards{display:flex;flex-direction:column;gap:1.2rem;}
+.contact-card{display:flex;align-items:center;gap:1.2rem;padding:1.4rem 1.6rem;background:var(--blanc);border:1px solid var(--gris-2);border-radius:var(--radius-lg);text-decoration:none;color:var(--noir);box-shadow:var(--shadow-sm);transition:all .25s;position:relative;overflow:hidden;}
+.contact-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--orange);transform:scaleY(0);transform-origin:center;transition:transform .25s;}
+.contact-card:hover{box-shadow:var(--shadow-md);transform:translateX(4px);border-color:rgba(244,96,12,.2);}
+.contact-card:hover::before{transform:scaleY(1);}
+.contact-card-ico{width:52px;height:52px;border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;}
+.contact-card-ico.phone{background:#EEF6FF;}
+.contact-card-ico.wa{background:#F0FDF4;}
+.contact-card-ico.insta{background:#FFF0F9;}
+.contact-card-ico.mail{background:var(--orange-bg);}
+.contact-card strong{display:block;font-size:.98rem;color:var(--noir);margin-bottom:.15rem;}
+.contact-card span{font-size:.82rem;color:var(--gris-4);}
+.contact-card .arrow{margin-left:auto;color:var(--gris-3);font-size:1.2rem;transition:transform .2s,color .2s;}
+.contact-card:hover .arrow{transform:translateX(4px);color:var(--orange);}
+.form-card{background:var(--blanc);border:1px solid var(--gris-2);border-radius:var(--radius-xl);padding:2.5rem;box-shadow:var(--shadow-md);}
+.form-card h3{font-family:var(--font-titre);font-size:1.6rem;font-weight:700;color:var(--noir);margin-bottom:.3rem;}
+.form-card p{font-size:.88rem;color:var(--gris-4);margin-bottom:1.8rem;}
+.hours-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-top:1.5rem;}
+.hours-item{padding:.7rem 1rem;background:var(--gris-1);border-radius:var(--radius-sm);}
+.hours-day{font-size:.75rem;font-weight:600;color:var(--gris-5);text-transform:uppercase;letter-spacing:.5px;}
+.hours-time{font-size:.85rem;color:var(--noir);font-weight:500;}
+.hours-time.closed{color:var(--gris-4);font-style:italic;}
+@media(max-width:900px){.contact-layout{grid-template-columns:1fr;gap:2.5rem;}.page-hero{padding:5rem 1.5rem 3rem;}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">Auto<span>Zent</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html" data-i18n="nav_home">Accueil</a></li>
+    <li><a href="services.html" data-i18n="nav_services">Services</a></li>
+    <li><a href="realisations.html" data-i18n="nav_realisations">Réalisations</a></li>
+    <li><a href="rdv.html" data-i18n="nav_rdv">Rendez-vous</a></li>
+    <li><a href="contact.html" data-i18n="nav_contact">Contact</a></li>
+    <li><a href="agenda.html" data-i18n="nav_agenda">Espace équipe</a></li>
+    <div class="nav-lang">
+      <button class="lang-btn" data-lang="fr">FR</button><button class="lang-btn" data-lang="en">EN</button><button class="lang-btn" data-lang="ar">AR</button><button class="lang-btn" data-lang="zh">中</button>
+    </div>
+  </ul>
+  <div id="hamburger" class="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="page-top">
+  <div class="page-hero">
+    <div class="eyebrow" style="justify-content:center;"><span data-i18n="contact_eyebrow">Nous joindre</span></div>
+    <h1 class="display anim-fade-up d1" data-i18n="contact_title">Contact</h1>
+    <div class="divider-orange center"></div>
+    <p class="lead center anim-fade-up d2" data-i18n="contact_sub">Une question, un devis ? Contactez-nous par le moyen qui vous convient.</p>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="contact-layout">
+
+        <!-- LEFT: MOYEN DE CONTACT -->
+        <div class="scroll-reveal">
+          <div class="eyebrow"><span>Canaux disponibles</span></div>
+          <h2 style="font-family:var(--font-titre);font-size:1.8rem;font-weight:700;margin-bottom:.6rem;">Nous joindre</h2>
+          <div class="divider-orange"></div>
+          <div class="contact-cards">
+            <a href="tel:+33749150241" class="contact-card">
+              <div class="contact-card-ico phone">📞</div>
+              <div><strong data-i18n="contact_call">Appel direct</strong><span data-i18n="contact_call_d">Disponible 7j/7 — 06 00 00 00 00</span></div>
+              <span class="arrow">→</span>
+            </a>
+            <a href="https://wa.me/33749150241" class="contact-card" target="_blank" rel="noopener">
+              <div class="contact-card-ico wa">💬</div>
+              <div><strong data-i18n="contact_wa">WhatsApp</strong><span data-i18n="contact_wa_d">Message ou vocal, réponse rapide</span></div>
+              <span class="arrow">→</span>
+            </a>
+            <a href="https://instagram.com/autozent_services" class="contact-card" target="_blank" rel="noopener">
+              <div class="contact-card-ico insta">📸</div>
+              <div><strong data-i18n="contact_insta">Instagram</strong><span data-i18n="contact_insta_d">@autozent_services — nos dernières réalisations</span></div>
+              <span class="arrow">→</span>
+            </a>
+          </div>
+
+          <!-- Horaires -->
+          <div style="margin-top:2rem;">
+            <p style="font-family:var(--font-mono);font-size:.7rem;color:var(--gris-4);letter-spacing:2px;margin-bottom:.8rem;">DISPONIBILITÉ</p>
+            <div class="hours-grid">
+              <div class="hours-item"><div class="hours-day">Lun – Ven</div><div class="hours-time">8h – 20h</div></div>
+              <div class="hours-item"><div class="hours-day">Samedi</div><div class="hours-time">9h – 18h</div></div>
+              <div class="hours-item"><div class="hours-day">Dimanche</div><div class="hours-time">10h – 16h</div></div>
+              <div class="hours-item"><div class="hours-day">Jours fériés</div><div class="hours-time closed">Sur RDV</div></div>
+            </div>
+          </div>
+
+          <!-- Zone -->
+          <div style="margin-top:1.5rem;padding:1.2rem 1.4rem;background:var(--orange-bg);border-radius:var(--radius-md);border:1px solid rgba(244,96,12,.15);">
+            <p style="font-size:.88rem;color:var(--orange-dk);font-weight:500;line-height:1.5;">📍 <strong>Déplacement partout en Île-de-France</strong><br>75 · 77 · 78 · 91 · 92 · 93 · 94 · 95</p>
+          </div>
+        </div>
+
+        <!-- RIGHT: FORM -->
+        <div class="scroll-reveal delay-2">
+          <div class="form-card">
+            <h3>✉️ Envoyez-nous un message</h3>
+            <p data-i18n="contact_sub">Une question ou demande de devis ? On vous répond rapidement.</p>
+            <form id="contactForm">
+              <div class="form-group">
+                <label data-i18n="contact_form_nom">Votre nom *</label>
+                <input type="text" id="cNom" required placeholder="Jean Dupont">
+              </div>
+              <div class="form-group">
+                <label data-i18n="contact_form_info">Email ou Téléphone *</label>
+                <input type="text" id="cInfo" required placeholder="06 12 34 56 78 ou jean@email.com">
+              </div>
+              <div class="form-group">
+                <label>Sujet</label>
+                <select id="cSujet">
+                  <option>Demande de devis</option>
+                  <option>Question sur un service</option>
+                  <option>Suivi de rendez-vous</option>
+                  <option>Autre</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label data-i18n="contact_form_msg">Message *</label>
+                <textarea id="cMsg" required placeholder="Décrivez votre besoin..."></textarea>
+              </div>
+              <div class="msg-ok" id="cOk" data-i18n="contact_ok"></div>
+              <div class="msg-err" id="cErr" data-i18n="contact_err"></div>
+              <button type="submit" class="btn btn-primary" id="cSubmit" style="width:100%;justify-content:center;">
+                ✉️ <span data-i18n="contact_form_submit">Envoyer</span>
+              </button>
+            </form>
+          </div>
+
+          <!-- CTA rapide RDV -->
+          <div style="margin-top:1.5rem;background:var(--noir);border-radius:var(--radius-lg);padding:1.5rem 2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;">
+            <div>
+              <p style="font-family:var(--font-titre);font-size:1.1rem;color:#fff;margin-bottom:.2rem;">Prêt à prendre RDV ?</p>
+              <p style="font-size:.82rem;color:var(--gris-4);">Réservez votre créneau en 2 minutes.</p>
+            </div>
+            <a href="rdv.html" class="btn btn-primary btn-sm" data-i18n="svc_rdv_btn">Prendre RDV</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div><div class="footer-logo">Auto<span>Zent</span></div><p class="footer-desc" data-i18n="footer_desc">Spécialistes High-Tech Auto & Mobile en Île-de-France.</p></div>
+    <div class="footer-col"><h4 data-i18n="footer_pages">Pages</h4><ul><li><a href="index.html" data-i18n="nav_home">Accueil</a></li><li><a href="services.html" data-i18n="nav_services">Services</a></li><li><a href="realisations.html" data-i18n="nav_realisations">Réalisations</a></li><li><a href="rdv.html" data-i18n="nav_rdv">Rendez-vous</a></li><li><a href="contact.html" data-i18n="nav_contact">Contact</a></li></ul></div>
+    <div class="footer-col"><h4 data-i18n="footer_contact_title">Contact</h4><ul><li><a href="tel:+33600000000">📞 06 00 00 00 00</a></li><li><a href="https://wa.me/33600000000" target="_blank">💬 WhatsApp</a></li><li><a href="https://instagram.com/autozent_services" target="_blank">📸 Instagram</a></li></ul></div>
+    <div class="footer-col"><h4 data-i18n="footer_idf">Zone</h4><ul><li><a href="#">Paris</a></li><li><a href="#">92 · 93 · 94</a></li><li><a href="#">78 · 91 · 95 · 77</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><p data-i18n="footer_copy">© 2025 AutoZent Services.</p><div class="footer-socials"><a href="https://wa.me/33600000000" class="social-btn" target="_blank">💬</a><a href="https://instagram.com/autozent_services" class="social-btn" target="_blank">📸</a></div></div>
+</footer>
+
+<script src="i18n.js"></script>
+<script src="app.js"></script>
+<script>
+document.getElementById('contactForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const btn = document.getElementById('cSubmit');
+  btn.disabled = true;
+  btn.innerHTML = '⏳ Envoi...';
+
+  // Simulate (replace with EmailJS)
+  await new Promise(r => setTimeout(r, 900));
+
+  document.getElementById('cOk').style.display = 'block';
+  document.getElementById('cErr').style.display = 'none';
+  btn.innerHTML = '✅ Envoyé !';
+  toast('✅ Message envoyé ! On vous répond au plus vite.');
+  this.reset();
+});
+</script>
+</body>
+</html>

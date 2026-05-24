@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Services — AutoZent Services</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.page-hero{background:var(--gris-1);padding:6rem 3rem 4rem;text-align:center;border-bottom:1px solid var(--gris-2);}
+.services-full{display:grid;grid-template-columns:1fr 1fr;gap:2rem;}
+.svc-full-card{background:var(--blanc);border:1px solid var(--gris-2);border-radius:var(--radius-lg);overflow:hidden;transition:box-shadow .3s,transform .3s;}
+.svc-full-card:hover{box-shadow:var(--shadow-md);transform:translateY(-4px);}
+.svc-full-top{padding:2rem 2rem 1.5rem;display:flex;gap:1.2rem;align-items:flex-start;}
+.svc-full-ico{width:56px;height:56px;background:var(--orange-bg);border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;font-size:1.6rem;flex-shrink:0;}
+.svc-full-name{font-family:var(--font-titre);font-size:1.4rem;font-weight:700;color:var(--noir);margin-bottom:.3rem;}
+.svc-full-desc{font-size:.9rem;color:var(--gris-5);line-height:1.65;}
+.svc-full-footer{padding:1rem 2rem;background:var(--gris-1);border-top:1px solid var(--gris-2);display:flex;justify-content:space-between;align-items:center;}
+.svc-price{font-family:var(--font-mono);font-size:.75rem;color:var(--orange);font-weight:600;letter-spacing:1px;}
+@media(max-width:768px){.services-full{grid-template-columns:1fr;}.page-hero{padding:5rem 1.5rem 3rem;}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">Auto<span>Zent</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html" data-i18n="nav_home">Accueil</a></li>
+    <li><a href="services.html" data-i18n="nav_services">Services</a></li>
+    <li><a href="realisations.html" data-i18n="nav_realisations">Réalisations</a></li>
+    <li><a href="rdv.html" data-i18n="nav_rdv">Rendez-vous</a></li>
+    <li><a href="contact.html" data-i18n="nav_contact">Contact</a></li>
+    <li><a href="agenda.html" data-i18n="nav_agenda">Espace équipe</a></li>
+    <div class="nav-lang">
+      <button class="lang-btn" data-lang="fr">FR</button><button class="lang-btn" data-lang="en">EN</button><button class="lang-btn" data-lang="ar">AR</button><button class="lang-btn" data-lang="zh">中</button>
+    </div>
+  </ul>
+  <div id="hamburger" class="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="page-top">
+  <div class="page-hero">
+    <div class="eyebrow" style="justify-content:center;"><span data-i18n="svc_page_eyebrow">Expertise</span></div>
+    <h1 class="display anim-fade-up d1" data-i18n="svc_page_title">Tous nos services</h1>
+    <div class="divider-orange center"></div>
+    <p class="lead center anim-fade-up d2" data-i18n="svc_page_sub">Des solutions high-tech pour votre véhicule, installées par des experts.</p>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="services-full">
+        <div class="svc-full-card scroll-reveal delay-1">
+          <div class="svc-full-top"><div class="svc-full-ico">📱</div><div><div class="svc-full-name" data-i18n="svc_carplay">CarPlay / Android Auto</div><div class="svc-full-desc" data-i18n="svc_carplay_d">Intégration d'écrans tactiles Android/CarPlay sur tous modèles de véhicules. Compatible sans fil.</div></div></div>
+          <div class="svc-full-footer"><span class="svc-price" data-i18n="svc_price">Devis gratuit</span><a href="rdv.html" class="btn btn-primary btn-sm" data-i18n="svc_rdv_btn">Prendre RDV</a></div>
+        </div>
+        <div class="svc-full-card scroll-reveal delay-2">
+          <div class="svc-full-top"><div class="svc-full-ico">📷</div><div><div class="svc-full-name" data-i18n="svc_camera">Caméra de recul</div><div class="svc-full-desc" data-i18n="svc_camera_d">Caméra de recul HD connectée à l'écran de bord. Vision nette de nuit comme de jour.</div></div></div>
+          <div class="svc-full-footer"><span class="svc-price" data-i18n="svc_price">Devis gratuit</span><a href="rdv.html" class="btn btn-primary btn-sm" data-i18n="svc_rdv_btn">Prendre RDV</a></div>
+        </div>
+        <div class="svc-full-card scroll-reveal delay-1">
+          <div class="svc-full-top"><div class="svc-full-ico">💡</div><div><div class="svc-full-name" data-i18n="svc_led">LED & Éclairage</div><div class="svc-full-desc" data-i18n="svc_led_d">Kits LED pour phares, feux de jour, intérieur. Consommation réduite, rendu premium garanti.</div></div></div>
+          <div class="svc-full-footer"><span class="svc-price" data-i18n="svc_price">Devis gratuit</span><a href="rdv.html" class="btn btn-primary btn-sm" data-i18n="svc_rdv_btn">Prendre RDV</a></div>
+        </div>
+        <div class="svc-full-card scroll-reveal delay-2">
+          <div class="svc-full-top"><div class="svc-full-ico">🔊</div><div><div class="svc-full-name" data-i18n="svc_son">Enceintes & Son</div><div class="svc-full-desc" data-i18n="svc_son_d">Enceintes, amplis, caissons de basse intégrés discrètement. Qualité sonore studio dans votre voiture.</div></div></div>
+          <div class="svc-full-footer"><span class="svc-price" data-i18n="svc_price">Devis gratuit</span><a href="rdv.html" class="btn btn-primary btn-sm" data-i18n="svc_rdv_btn">Prendre RDV</a></div>
+        </div>
+        <div class="svc-full-card scroll-reveal delay-1">
+          <div class="svc-full-top"><div class="svc-full-ico">🔧</div><div><div class="svc-full-name" data-i18n="svc_reparation">Réparation</div><div class="svc-full-desc" data-i18n="svc_rep_d">Diagnostics, entretien courant, petites réparations mécaniques sur Île-de-France.</div></div></div>
+          <div class="svc-full-footer"><span class="svc-price" data-i18n="svc_price">Devis gratuit</span><a href="rdv.html" class="btn btn-primary btn-sm" data-i18n="svc_rdv_btn">Prendre RDV</a></div>
+        </div>
+        <div class="svc-full-card scroll-reveal delay-2">
+          <div class="svc-full-top"><div class="svc-full-ico">🛢️</div><div><div class="svc-full-name" data-i18n="svc_vidange">Vidanges & Entretien</div><div class="svc-full-desc" data-i18n="svc_vid_d">Vidanges, filtres, niveaux. Entretien régulier pour garder votre véhicule en parfait état.</div></div></div>
+          <div class="svc-full-footer"><span class="svc-price" data-i18n="svc_price">Devis gratuit</span><a href="rdv.html" class="btn btn-primary btn-sm" data-i18n="svc_rdv_btn">Prendre RDV</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-sm">
+    <div class="container">
+      <div class="cta-band scroll-reveal" style="background:var(--orange);border-radius:var(--radius-xl);padding:4rem;text-align:center;">
+        <h2 style="font-family:var(--font-titre);font-size:clamp(2rem,4vw,3rem);font-weight:800;color:#fff;margin-bottom:.8rem;" data-i18n="cta_title">Prêt à transformer votre véhicule ?</h2>
+        <p style="color:rgba(255,255,255,.88);font-size:1.05rem;margin-bottom:2rem;" data-i18n="cta_sub">Réservez votre intervention en ligne en 2 minutes.</p>
+        <a href="rdv.html" class="btn btn-white btn-lg" data-i18n="cta_btn">Prendre rendez-vous</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div><div class="footer-logo">Auto<span>Zent</span></div><p class="footer-desc" data-i18n="footer_desc">Spécialistes High-Tech Auto & Mobile en Île-de-France.</p></div>
+    <div class="footer-col"><h4 data-i18n="footer_pages">Pages</h4><ul><li><a href="index.html" data-i18n="nav_home">Accueil</a></li><li><a href="services.html" data-i18n="nav_services">Services</a></li><li><a href="realisations.html" data-i18n="nav_realisations">Réalisations</a></li><li><a href="rdv.html" data-i18n="nav_rdv">Rendez-vous</a></li><li><a href="contact.html" data-i18n="nav_contact">Contact</a></li></ul></div>
+    <div class="footer-col"><h4 data-i18n="footer_contact_title">Contact</h4><ul><li><a href="contact.html">📞 06 00 00 00 00</a></li><li><a href="https://wa.me/33600000000" target="_blank">💬 WhatsApp</a></li><li><a href="https://instagram.com/autozent_services" target="_blank">📸 Instagram</a></li></ul></div>
+    <div class="footer-col"><h4 data-i18n="footer_idf">Île-de-France</h4><ul><li><a href="#">Paris</a></li><li><a href="#">Boulogne-Billancourt</a></li><li><a href="#">Vincennes</a></li><li><a href="#">Montreuil</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><p data-i18n="footer_copy">© 2025 AutoZent Services.</p><div class="footer-socials"><a href="https://wa.me/33600000000" class="social-btn" target="_blank">💬</a><a href="https://instagram.com/autozent_services" class="social-btn" target="_blank">📸</a></div></div>
+</footer>
+<script src="i18n.js"></script><script src="app.js"></script>
+</body></html>

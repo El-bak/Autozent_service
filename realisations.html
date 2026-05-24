@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Réalisations — AutoZent Services</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.page-hero{background:var(--gris-1);padding:6rem 3rem 4rem;text-align:center;border-bottom:1px solid var(--gris-2);}
+.reals-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:2rem;}
+.real-card{background:var(--blanc);border:1px solid var(--gris-2);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-sm);transition:box-shadow .3s,transform .3s;}
+.real-card:hover{box-shadow:var(--shadow-md);transform:translateY(-3px);}
+.aa-wrap{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--gris-3);}
+.aa-side{position:relative;overflow:hidden;}
+.aa-side img{width:100%;height:180px;object-fit:cover;display:block;transition:transform .4s;}
+.aa-side:hover img{transform:scale(1.04);}
+.aa-tag{position:absolute;top:.5rem;left:.5rem;font-family:var(--font-mono);font-size:.62rem;font-weight:600;letter-spacing:1.5px;padding:.2rem .55rem;border-radius:4px;text-transform:uppercase;}
+.aa-tag.avant{background:rgba(22,22,20,.65);color:#fff;}
+.aa-tag.apres{background:var(--orange);color:#fff;}
+.real-body{padding:1.2rem 1.4rem;}
+.real-meta{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.7rem;}
+.real-chip{background:var(--orange-bg);color:var(--orange-dk);font-size:.73rem;font-weight:600;padding:.2rem .6rem;border-radius:100px;}
+.real-vehicle{font-family:var(--font-titre);font-size:1.15rem;font-weight:700;color:var(--noir);margin-bottom:.3rem;}
+.real-ville{font-size:.82rem;color:var(--gris-4);margin-bottom:.8rem;}
+.real-tech{font-size:.78rem;color:var(--gris-5);}
+/* AVIS */
+.avis-section{border-top:1px solid var(--gris-2);padding:1rem 1.4rem;background:var(--gris-1);}
+.avis-item{margin-bottom:.8rem;padding-bottom:.8rem;border-bottom:1px solid var(--gris-2);}
+.avis-item:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none;}
+.avis-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:.2rem;}
+.avis-nom{font-size:.85rem;font-weight:600;color:var(--noir);}
+.avis-stars{color:#F59E0B;font-size:.9rem;letter-spacing:1px;}
+.avis-text{font-size:.82rem;color:var(--gris-5);line-height:1.5;}
+.avis-vehicule{font-size:.73rem;color:var(--gris-4);margin-top:.15rem;}
+.btn-avis{width:100%;background:none;border:1.5px dashed var(--gris-3);color:var(--gris-4);padding:.55rem;border-radius:var(--radius-sm);cursor:pointer;font-size:.82rem;margin-top:.6rem;transition:all .2s;}
+.btn-avis:hover{border-color:var(--orange);color:var(--orange);}
+/* UPLOAD ZONE */
+.upload-zone{border:2px dashed var(--gris-3);border-radius:var(--radius-md);padding:2rem;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;}
+.upload-zone:hover,.upload-zone.drag{border-color:var(--orange);background:var(--orange-bg);}
+.upload-zone input{display:none;}
+.upload-preview{width:100%;height:120px;object-fit:cover;border-radius:var(--radius-sm);margin-top:.5rem;display:none;}
+.no-reals{text-align:center;padding:4rem 2rem;color:var(--gris-4);}
+.no-reals .ico{font-size:3rem;margin-bottom:1rem;}
+/* TEAM ADD BANNER */
+.team-bar{background:var(--orange-bg);border:1px solid rgba(244,96,12,.2);border-radius:var(--radius-md);padding:1rem 1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;margin-bottom:2.5rem;}
+.team-bar p{font-size:.88rem;color:var(--orange-dk);font-weight:500;}
+@media(max-width:768px){.reals-grid{grid-template-columns:1fr;}.page-hero{padding:5rem 1.5rem 3rem;}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">Auto<span>Zent</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html" data-i18n="nav_home">Accueil</a></li>
+    <li><a href="services.html" data-i18n="nav_services">Services</a></li>
+    <li><a href="realisations.html" data-i18n="nav_realisations">Réalisations</a></li>
+    <li><a href="rdv.html" data-i18n="nav_rdv">Rendez-vous</a></li>
+    <li><a href="contact.html" data-i18n="nav_contact">Contact</a></li>
+    <li><a href="agenda.html" data-i18n="nav_agenda">Espace équipe</a></li>
+    <div class="nav-lang">
+      <button class="lang-btn" data-lang="fr">FR</button><button class="lang-btn" data-lang="en">EN</button><button class="lang-btn" data-lang="ar">AR</button><button class="lang-btn" data-lang="zh">中</button>
+    </div>
+  </ul>
+  <div id="hamburger" class="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="page-top">
+  <div class="page-hero">
+    <div class="eyebrow" style="justify-content:center;"><span data-i18n="real_eyebrow">Réalisations</span></div>
+    <h1 class="display anim-fade-up d1" data-i18n="real_title">Avant & Après</h1>
+    <div class="divider-orange center"></div>
+    <p class="lead center anim-fade-up d2" data-i18n="real_sub">Des transformations réelles sur des véhicules de nos clients.</p>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <!-- TEAM BAR (shown only when logged in) -->
+      <div class="team-bar" id="teamBar" style="display:none;">
+        <p>👋 Connecté en tant qu'équipe — vous pouvez ajouter des réalisations.</p>
+        <button class="btn btn-primary btn-sm" onclick="openModal('modalReal')" data-i18n="real_add_btn">Ajouter une réalisation</button>
+      </div>
+
+      <!-- FILTERS -->
+      <div class="filter-bar" id="filterBar">
+        <button class="filter-btn active" data-filter="all" onclick="filterReals('all')" data-i18n="real_filter_all">Tous</button>
+        <button class="filter-btn" data-filter="CarPlay" onclick="filterReals('CarPlay')">CarPlay</button>
+        <button class="filter-btn" data-filter="Caméra" onclick="filterReals('Caméra')">Caméra</button>
+        <button class="filter-btn" data-filter="LED" onclick="filterReals('LED')">LED</button>
+        <button class="filter-btn" data-filter="Son" onclick="filterReals('Son')">Son</button>
+        <button class="filter-btn" data-filter="Réparation" onclick="filterReals('Réparation')">Réparation</button>
+        <button class="filter-btn" data-filter="Vidange" onclick="filterReals('Vidange')">Vidange</button>
+      </div>
+
+      <div class="reals-grid" id="realsGrid"></div>
+    </div>
+  </section>
+</div>
+
+<!-- MODAL: AJOUTER RÉALISATION (équipe) -->
+<div class="modal-overlay" id="modalReal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modalReal')">×</button>
+    <h2 style="font-family:var(--font-titre);font-size:1.6rem;margin-bottom:1.5rem;" data-i18n="modal_real_title">Ajouter une réalisation</h2>
+    <form id="formReal">
+      <div class="form-row">
+        <div class="form-group"><label data-i18n="modal_real_client">Nom du client</label><input type="text" id="rClient" required placeholder="Ex: Jean D."></div>
+        <div class="form-group"><label data-i18n="modal_real_vehicule">Véhicule</label><input type="text" id="rVehicule" required placeholder="Ex: Peugeot 208 2019"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label data-i18n="modal_real_service">Service réalisé</label>
+          <select id="rService">
+            <option>CarPlay / Android Auto</option><option>Caméra de recul</option><option>LED & Éclairage</option><option>Enceintes & Son</option><option>Réparation</option><option>Vidange & Entretien</option><option>Autre</option>
+          </select>
+        </div>
+        <div class="form-group"><label data-i18n="modal_real_ville">Ville</label><input type="text" id="rVille" placeholder="Ex: Vincennes"></div>
+      </div>
+      <div class="form-group">
+        <label data-i18n="modal_real_avant">Photo AVANT</label>
+        <div class="upload-zone" id="zoneAvant" onclick="document.getElementById('inputAvant').click()">
+          <input type="file" id="inputAvant" accept="image/*">
+          <p style="color:var(--gris-4);font-size:.85rem;">📁 Cliquez ou glissez une photo</p>
+          <img id="prevAvant" class="upload-preview">
+        </div>
+      </div>
+      <div class="form-group">
+        <label data-i18n="modal_real_apres">Photo APRÈS</label>
+        <div class="upload-zone" id="zoneApres" onclick="document.getElementById('inputApres').click()">
+          <input type="file" id="inputApres" accept="image/*">
+          <p style="color:var(--gris-4);font-size:.85rem;">📁 Cliquez ou glissez une photo</p>
+          <img id="prevApres" class="upload-preview">
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:.5rem;" data-i18n="modal_real_submit">Publier la réalisation</button>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL: LAISSER UN AVIS (clients) -->
+<div class="modal-overlay" id="modalAvis">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modalAvis')">×</button>
+    <h2 style="font-family:var(--font-titre);font-size:1.6rem;margin-bottom:1.5rem;" data-i18n="modal_avis_title">Laisser un avis</h2>
+    <input type="hidden" id="avisRealId">
+    <form id="formAvis">
+      <div class="form-row">
+        <div class="form-group"><label data-i18n="modal_avis_nom">Votre nom</label><input type="text" id="avisNom" required placeholder="Votre prénom et initiale"></div>
+        <div class="form-group"><label data-i18n="modal_avis_vehicule">Votre véhicule</label><input type="text" id="avisVehicule" placeholder="Ex: Golf 7"></div>
+      </div>
+      <div class="form-group">
+        <label data-i18n="modal_avis_note">Note</label>
+        <div class="stars" id="starPicker" style="margin-bottom:.5rem;">
+          <span class="star" data-v="1">★</span><span class="star" data-v="2">★</span><span class="star" data-v="3">★</span><span class="star" data-v="4">★</span><span class="star" data-v="5">★</span>
+        </div>
+        <input type="hidden" id="avisNote" value="5">
+      </div>
+      <div class="form-group"><label data-i18n="modal_avis_msg">Commentaire</label><textarea id="avisMsg" required placeholder="Votre avis sur la prestation..."></textarea></div>
+      <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:.5rem;" data-i18n="modal_avis_submit">Publier l'avis</button>
+    </form>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div><div class="footer-logo">Auto<span>Zent</span></div><p class="footer-desc" data-i18n="footer_desc">Spécialistes High-Tech Auto & Mobile en Île-de-France.</p></div>
+    <div class="footer-col"><h4 data-i18n="footer_pages">Pages</h4><ul><li><a href="index.html" data-i18n="nav_home">Accueil</a></li><li><a href="services.html" data-i18n="nav_services">Services</a></li><li><a href="realisations.html" data-i18n="nav_realisations">Réalisations</a></li><li><a href="rdv.html" data-i18n="nav_rdv">Rendez-vous</a></li><li><a href="contact.html" data-i18n="nav_contact">Contact</a></li></ul></div>
+    <div class="footer-col"><h4 data-i18n="footer_contact_title">Contact</h4><ul><li><a href="contact.html">📞 06 00 00 00 00</a></li><li><a href="https://wa.me/33600000000" target="_blank">💬 WhatsApp</a></li><li><a href="https://instagram.com/autozent_services" target="_blank">📸 Instagram</a></li></ul></div>
+    <div class="footer-col"><h4 data-i18n="footer_idf">Zone</h4><ul><li><a href="#">Paris</a></li><li><a href="#">92 · 93 · 94</a></li><li><a href="#">78 · 91 · 95 · 77</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><p data-i18n="footer_copy">© 2025 AutoZent Services.</p><div class="footer-socials"><a href="https://wa.me/33600000000" class="social-btn" target="_blank">💬</a><a href="https://instagram.com/autozent_services" class="social-btn" target="_blank">📸</a></div></div>
+</footer>
+
+<script src="i18n.js"></script>
+<script src="app.js"></script>
+<script>
+let currentFilter = 'all';
+let selectedRealId = null;
+let starValue = 5;
+
+// ── SEED DEMO DATA (first time only) ──
+function seedDemoData() {
+  if (DB.getReals().length > 0) return;
+  const demos = [
+    { id: 1, client: 'Jean D.', vehicule: 'Citroën DS4', service: 'CarPlay / Android Auto', ville: 'Paris 75', technicien: 'Karim', photoAvant: '', photoApres: '', avis: [{ nom:'Jean D.', vehicule:'DS4', note:5, msg:'Travail impeccable, vraiment impressionné ! Karim est très professionnel et rapide.', ts: Date.now()-86400000*3 }] },
+    { id: 2, client: 'Samira B.', vehicule: 'Ford Fiesta', service: 'CarPlay / Android Auto', ville: 'Montreuil 93', technicien: 'Youssef', photoAvant: '', photoApres: '', avis: [] },
+    { id: 3, client: 'Marc T.', vehicule: 'Peugeot 208', service: 'Caméra de recul', ville: 'Vincennes 94', technicien: 'Ahmed', photoAvant: '', photoApres: '', avis: [{ nom:'Marc T.', vehicule:'Peugeot 208', note:5, msg:'Super service, installation soignée, aucun fil visible. Je recommande vivement !', ts: Date.now()-86400000 }] },
+    { id: 4, client: 'Léa F.', vehicule: 'Audi A1', service: 'CarPlay / Android Auto', ville: 'Boulogne 92', technicien: 'Karim', photoAvant: '', photoApres: '', avis: [] },
+  ];
+  localStorage.setItem('az_reals', JSON.stringify(demos));
+}
+seedDemoData();
+
+// ── RENDER GRID ──
+function renderGrid() {
+  const reals = DB.getReals();
+  const grid = document.getElementById('realsGrid');
+  const filtered = currentFilter === 'all' ? reals : reals.filter(r => r.service && r.service.includes(currentFilter));
+  if (filtered.length === 0) {
+    grid.innerHTML = `<div class="no-reals" style="grid-column:1/-1;"><div class="ico">📸</div><p style="color:var(--gris-4);">Aucune réalisation pour ce filtre.</p></div>`;
+    return;
+  }
+  grid.innerHTML = filtered.map(r => realCard(r)).join('');
+  // scroll reveal
+  grid.querySelectorAll('.real-card').forEach((el,i) => {
+    el.style.opacity='0'; el.style.transform='translateY(18px)';
+    setTimeout(() => { el.style.transition='opacity .5s ease,transform .5s ease'; el.style.opacity='1'; el.style.transform='translateY(0)'; }, i*80);
+  });
+}
+
+const PH_AVT = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='240'%3E%3Crect fill='%23EFEFED' width='400' height='240'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dominant-baseline='middle' font-size='13' fill='%239A9891'%3EAvant%3C/text%3E%3C/svg%3E";
+const PH_APS = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='240'%3E%3Crect fill='%23F4600C22' width='400' height='240'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dominant-baseline='middle' font-size='13' fill='%23C44A00'%3EAprès%3C/text%3E%3C/svg%3E";
+
+function realCard(r) {
+  const avis = r.avis || [];
+  const avisHtml = avis.map(a => `
+    <div class="avis-item">
+      <div class="avis-top">
+        <span class="avis-nom">${a.nom}</span>
+        <span class="avis-stars">${'★'.repeat(a.note)}${'☆'.repeat(5-a.note)}</span>
+      </div>
+      <div class="avis-vehicule">${a.vehicule || ''}</div>
+      <div class="avis-text">${a.msg}</div>
+    </div>`).join('');
+  return `
+  <div class="real-card">
+    <div class="aa-wrap">
+      <div class="aa-side">
+        <img src="${r.photoAvant || PH_AVT}" alt="Avant ${r.vehicule}" loading="lazy">
+        <span class="aa-tag avant" data-i18n="real_avant">Avant</span>
+      </div>
+      <div class="aa-side">
+        <img src="${r.photoApres || PH_APS}" alt="Après ${r.vehicule}" loading="lazy">
+        <span class="aa-tag apres" data-i18n="real_apres">Après</span>
+      </div>
+    </div>
+    <div class="real-body">
+      <div class="real-meta"><span class="real-chip">${r.service}</span>${r.ville?`<span class="real-chip" style="background:var(--gris-2);color:var(--gris-5);">📍 ${r.ville}</span>`:''}</div>
+      <div class="real-vehicle">${r.vehicule}</div>
+      ${r.technicien?`<div class="real-tech">👨‍🔧 ${r.technicien}</div>`:''}
+    </div>
+    <div class="avis-section">
+      ${avisHtml || '<p style="font-size:.8rem;color:var(--gris-4);text-align:center;padding:.3rem 0;">Aucun avis encore.</p>'}
+      <button class="btn-avis" onclick="openAvis(${r.id})" data-i18n="real_avis_btn">+ Laisser un avis</button>
+    </div>
+  </div>`;
+}
+
+function filterReals(f) {
+  currentFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.dataset.filter === f));
+  renderGrid();
+}
+
+// ── AVIS ──
+function openAvis(realId) {
+  selectedRealId = realId;
+  document.getElementById('avisRealId').value = realId;
+  document.getElementById('formAvis').reset();
+  setStars(5);
+  openModal('modalAvis');
+}
+
+function setStars(n) {
+  starValue = n;
+  document.getElementById('avisNote').value = n;
+  document.querySelectorAll('#starPicker .star').forEach(s => s.classList.toggle('active', +s.dataset.v <= n));
+}
+document.querySelectorAll('#starPicker .star').forEach(s => {
+  s.addEventListener('click', () => setStars(+s.dataset.v));
+  s.addEventListener('mouseover', () => { document.querySelectorAll('#starPicker .star').forEach(x => x.classList.toggle('active', +x.dataset.v <= +s.dataset.v)); });
+  s.addEventListener('mouseout', () => setStars(starValue));
+});
+
+document.getElementById('formAvis').addEventListener('submit', e => {
+  e.preventDefault();
+  const reals = DB.getReals();
+  const real = reals.find(r => r.id == selectedRealId);
+  if (!real) return;
+  if (!real.avis) real.avis = [];
+  real.avis.push({ nom: document.getElementById('avisNom').value, vehicule: document.getElementById('avisVehicule').value, note: starValue, msg: document.getElementById('avisMsg').value, ts: Date.now() });
+  DB.saveReals(reals);
+  closeModal('modalAvis');
+  renderGrid();
+  toast('✅ Merci pour votre avis !');
+});
+
+// ── UPLOAD RÉALISATION (équipe) ──
+function setupUpload(inputId, previewId, zoneId) {
+  const inp = document.getElementById(inputId);
+  const prev = document.getElementById(previewId);
+  inp.addEventListener('change', async () => {
+    if (inp.files[0]) {
+      const b64 = await fileToBase64(inp.files[0]);
+      prev.src = b64; prev.style.display = 'block';
+    }
+  });
+  const zone = document.getElementById(zoneId);
+  zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag'); });
+  zone.addEventListener('dragleave', () => zone.classList.remove('drag'));
+  zone.addEventListener('drop', async e => {
+    e.preventDefault(); zone.classList.remove('drag');
+    const file = e.dataTransfer.files[0];
+    if (file && file.type.startsWith('image/')) {
+      inp.files = e.dataTransfer.files;
+      const b64 = await fileToBase64(file);
+      prev.src = b64; prev.style.display = 'block';
+    }
+  });
+}
+setupUpload('inputAvant','prevAvant','zoneAvant');
+setupUpload('inputApres','prevApres','zoneApres');
+
+document.getElementById('formReal').addEventListener('submit', async e => {
+  e.preventDefault();
+  const user = AUTH.getUser();
+  if (!user) { toast(t('login_required'), 'err'); return; }
+  const avantFile = document.getElementById('inputAvant').files[0];
+  const apresFile = document.getElementById('inputApres').files[0];
+  const real = {
+    client: document.getElementById('rClient').value,
+    vehicule: document.getElementById('rVehicule').value,
+    service: document.getElementById('rService').value,
+    ville: document.getElementById('rVille').value,
+    technicien: user.name,
+    photoAvant: avantFile ? await fileToBase64(avantFile) : '',
+    photoApres: apresFile ? await fileToBase64(apresFile) : '',
+    avis: [],
+    ts: Date.now()
+  };
+  DB.addReal(real);
+  closeModal('modalReal');
+  document.getElementById('formReal').reset();
+  document.getElementById('prevAvant').style.display = 'none';
+  document.getElementById('prevApres').style.display = 'none';
+  renderGrid();
+  toast('✅ Réalisation publiée !');
+});
+
+// ── TEAM BAR ──
+function checkTeam() {
+  const user = AUTH.getUser();
+  document.getElementById('teamBar').style.display = user ? 'flex' : 'none';
+}
+
+// ── INIT ──
+document.addEventListener('DOMContentLoaded', () => { checkTeam(); renderGrid(); });
+window.addEventListener('langchange', () => { renderGrid(); });
+</script>
+</body>
+</html>
