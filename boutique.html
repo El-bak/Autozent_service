@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Boutique CarPlay — AutoZent Services</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&currency=EUR&locale=fr_FR" data-namespace="paypal_sdk"></script>
+<style>
+/* CART ICON IN NAV */
+.cart-btn{position:relative;background:var(--orange);color:#fff;border:none;border-radius:var(--radius-md);padding:.4rem .9rem;font-size:.85rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:.4rem;transition:background .2s;text-decoration:none;}
+.cart-btn:hover{background:var(--orange-lt);}
+.cart-count{background:#fff;color:var(--orange);font-size:.65rem;font-weight:800;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;position:absolute;top:-6px;right:-6px;}
+.cart-count.hidden{display:none;}
+
+/* CART DRAWER */
+.cart-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:1800;backdrop-filter:blur(2px);}
+.cart-overlay.open{display:block;}
+.cart-drawer{position:fixed;top:0;right:-420px;width:420px;max-width:100vw;height:100vh;background:var(--blanc);z-index:1900;display:flex;flex-direction:column;box-shadow:-8px 0 32px rgba(0,0,0,.15);transition:right .35s cubic-bezier(.22,.68,0,1.2);}
+.cart-drawer.open{right:0;}
+.cart-header{padding:1.4rem 1.6rem;border-bottom:1px solid var(--gris-2);display:flex;align-items:center;justify-content:space-between;}
+.cart-header h3{font-family:var(--font-titre);font-size:1.3rem;font-weight:800;}
+.cart-header-right{display:flex;gap:.6rem;align-items:center;}
+.cart-close{background:var(--gris-2);border:none;border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;color:var(--gris-5);transition:background .2s;}
+.cart-close:hover{background:var(--gris-3);}
+.cart-body{flex:1;overflow-y:auto;padding:1.2rem 1.6rem;}
+.cart-empty{text-align:center;padding:3rem 1rem;color:var(--gris-4);}
+.cart-empty .ico{font-size:3rem;margin-bottom:1rem;}
+.cart-item{display:flex;gap:1rem;padding:1rem 0;border-bottom:1px solid var(--gris-2);align-items:flex-start;}
+.cart-item:last-child{border-bottom:none;}
+.cart-item-img{width:64px;height:64px;border-radius:var(--radius-sm);background:var(--gris-1);display:flex;align-items:center;justify-content:center;font-size:1.8rem;flex-shrink:0;overflow:hidden;}
+.cart-item-img img{width:100%;height:100%;object-fit:cover;}
+.cart-item-info{flex:1;min-width:0;}
+.cart-item-name{font-family:var(--font-titre);font-size:.95rem;font-weight:700;color:var(--noir);margin-bottom:.2rem;line-height:1.2;}
+.cart-item-opt{font-size:.75rem;color:var(--gris-4);margin-bottom:.5rem;}
+.cart-item-controls{display:flex;align-items:center;gap:.6rem;}
+.qty-btn{background:var(--gris-2);border:none;border-radius:4px;width:26px;height:26px;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--noir);transition:background .15s;}
+.qty-btn:hover{background:var(--gris-3);}
+.qty-val{font-family:var(--font-mono);font-size:.85rem;font-weight:600;min-width:20px;text-align:center;}
+.cart-item-remove{background:none;border:none;color:var(--gris-4);cursor:pointer;font-size:.8rem;padding:.2rem .4rem;border-radius:4px;transition:all .15s;margin-left:.3rem;}
+.cart-item-remove:hover{background:#fee2e2;color:#ef4444;}
+.cart-item-price{font-family:var(--font-titre);font-size:1rem;font-weight:800;color:var(--orange);white-space:nowrap;margin-left:.5rem;}
+.cart-footer{padding:1.2rem 1.6rem;border-top:1px solid var(--gris-2);background:var(--gris-1);}
+.cart-summary{display:flex;justify-content:space-between;align-items:center;margin-bottom:.8rem;}
+.cart-summary-label{font-size:.88rem;color:var(--gris-5);}
+.cart-total{font-family:var(--font-titre);font-size:1.6rem;font-weight:800;color:var(--orange);}
+.cart-actions{display:flex;flex-direction:column;gap:.6rem;}
+.btn-clear{background:none;border:1.5px solid var(--gris-3);color:var(--gris-4);padding:.55rem;border-radius:var(--radius-sm);font-size:.82rem;cursor:pointer;text-align:center;transition:all .2s;font-family:var(--font-corps);}
+.btn-clear:hover{border-color:#ef4444;color:#ef4444;background:#fee2e2;}
+
+/* PAGE HERO */
+.page-hero{background:var(--noir);padding:5.5rem 3rem 3.5rem;position:relative;overflow:hidden;}
+.page-hero::before{content:'';position:absolute;top:-40%;left:50%;transform:translateX(-50%);width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(244,96,12,.1) 0%,transparent 70%);pointer-events:none;}
+.page-hero h1{color:#fff;font-size:clamp(2.2rem,5vw,4rem);}
+.page-hero .lead{color:rgba(255,255,255,.6);margin:0 auto;}
+
+/* PROMO BANNER */
+.promo-banner{background:var(--orange);color:#fff;padding:.7rem 2rem;text-align:center;font-size:.88rem;font-weight:600;letter-spacing:.2px;}
+.promo-banner span{opacity:.82;font-weight:400;margin-left:.5rem;}
+
+/* SHOP LAYOUT */
+.shop-layout{display:grid;grid-template-columns:240px 1fr;gap:2.5rem;align-items:start;}
+.filters-panel{background:var(--blanc);border:1px solid var(--gris-2);border-radius:var(--radius-lg);padding:1.5rem;position:sticky;top:calc(var(--nav-h) + 1.5rem);}
+.filters-panel h3{font-family:var(--font-titre);font-size:1rem;font-weight:700;margin-bottom:1.2rem;}
+.filter-group{margin-bottom:1.4rem;}
+.filter-group-title{font-family:var(--font-mono);font-size:.65rem;color:var(--gris-4);letter-spacing:2px;text-transform:uppercase;margin-bottom:.6rem;}
+.filter-option{display:flex;align-items:center;gap:.5rem;padding:.28rem 0;cursor:pointer;font-size:.85rem;color:var(--gris-5);transition:color .15s;}
+.filter-option:hover{color:var(--orange);}
+.filter-option input{accent-color:var(--orange);}
+.price-range input[type=range]{accent-color:var(--orange);width:100%;}
+.price-labels{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:.7rem;color:var(--gris-4);}
+
+/* PRODUCTS */
+.products-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.8rem;flex-wrap:wrap;gap:.8rem;}
+.products-count{font-size:.82rem;color:var(--gris-4);}
+.products-sort select{background:var(--gris-1);border:1px solid var(--gris-2);color:var(--noir);padding:.38rem .7rem;border-radius:var(--radius-sm);font-size:.82rem;outline:none;}
+.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.5rem;}
+
+/* PRODUCT CARD */
+.product-card{background:var(--blanc);border:1px solid var(--gris-2);border-radius:var(--radius-lg);overflow:hidden;transition:box-shadow .3s,transform .25s;position:relative;}
+.product-card:hover{box-shadow:var(--shadow-md);transform:translateY(-3px);}
+.product-badge{position:absolute;top:.8rem;left:.8rem;z-index:2;font-family:var(--font-mono);font-size:.62rem;font-weight:600;letter-spacing:1px;padding:.22rem .55rem;border-radius:4px;text-transform:uppercase;}
+.product-badge.new{background:var(--orange);color:#fff;}
+.product-badge.promo{background:#059669;color:#fff;}
+.product-badge.bestseller{background:var(--noir);color:#fff;}
+.product-img-wrap{background:var(--gris-1);height:185px;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;}
+.product-img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform .4s;}
+.product-card:hover .product-img-wrap img{transform:scale(1.04);}
+.product-img-placeholder{font-size:4rem;opacity:.25;}
+.product-body{padding:1.2rem;}
+.product-brand{font-family:var(--font-mono);font-size:.65rem;color:var(--gris-4);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:.25rem;}
+.product-name{font-family:var(--font-titre);font-size:1.05rem;font-weight:700;color:var(--noir);margin-bottom:.5rem;line-height:1.2;}
+.product-specs{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:.8rem;}
+.spec-tag{background:var(--gris-1);color:var(--gris-5);font-size:.68rem;padding:.18rem .5rem;border-radius:4px;font-weight:500;}
+.product-price-row{display:flex;align-items:baseline;gap:.4rem;margin-bottom:.9rem;}
+.product-price{font-family:var(--font-titre);font-size:1.4rem;font-weight:800;color:var(--orange);}
+.product-price-old{font-size:.82rem;color:var(--gris-4);text-decoration:line-through;}
+.product-price-install{font-size:.72rem;color:var(--gris-4);display:block;margin-top:.1rem;}
+.product-actions{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;}
+.btn-add-cart{background:var(--orange);color:#fff;border:none;padding:.65rem .5rem;border-radius:var(--radius-sm);font-weight:600;font-size:.8rem;cursor:pointer;width:100%;transition:all .2s;font-family:var(--font-corps);display:flex;align-items:center;justify-content:center;gap:.3rem;}
+.btn-add-cart:hover{background:var(--orange-lt);transform:translateY(-1px);}
+.btn-add-install{background:var(--noir);color:#fff;border:none;padding:.65rem .5rem;border-radius:var(--radius-sm);font-weight:500;font-size:.78rem;cursor:pointer;width:100%;transition:all .2s;font-family:var(--font-corps);}
+.btn-add-install:hover{background:#333;}
+.btn-details-sm{grid-column:1/-1;background:transparent;color:var(--gris-5);border:1.5px solid var(--gris-2);padding:.5rem;border-radius:var(--radius-sm);font-size:.78rem;cursor:pointer;font-family:var(--font-corps);transition:all .2s;}
+.btn-details-sm:hover{border-color:var(--orange);color:var(--orange);}
+
+/* MODAL PAIEMENT */
+.modal-box.pay-box{max-width:480px;}
+.install-toggle{display:flex;gap:.5rem;margin-bottom:1.2rem;}
+.install-opt{flex:1;padding:.8rem;border:1.5px solid var(--gris-2);border-radius:var(--radius-md);text-align:center;cursor:pointer;transition:all .2s;font-size:.82rem;font-weight:500;color:var(--gris-5);}
+.install-opt.selected{border-color:var(--orange);background:var(--orange-bg);color:var(--orange);font-weight:600;}
+.pay-divider{text-align:center;font-size:.75rem;color:var(--gris-4);margin:.7rem 0;position:relative;}
+.pay-divider::before,.pay-divider::after{content:'';position:absolute;top:50%;width:42%;height:1px;background:var(--gris-2);}
+.pay-divider::before{left:0;}.pay-divider::after{right:0;}
+.btn-card{width:100%;background:#191C1F;color:#fff;border:none;border-radius:var(--radius-md);padding:.82rem;font-weight:600;font-size:.88rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.5rem;transition:opacity .2s;font-family:var(--font-corps);}
+.btn-card:hover{opacity:.88;}
+
+/* GARANTIES */
+.garanties-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem;}
+.garantie-card{text-align:center;padding:1.4rem 1rem;}
+.garantie-ico{font-size:1.8rem;margin-bottom:.7rem;}
+.garantie-title{font-family:var(--font-titre);font-size:.95rem;font-weight:700;color:var(--noir);margin-bottom:.3rem;}
+.garantie-desc{font-size:.8rem;color:var(--gris-5);line-height:1.55;}
+
+/* FAQ */
+.faq-list{display:flex;flex-direction:column;gap:.7rem;max-width:740px;margin:0 auto;}
+.faq-item{border:1px solid var(--gris-2);border-radius:var(--radius-md);overflow:hidden;}
+.faq-q{padding:1rem 1.3rem;font-weight:600;font-size:.9rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;color:var(--noir);transition:background .2s;}
+.faq-q:hover{background:var(--gris-1);}
+.faq-a{display:none;padding:0 1.3rem 1rem;font-size:.85rem;color:var(--gris-5);line-height:1.65;}
+.faq-a.open{display:block;}
+.faq-arrow{color:var(--orange);font-size:1rem;transition:transform .3s;}
+.faq-q.open .faq-arrow{transform:rotate(180deg);}
+
+/* ORDER SUCCESS */
+.order-success{display:none;text-align:center;padding:2rem 1rem;}
+.order-success .ico{font-size:3.5rem;margin-bottom:1rem;}
+.order-ref{font-family:var(--font-mono);background:var(--gris-1);border:1px solid var(--gris-2);padding:.4rem 1rem;border-radius:var(--radius-sm);font-size:.78rem;display:inline-block;margin:.8rem 0;}
+
+@media(max-width:1024px){.shop-layout{grid-template-columns:1fr;}.filters-panel{position:static;}.garanties-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:640px){.products-grid{grid-template-columns:1fr;}.garanties-grid{grid-template-columns:1fr 1fr;}.cart-drawer{width:100vw;}.page-hero{padding:5rem 1.5rem 3rem;}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">Auto<span>Zent</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html" data-i18n="nav_home">Accueil</a></li>
+    <li><a href="services.html" data-i18n="nav_services">Services</a></li>
+    <li><a href="realisations.html" data-i18n="nav_realisations">Réalisations</a></li>
+    <li><a href="boutique.html" style="color:var(--orange);font-weight:600;">Boutique</a></li>
+    <li><a href="rdv.html" data-i18n="nav_rdv">Rendez-vous</a></li>
+    <li><a href="contact.html" data-i18n="nav_contact">Contact</a></li>
+    <li><a href="agenda.html" data-i18n="nav_agenda">Espace équipe</a></li>
+    <div class="nav-lang">
+      <button class="lang-btn" data-lang="fr">FR</button>
+      <button class="lang-btn" data-lang="en">EN</button>
+      <button class="lang-btn" data-lang="ar">AR</button>
+      <button class="lang-btn" data-lang="zh">中</button>
+    </div>
+  </ul>
+  <!-- PANIER BOUTON -->
+  <a href="#" class="cart-btn" onclick="toggleCart(event)">
+    🛒 Panier
+    <span class="cart-count hidden" id="cartCount">0</span>
+  </a>
+  <div id="hamburger" class="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- CART OVERLAY + DRAWER -->
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart(event)"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-header">
+    <h3>🛒 Mon panier</h3>
+    <div class="cart-header-right">
+      <button class="btn-clear" id="btnClearCart" onclick="clearCart()" style="padding:.3rem .8rem;font-size:.75rem;border-radius:var(--radius-sm);">Vider le panier</button>
+      <button class="cart-close" onclick="toggleCart(event)">×</button>
+    </div>
+  </div>
+  <div class="cart-body" id="cartBody">
+    <div class="cart-empty" id="cartEmpty">
+      <div class="ico">🛒</div>
+      <p style="font-weight:600;margin-bottom:.3rem;">Votre panier est vide</p>
+      <p style="font-size:.82rem;">Ajoutez des produits pour commencer.</p>
+    </div>
+  </div>
+  <div class="cart-footer" id="cartFooter" style="display:none;">
+    <div class="cart-summary">
+      <div>
+        <div class="cart-summary-label" id="cartItemCount">0 article</div>
+        <div class="cart-total" id="cartTotal">0€</div>
+      </div>
+      <div style="text-align:right;font-size:.72rem;color:var(--gris-4);">TVA incluse<br>Facture par email</div>
+    </div>
+    <div class="cart-actions">
+      <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="goToCheckout()">
+        Passer au paiement →
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- PROMO -->
+<div class="promo-banner">
+  🔥 Installation offerte pour tout achat de CarPlay ce mois-ci
+  <span>· Offre valable jusqu'au 30 juin 2025</span>
+</div>
+
+<div class="page-top">
+<!-- HERO -->
+<div class="page-hero">
+  <div style="max-width:1160px;margin:0 auto;">
+    <div class="eyebrow" style="justify-content:flex-start;"><span style="color:var(--orange);">Boutique en ligne</span></div>
+    <h1 class="display anim-fade-up d1" style="color:#fff;margin-bottom:.8rem;">
+      Écrans CarPlay &<br>Android Auto
+    </h1>
+    <div class="divider-orange"></div>
+    <p class="lead anim-fade-up d2" style="color:rgba(255,255,255,.6);max-width:520px;">
+      Matériel sélectionné et testé. Commandez en ligne — livraison ou installation à domicile sur IDF, Oise et Aisne.
+    </p>
+    <div class="anim-fade-up d3" style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:1.8rem;">
+      <a href="#produits" class="btn btn-primary">Voir les produits</a>
+      <a href="rdv.html" class="btn" style="background:rgba(255,255,255,.1);color:#fff;border:1.5px solid rgba(255,255,255,.2);padding:.8rem 1.8rem;border-radius:var(--radius-md);font-weight:600;font-size:.9rem;">Installation uniquement →</a>
+    </div>
+  </div>
+</div>
+
+<!-- BOUTIQUE -->
+<section class="section" id="produits">
+  <div class="container">
+    <div class="shop-layout">
+
+      <!-- FILTRES -->
+      <aside class="filters-panel scroll-reveal">
+        <h3>Filtrer</h3>
+        <div class="filter-group">
+          <div class="filter-group-title">Taille</div>
+          <label class="filter-option"><input type="checkbox" value="7"  onchange="applyFilters()"> 7 pouces</label>
+          <label class="filter-option"><input type="checkbox" value="9"  onchange="applyFilters()"> 9 pouces</label>
+          <label class="filter-option"><input type="checkbox" value="10" onchange="applyFilters()"> 10 pouces</label>
+          <label class="filter-option"><input type="checkbox" value="12" onchange="applyFilters()"> 12 pouces</label>
+        </div>
+        <div class="filter-group">
+          <div class="filter-group-title">Compatibilité</div>
+          <label class="filter-option"><input type="checkbox" value="carplay" onchange="applyFilters()"> Apple CarPlay</label>
+          <label class="filter-option"><input type="checkbox" value="android" onchange="applyFilters()"> Android Auto</label>
+          <label class="filter-option"><input type="checkbox" value="wifi"    onchange="applyFilters()"> Sans fil</label>
+          <label class="filter-option"><input type="checkbox" value="camera"  onchange="applyFilters()"> Caméra incluse</label>
+        </div>
+        <div class="filter-group">
+          <div class="filter-group-title">Budget max</div>
+          <div class="price-range">
+            <input type="range" id="priceRange" min="100" max="800" value="800" step="10" oninput="updatePriceLabel(this.value)">
+            <div class="price-labels"><span>100€</span><span id="priceLabel">800€</span></div>
+          </div>
+        </div>
+        <button class="btn btn-outline btn-sm" style="width:100%;justify-content:center;margin-top:.3rem;" onclick="resetFilters()">Réinitialiser</button>
+      </aside>
+
+      <!-- PRODUITS -->
+      <div>
+        <div class="products-header scroll-reveal">
+          <div class="products-count" id="productsCount">6 produits</div>
+          <div class="products-sort">
+            <select onchange="sortProducts(this.value)">
+              <option value="default">Trier par défaut</option>
+              <option value="price-asc">Prix croissant</option>
+              <option value="price-desc">Prix décroissant</option>
+              <option value="popular">Popularité</option>
+            </select>
+          </div>
+        </div>
+        <div class="products-grid" id="productsGrid"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GARANTIES -->
+<section class="section section-alt">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:2.5rem;" class="scroll-reveal">
+      <div class="eyebrow" style="justify-content:center;"><span>Engagements</span></div>
+      <h2 class="display">Achetez en confiance</h2>
+      <div class="divider-orange center"></div>
+    </div>
+    <div class="garanties-grid">
+      <div class="garantie-card scroll-reveal delay-1"><div class="garantie-ico">🛡️</div><div class="garantie-title">Garantie 2 ans</div><div class="garantie-desc">Pièces et main-d'œuvre incluses sur tous nos écrans.</div></div>
+      <div class="garantie-card scroll-reveal delay-2"><div class="garantie-ico">🔧</div><div class="garantie-title">Pose à domicile</div><div class="garantie-desc">Techniciens certifiés — IDF, Oise (60), Aisne (02).</div></div>
+      <div class="garantie-card scroll-reveal delay-3"><div class="garantie-ico">💳</div><div class="garantie-title">Paiement sécurisé</div><div class="garantie-desc">PayPal et carte bancaire. Facture PDF par email.</div></div>
+      <div class="garantie-card scroll-reveal delay-4"><div class="garantie-ico">↩️</div><div class="garantie-title">Retour 14 jours</div><div class="garantie-desc">Produit non ouvert et non installé — remboursement sans condition.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:2.5rem;" class="scroll-reveal">
+      <div class="eyebrow" style="justify-content:center;"><span>FAQ</span></div>
+      <h2 class="display">Questions fréquentes</h2>
+      <div class="divider-orange center"></div>
+    </div>
+    <div class="faq-list scroll-reveal">
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Est-ce compatible avec mon véhicule ?<span class="faq-arrow">▾</span></div><div class="faq-a">Nos écrans sont universels et compatibles avec la quasi-totalité des véhicules. En cas de doute, envoyez-nous votre modèle et l'année — on confirme avant commande.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Puis-je commander sans installation ?<span class="faq-arrow">▾</span></div><div class="faq-a">Oui. Vous recevez le matériel par livraison et installez vous-même. La garantie pose ne s'applique que si l'installation est faite par AutoZent.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Durée d'une installation ?<span class="faq-arrow">▾</span></div><div class="faq-a">Entre 1h30 et 3h selon le modèle de véhicule. Le technicien vient chez vous — aucun déplacement de votre part.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Comment est expédié le produit ?<span class="faq-arrow">▾</span></div><div class="faq-a">Commande sans installation : expédition sous 2-3 jours ouvrés (Colissimo). Avec installation : le technicien apporte le matériel le jour de l'intervention.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Vais-je recevoir une facture ?<span class="faq-arrow">▾</span></div><div class="faq-a">Oui. Une facture PDF est générée automatiquement et envoyée par email immédiatement après le paiement.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">CarPlay sans fil — compatible avec tous les iPhones ?<span class="faq-arrow">▾</span></div><div class="faq-a">Compatible iPhone 5 et supérieur sous iOS 7.1 minimum. Pour Android Auto sans fil : Android 11 minimum.</div></div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- MODAL PAIEMENT -->
+<div class="modal-overlay" id="modalPay">
+  <div class="modal-box pay-box">
+    <button class="modal-close" onclick="closeModal('modalPay')">×</button>
+    <div id="payDetail">
+      <h3 style="font-family:var(--font-titre);font-size:1.4rem;font-weight:800;margin-bottom:1.2rem;">Finaliser la commande</h3>
+
+      <!-- RÉSUMÉ PANIER -->
+      <div style="background:var(--gris-1);border-radius:var(--radius-md);padding:1rem;margin-bottom:1.2rem;max-height:200px;overflow-y:auto;" id="payCartSummary"></div>
+
+      <!-- INFOS CLIENT -->
+      <div class="form-group"><label>Nom complet *</label><input type="text" id="buyerName" required placeholder="Jean Dupont"></div>
+      <div class="form-group"><label>Email * (pour la facture)</label><input type="email" id="buyerEmail" required placeholder="jean@email.com"></div>
+      <div class="form-group"><label>Téléphone</label><input type="tel" id="buyerPhone" placeholder="06 12 34 56 78"></div>
+
+      <!-- TOTAL -->
+      <div style="background:var(--orange-bg);border:1px solid rgba(244,96,12,.2);border-radius:var(--radius-md);padding:.9rem 1.2rem;display:flex;justify-content:space-between;align-items:center;margin-bottom:1.2rem;">
+        <span style="font-size:.85rem;color:var(--gris-5);">Total TTC</span>
+        <span style="font-family:var(--font-titre);font-size:1.8rem;font-weight:800;color:var(--orange);" id="payTotal">0€</span>
+      </div>
+
+      <!-- PAYPAL -->
+      <div id="paypalContainer"></div>
+      <div class="pay-divider">ou payer par carte</div>
+      <button class="btn-card" onclick="payByCard()">💳 Payer par carte bancaire</button>
+      <p style="text-align:center;font-size:.7rem;color:var(--gris-4);margin-top:.5rem;">🔒 Paiement sécurisé SSL</p>
+    </div>
+
+    <!-- SUCCÈS -->
+    <div class="order-success" id="orderSuccess">
+      <div class="ico">✅</div>
+      <h3 style="font-family:var(--font-titre);font-size:1.6rem;margin-bottom:.4rem;">Commande confirmée !</h3>
+      <p style="font-size:.88rem;color:var(--gris-5);">Facture envoyée à <strong id="orderEmail"></strong></p>
+      <div class="order-ref" id="orderRef"></div>
+      <p style="font-size:.82rem;color:var(--gris-5);margin-top:.8rem;">On vous contacte sous <strong>24h</strong> pour l'installation ou la livraison.</p>
+      <button class="btn btn-primary" style="margin-top:1.2rem;" onclick="closeModal('modalPay');clearCart();">Fermer</button>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div><div class="footer-logo">Auto<span>Zent</span></div><p class="footer-desc" data-i18n="footer_desc">Spécialistes High-Tech Auto & Mobile — IDF, Oise, Aisne.</p></div>
+    <div class="footer-col"><h4>Pages</h4><ul><li><a href="index.html">Accueil</a></li><li><a href="services.html">Services</a></li><li><a href="boutique.html">Boutique</a></li><li><a href="realisations.html">Réalisations</a></li><li><a href="rdv.html">Rendez-vous</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    <div class="footer-col"><h4>Boutique</h4><ul><li><a href="boutique.html">CarPlay 7"</a></li><li><a href="boutique.html">CarPlay 9"</a></li><li><a href="boutique.html">CarPlay 10"</a></li><li><a href="boutique.html">CarPlay 12"</a></li></ul></div>
+      <div class="footer-col"><h4>Contact</h4><ul><li><a href="contact.html">📞 +33 7 49 15 02 61</a></li><li><a href="https://wa.me/+33 7 49 15 02 61" target="_blank">💬 WhatsApp</a></li><li><a href="https://instagram.com/autozent_services" target="_blank">📸 Instagram</a></li></ul></div>
+    </div>
+  <div class="footer-bottom">
+    <p>© 2025 AutoZent Services. · <a href="#" style="color:var(--gris-4);">CGV</a> · <a href="#" style="color:var(--gris-4);">Mentions légales</a></p>
+    <div class="footer-socials"><a href="https://wa.me/+33 7 49 15 02 61" class="social-btn" target="_blank">💬</a><a href="https://instagram.com/autozent_services" class="social-btn" target="_blank">📸</a></div>
+  </div>
+</footer>
+
+<script src="i18n.js"></script>
+<script src="app.js"></script>
+<script>
+const INSTALL_PRICE = 170;
+const PRODUCTS = [
+  { id:1, brand:'AutoZent', name:'Autoradio CarPlay 7" Sans Fil', taille:7, price:179, oldPrice:null, badge:'new', compat:['carplay','android','wifi'], tags:['CarPlay SF','Android Auto SF','GPS','BT 5.0'], desc:'Écran 7" — CarPlay et Android Auto sans fil. GPS intégré. Compatible tous véhicules.', specs:{'Taille':'7"','Résolution':'1024×600','CarPlay':'Sans fil','Android Auto':'Sans fil','GPS':'Intégré','RAM/ROM':'2Go/32Go','Bluetooth':'5.0'}, popular:3 },
+  { id:2, brand:'AutoZent', name:'Autoradio CarPlay 9" Sans Fil', taille:9, price:229, oldPrice:279, badge:'bestseller', compat:['carplay','android','wifi'], tags:['CarPlay SF','Android Auto SF','HD','GPS'], desc:'Notre meilleur vendeur. Écran 9" HD — CarPlay et Android Auto sans fil. Entrée caméra recul intégrée.', specs:{'Taille':'9"','Résolution':'1280×720 HD','CarPlay':'Sans fil','Android Auto':'Sans fil','Caméra recul':'Entrée intégrée','RAM/ROM':'2Go/32Go','Bluetooth':'5.0'}, popular:10 },
+  { id:3, brand:'AutoZent Pro', name:'Autoradio CarPlay 10" + Caméra HD', taille:10, price:319, oldPrice:null, badge:'promo', compat:['carplay','android','wifi','camera'], tags:['CarPlay SF','Android Auto SF','Caméra HD incluse','Octa-core'], desc:'Pack complet : écran 10" + caméra de recul HD offerte. Processeur octa-core, 4Go RAM.', specs:{'Taille':'10.1"','Résolution':'1280×800 HD','CarPlay':'Sans fil','Android Auto':'Sans fil','Caméra recul':'Incluse HD','RAM/ROM':'4Go/64Go','Processeur':'Octa-core'}, popular:8 },
+  { id:4, brand:'AutoZent Pro', name:'Autoradio CarPlay 12" Panoramique', taille:12, price:449, oldPrice:549, badge:null, compat:['carplay','android','wifi'], tags:['Full HD','CarPlay SF','6Go RAM','DSP Audio'], desc:'Écran panoramique 12.3" Full HD. DSP audio intégré. Idéal SUV et berlines premium.', specs:{'Taille':'12.3"','Résolution':'1920×720 Full HD','CarPlay':'Sans fil','Android Auto':'Sans fil','RAM/ROM':'6Go/128Go','DSP Audio':'Intégré','Processeur':'Octa-core 2GHz'}, popular:5 },
+  { id:5, brand:'AutoZent', name:'Autoradio CarPlay 9" + DAB+', taille:9, price:269, oldPrice:null, badge:null, compat:['carplay','android','wifi'], tags:['CarPlay SF','Android Auto SF','DAB+'], desc:'Écran 9" avec radio numérique DAB+ intégrée. Réception parfaite, sans parasites.', specs:{'Taille':'9"','Résolution':'1280×720 HD','CarPlay':'Sans fil','Android Auto':'Sans fil','DAB+':'Intégré','RAM/ROM':'3Go/32Go'}, popular:4 },
+  { id:6, brand:'AutoZent Pro', name:'Autoradio CarPlay 10" 4G SIM', taille:10, price:379, oldPrice:null, badge:'new', compat:['carplay','android','wifi'], tags:['CarPlay SF','Android Auto SF','4G SIM','Hotspot WiFi'], desc:'Slot SIM 4G intégré. Transformez votre voiture en hotspot WiFi. Connexion permanente sans partage téléphone.', specs:{'Taille':'10.1"','Résolution':'1280×800 HD','CarPlay':'Sans fil','Android Auto':'Sans fil','4G SIM':'Slot intégré','WiFi Hotspot':'Oui','RAM/ROM':'4Go/64Go'}, popular:6 },
+];
+
+/* ════════ PANIER ════════ */
+let cart = JSON.parse(localStorage.getItem('az_cart') || '[]');
+
+function saveCart() { localStorage.setItem('az_cart', JSON.stringify(cart)); }
+
+function addToCart(productId, withInstall = false) {
+  const p = PRODUCTS.find(x => x.id === productId);
+  if (!p) return;
+  const key = `${productId}_${withInstall ? 'install' : 'seul'}`;
+  const existing = cart.find(i => i.key === key);
+  if (existing) {
+    existing.qty++;
+  } else {
+    cart.push({
+      key,
+      productId,
+      name: p.name,
+      option: withInstall ? 'Avec installation' : 'Produit seul',
+      unitPrice: withInstall ? p.price + INSTALL_PRICE : p.price,
+      qty: 1,
+    });
+  }
+  saveCart();
+  renderCart();
+  // Flash animation
+  const btn = document.querySelector(`[data-add="${productId}"]${withInstall ? '[data-install]' : ':not([data-install])'}`) ;
+  if (btn) { btn.textContent = '✅ Ajouté !'; setTimeout(() => { btn.textContent = withInstall ? '+ Avec install' : '🛒 Ajouter'; }, 1200); }
+  // Open drawer briefly
+  openCartDrawer();
+}
+
+function removeFromCart(key) {
+  cart = cart.filter(i => i.key !== key);
+  saveCart();
+  renderCart();
+}
+
+function changeQty(key, delta) {
+  const item = cart.find(i => i.key === key);
+  if (!item) return;
+  item.qty += delta;
+  if (item.qty <= 0) { removeFromCart(key); return; }
+  saveCart();
+  renderCart();
+}
+
+function clearCart() {
+  cart = [];
+  saveCart();
+  renderCart();
+}
+
+function getCartTotal() { return cart.reduce((s, i) => s + i.unitPrice * i.qty, 0); }
+function getCartCount() { return cart.reduce((s, i) => s + i.qty, 0); }
+
+function renderCart() {
+  const body  = document.getElementById('cartBody');
+  const empty = document.getElementById('cartEmpty');
+  const footer= document.getElementById('cartFooter');
+  const count = document.getElementById('cartCount');
+  const badge = document.getElementById('cartCount');
+  const total = getCartTotal();
+  const n     = getCartCount();
+
+  // Badge nav
+  badge.textContent = n;
+  badge.classList.toggle('hidden', n === 0);
+
+  if (cart.length === 0) {
+    if (empty) empty.style.display = 'block';
+    footer.style.display = 'none';
+    body.innerHTML = '';
+    body.appendChild(empty);
+    return;
+  }
+
+  if (empty) empty.style.display = 'none';
+  footer.style.display = 'block';
+
+  body.innerHTML = cart.map(item => `
+    <div class="cart-item">
+      <div class="cart-item-img">📱</div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-opt">${item.option}</div>
+        <div class="cart-item-controls">
+          <button class="qty-btn" onclick="changeQty('${item.key}',-1)">−</button>
+          <span class="qty-val">${item.qty}</span>
+          <button class="qty-btn" onclick="changeQty('${item.key}',1)">+</button>
+          <button class="cart-item-remove" onclick="removeFromCart('${item.key}')">🗑 Supprimer</button>
+        </div>
+      </div>
+      <div class="cart-item-price">${(item.unitPrice * item.qty)}€</div>
+    </div>
+  `).join('');
+
+  document.getElementById('cartItemCount').textContent = `${n} article${n > 1 ? 's' : ''}`;
+  document.getElementById('cartTotal').textContent = total + '€';
+}
+
+function openCartDrawer() {
+  document.getElementById('cartDrawer').classList.add('open');
+  document.getElementById('cartOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function toggleCart(e) {
+  e.preventDefault();
+  const drawer = document.getElementById('cartDrawer');
+  const overlay= document.getElementById('cartOverlay');
+  const isOpen = drawer.classList.contains('open');
+  if (isOpen) {
+    drawer.classList.remove('open');
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  } else {
+    openCartDrawer();
+  }
+}
+
+/* ════════ CHECKOUT ════════ */
+function goToCheckout() {
+  if (cart.length === 0) { toast('Votre panier est vide.', 'err'); return; }
+  // Fermer le drawer
+  document.getElementById('cartDrawer').classList.remove('open');
+  document.getElementById('cartOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+  // Remplir le modal paiement
+  const summary = document.getElementById('payCartSummary');
+  summary.innerHTML = cart.map(i =>
+    `<div style="display:flex;justify-content:space-between;font-size:.82rem;padding:.3rem 0;border-bottom:1px solid var(--gris-2);">
+      <span>${i.name} <span style="color:var(--gris-4);">× ${i.qty}</span> <span style="font-size:.72rem;color:var(--gris-4);">(${i.option})</span></span>
+      <strong>${i.unitPrice * i.qty}€</strong>
+    </div>`
+  ).join('') + `<div style="display:flex;justify-content:space-between;font-size:.9rem;padding:.5rem 0;font-weight:700;"><span>Total</span><span style="color:var(--orange);">${getCartTotal()}€</span></div>`;
+  document.getElementById('payTotal').textContent = getCartTotal() + '€';
+  document.getElementById('orderSuccess').style.display = 'none';
+  document.getElementById('payDetail').style.display = 'block';
+  renderPaypal();
+  openModal('modalPay');
+}
+
+/* ════════ PAYPAL ════════ */
+function renderPaypal() {
+  const container = document.getElementById('paypalContainer');
+  container.innerHTML = '<div id="paypal-btn-wrap"></div>';
+  if (typeof paypal_sdk === 'undefined') {
+    container.innerHTML = `<p style="font-size:.75rem;color:var(--gris-4);text-align:center;">⚠️ PayPal SDK non chargé — configurez votre Client ID dans boutique.html ligne 5.</p>`;
+    return;
+  }
+  const total = getCartTotal();
+  const desc  = cart.map(i => `${i.name} ×${i.qty}`).join(', ');
+  paypal_sdk.Buttons({
+    style: { layout:'horizontal', color:'gold', shape:'rect', label:'paypal', height:42 },
+    createOrder(data, actions) {
+      const name = document.getElementById('buyerName').value.trim();
+      const email= document.getElementById('buyerEmail').value.trim();
+      if (!name || !email) { toast('Renseignez votre nom et email avant de payer.','err'); return Promise.reject(); }
+      return actions.order.create({
+        purchase_units: [{ description: desc, amount: { value: total.toFixed(2), currency_code:'EUR' } }]
+      });
+    },
+    onApprove(data, actions) {
+      return actions.order.capture().then(details => {
+        showOrderSuccess(details.payer.email_address, details.payer.name.given_name + ' ' + details.payer.name.surname, details.id);
+      });
+    },
+    onError() { toast('Erreur PayPal. Réessayez ou payez par carte.','err'); }
+  }).render('#paypal-btn-wrap');
+}
+
+function payByCard() {
+  const name  = document.getElementById('buyerName').value.trim();
+  const email = document.getElementById('buyerEmail').value.trim();
+  if (!name || !email) { toast('Renseignez votre nom et email avant de payer.','err'); return; }
+  // Simulation — intégrer Stripe ou Revolut Business ici
+  toast('Redirection vers le paiement sécurisé...','ok');
+  setTimeout(() => showOrderSuccess(email, name, 'CARD-' + Date.now()), 1200);
+}
+
+function showOrderSuccess(email, name, orderId) {
+  const ref = 'AZ-' + Date.now().toString(36).toUpperCase();
+  document.getElementById('orderEmail').textContent = email;
+  document.getElementById('orderRef').textContent   = 'Réf : ' + ref;
+  document.getElementById('payDetail').style.display  = 'none';
+  document.getElementById('orderSuccess').style.display = 'block';
+  generateInvoice({ name, email, orderId: ref });
+}
+
+function generateInvoice({ name, email, orderId }) {
+  const date = new Date().toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'});
+  const rows = cart.map(i =>
+    `<tr><td>${i.name} (${i.option})</td><td>${i.qty}</td><td>${i.unitPrice}€</td><td>${i.unitPrice*i.qty}€</td></tr>`
+  ).join('');
+  const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Facture ${orderId}</title>
+  <style>body{font-family:sans-serif;max-width:700px;margin:40px auto;font-size:14px;color:#222;}
+  .logo{font-size:22px;font-weight:900;}.logo span{color:#F4600C;}
+  table{width:100%;border-collapse:collapse;margin:20px 0;}
+  th{background:#F4600C;color:#fff;padding:9px;text-align:left;font-size:13px;}
+  td{padding:9px;border-bottom:1px solid #eee;font-size:13px;}
+  .total td{font-weight:700;background:#FFF4EE;}
+  .footer{margin-top:30px;border-top:1px solid #eee;padding-top:14px;color:#999;font-size:12px;}
+  @media print{body{margin:20px;}}</style></head><body>
+  <div style="display:flex;justify-content:space-between;margin-bottom:30px;">
+    <div><div class="logo">Auto<span>Zent</span> Services</div><div style="color:#777;font-size:13px;margin-top:4px;">High-Tech Auto & Mobile — IDF, Oise, Aisne</div></div>
+    <div style="text-align:right;"><div style="font-size:16px;font-weight:700;color:#F4600C;">FACTURE</div><div style="color:#777;font-size:13px;">N° ${orderId}<br>${date}</div></div>
+  </div>
+  <div style="margin-bottom:20px;"><strong>Facturé à :</strong><br>${name}<br>${email}</div>
+  <table><thead><tr><th>Description</th><th>Qté</th><th>P.U.</th><th>Total</th></tr></thead>
+  <tbody>${rows}<tr class="total"><td colspan="3" style="text-align:right;">TOTAL TTC</td><td>${getCartTotal()}€</td></tr></tbody></table>
+  <p style="font-size:12px;color:#777;">TVA non applicable — Art. 293 B du CGI</p>
+  <div class="footer">AutoZent Services · contact@autozent.fr · Merci pour votre confiance !</div>
+  </body></html>`;
+  const w = window.open('','_blank');
+  if (w) { w.document.write(html); w.document.close(); setTimeout(()=>w.print(),500); }
+}
+
+/* ════════ GRILLE PRODUITS ════════ */
+function renderProducts(list) {
+  const grid = document.getElementById('productsGrid');
+  document.getElementById('productsCount').textContent = `${list.length} produit${list.length>1?'s':''}`;
+  grid.innerHTML = list.map(p => `
+    <div class="product-card">
+      ${p.badge?`<div class="product-badge ${p.badge}">${p.badge==='new'?'Nouveau':p.badge==='promo'?'Promo':'Best-seller'}</div>`:''}
+      <div class="product-img-wrap"><div class="product-img-placeholder">📱</div></div>
+      <div class="product-body">
+        <div class="product-brand">${p.brand}</div>
+        <div class="product-name">${p.name}</div>
+        <div class="product-specs">${p.tags.map(t=>`<span class="spec-tag">${t}</span>`).join('')}</div>
+        <div class="product-desc" style="font-size:.8rem;color:var(--gris-5);margin-bottom:.8rem;">${p.desc}</div>
+        <div class="product-price-row">
+          <span class="product-price">${p.price}€</span>
+          ${p.oldPrice?`<span class="product-price-old">${p.oldPrice}€</span>`:''}
+        </div>
+        <div style="font-size:.72rem;color:var(--gris-4);margin-bottom:.9rem;">+ ${INSTALL_PRICE}€ avec installation à domicile</div>
+        <div class="product-actions">
+          <button class="btn-add-cart" data-add="${p.id}" onclick="addToCart(${p.id},false)">🛒 Ajouter</button>
+          <button class="btn-add-install" data-add="${p.id}" data-install onclick="addToCart(${p.id},true)">+ Avec install</button>
+          <button class="btn-details-sm" onclick="showDetails(${p.id})">Voir les détails</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function showDetails(id) {
+  const p = PRODUCTS.find(x => x.id === id);
+  if (!p) return;
+  const rows = Object.entries(p.specs).map(([k,v]) => `<tr><td style="font-weight:600;width:45%;padding:.4rem .3rem;border-bottom:1px solid var(--gris-2);font-size:.82rem;">${k}</td><td style="padding:.4rem .3rem;border-bottom:1px solid var(--gris-2);font-size:.82rem;color:var(--gris-5);">${v}</td></tr>`).join('');
+  const w = window.open('','_blank');
+  if (w) w.document.write(`<html><body style="font-family:sans-serif;max-width:600px;margin:30px auto;padding:20px;">
+    <h2 style="font-weight:800;margin-bottom:8px;">${p.name}</h2>
+    <p style="color:#666;margin-bottom:16px;">${p.desc}</p>
+    <table style="width:100%;border-collapse:collapse;"><tbody>${rows}</tbody></table>
+    <div style="margin-top:20px;font-size:1.4rem;font-weight:800;color:#F4600C;">${p.price}€ <span style="font-size:.9rem;font-weight:400;color:#999;">+ ${INSTALL_PRICE}€ avec installation</span></div>
+    </body></html>`);
+}
+
+/* FILTRES */
+function applyFilters() {
+  const tailles = [...document.querySelectorAll('input[value="7"],input[value="9"],input[value="10"],input[value="12"]')].filter(c=>c.checked).map(c=>+c.value);
+  const compats = [...document.querySelectorAll('input[value="carplay"],input[value="android"],input[value="wifi"],input[value="camera"]')].filter(c=>c.checked).map(c=>c.value);
+  const max     = +document.getElementById('priceRange').value;
+  renderProducts(PRODUCTS.filter(p => {
+    if (tailles.length && !tailles.includes(p.taille)) return false;
+    if (compats.length && !compats.every(c=>p.compat.includes(c))) return false;
+    if (p.price > max) return false;
+    return true;
+  }));
+}
+function updatePriceLabel(v) { document.getElementById('priceLabel').textContent=v+'€'; applyFilters(); }
+function resetFilters() {
+  document.querySelectorAll('.filters-panel input[type=checkbox]').forEach(c=>c.checked=false);
+  document.getElementById('priceRange').value=800;
+  document.getElementById('priceLabel').textContent='800€';
+  renderProducts(PRODUCTS);
+}
+function sortProducts(v) {
+  let list=[...PRODUCTS];
+  if (v==='price-asc')  list.sort((a,b)=>a.price-b.price);
+  if (v==='price-desc') list.sort((a,b)=>b.price-a.price);
+  if (v==='popular')    list.sort((a,b)=>b.popular-a.popular);
+  renderProducts(list);
+}
+
+/* FAQ */
+function toggleFaq(el) {
+  const a = el.nextElementSibling;
+  const open = el.classList.contains('open');
+  document.querySelectorAll('.faq-q').forEach(q=>{q.classList.remove('open');q.nextElementSibling.classList.remove('open');});
+  if (!open) { el.classList.add('open'); a.classList.add('open'); }
+}
+
+/* INIT */
+document.addEventListener('DOMContentLoaded', () => {
+  renderProducts(PRODUCTS);
+  renderCart();
+});
+</script>
+</body>
+</html>

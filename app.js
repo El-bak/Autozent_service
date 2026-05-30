@@ -174,3 +174,56 @@ function toast(msg, type = 'ok') {
 function padZ(n) { return String(n).padStart(2, '0'); }
 function dateToStr(d) { return `${d.getFullYear()}-${padZ(d.getMonth()+1)}-${padZ(d.getDate())}`; }
 function todayStr() { return dateToStr(new Date()); }
+
+/* ════════════════════════════════════════
+   OVERRIDE LOGIN — Essaye Django d'abord,
+   retombe sur les comptes locaux si offline
+════════════════════════════════════════ */
+AUTH._originalLogin = AUTH.login.bind(AUTH);
+AUTH.login = async function(name, pass) {
+  // 1. Essayer Django
+  try {
+    const djangoUser = await tryDjangoLogin(name, pass);
+    if (djangoUser) {
+      // Stocker comme user local pour compatibilité
+      localStorage.setItem('az_user', JSON.stringify({
+        name: djangoUser.name,
+        role: djangoUser.role,
+        djangoId: djangoUser.djangoId,
+        ts: Date.now(),
+        useDjango: true
+      }));
+      return { name: djangoUser.name };
+    }
+  } catch(e) { /* backend offline */ }
+  // 2. Fallback local
+  return this._originalLogin(name, pass);
+};
+
+/* ════════════════════════════════════════
+   RDV PUBLIC → envoie au backend Django si disponible
+   Sinon stocke en localStorage
+════════════════════════════════════════ */
+async function submitRdvPublic(data) {
+  try {
+    const ok = await API.createRdvPublic(data);
+    if (ok) return { ok: true, source: 'django' };
+  } catch(e) { /* offline */ }
+  // Fallback local
+  DB.addRdv({ ...data, technicien: 'Non assigné', heure: '09:00' });
+  return { ok: true, source: 'local' };
+}
+
+/* ════════════════════════════════════════
+   RÉALISATIONS → charge depuis Django si dispo
+════════════════════════════════════════ */
+async function loadRealisations(service = '') {
+  try {
+    const data = await API.getRealisations(service);
+    if (data && (data.results || Array.isArray(data))) {
+      return Array.isArray(data) ? data : data.results;
+    }
+  } catch(e) { /* offline */ }
+  // Fallback local
+  return DB.getReals();
+}

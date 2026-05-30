@@ -34,6 +34,7 @@
     <li><a href="index.html" data-i18n="nav_home">Accueil</a></li>
     <li><a href="services.html" data-i18n="nav_services">Services</a></li>
     <li><a href="realisations.html" data-i18n="nav_realisations">Réalisations</a></li>
+    <li><a href="boutique.html">Boutique</a></li>
     <li><a href="rdv.html" data-i18n="nav_rdv">Rendez-vous</a></li>
     <li><a href="contact.html" data-i18n="nav_contact">Contact</a></li>
     <li><a href="agenda.html" data-i18n="nav_agenda">Espace équipe</a></li>
@@ -67,7 +68,7 @@
             <div class="info-card"><div class="info-card-ico">✅</div><div><strong>C'est terminé</strong><p>Vous vérifiez le travail et payez une fois satisfait. Garantie incluse.</p></div></div>
           </div>
           <div style="margin-top:2rem;padding:1.5rem;background:var(--orange-bg);border-radius:var(--radius-md);border:1px solid rgba(244,96,12,.15);">
-            <p style="font-size:.88rem;color:var(--orange-dk);font-weight:500;">📍 Zone de déplacement : <strong>toute l'Île-de-France</strong> — 75, 77, 78, 91, 92, 93, 94, 95</p>
+            <p style="font-size:.88rem;color:var(--orange-dk);font-weight:500;">📍 Zone de déplacement : <strong>Île-de-France</strong> (75, 77, 78, 91, 92, 93, 94, 95) · <strong>Oise</strong> (60) · <strong>Aisne</strong> (02)<br><span style="font-weight:400;margin-top:.3rem;display:block;">Angy, Creil, Senlis, Compiègne, Laon, Soissons et toutes les villes alentour</span></p>
           </div>
         </div>
 
@@ -141,6 +142,30 @@
                   </div>
                 </div>
                 <div class="form-group"><label data-i18n="rdv_ville">Ville / Code postal *</label><input type="text" id="fVille" required placeholder="Ex: Boulogne-Billancourt 92100"></div>
+
+                <!-- PHOTO INTÉRIEUR -->
+                <div class="form-group">
+                  <label>Photo de l'intérieur du véhicule *
+                    <span style="font-size:.75rem;font-weight:400;color:var(--gris-4);margin-left:.3rem;">(tableau de bord / console centrale)</span>
+                  </label>
+                  <div id="photoIntZone" style="border:2px dashed var(--gris-3);border-radius:var(--radius-md);padding:1.8rem;text-align:center;cursor:pointer;transition:all .2s;background:var(--gris-1);"
+                    onclick="document.getElementById('fPhotoInt').click()"
+                    ondragover="event.preventDefault();this.style.borderColor='var(--orange)';this.style.background='var(--orange-bg)'"
+                    ondragleave="this.style.borderColor='var(--gris-3)';this.style.background='var(--gris-1)'"
+                    ondrop="handlePhotoDrop(event)">
+                    <input type="file" id="fPhotoInt" accept="image/*" style="display:none" onchange="previewPhotoInt(this)">
+                    <div id="photoIntPlaceholder">
+                      <div style="font-size:2rem;margin-bottom:.5rem;">📸</div>
+                      <p style="font-size:.88rem;color:var(--gris-5);font-weight:500;margin-bottom:.2rem;">Cliquez ou glissez une photo</p>
+                      <p style="font-size:.75rem;color:var(--gris-4);">JPG, PNG — Max 10 Mo</p>
+                    </div>
+                    <img id="photoIntPreview" style="display:none;width:100%;max-height:200px;object-fit:cover;border-radius:var(--radius-sm);">
+                  </div>
+                  <p style="font-size:.75rem;color:var(--gris-4);margin-top:.4rem;">
+                    ℹ️ Obligatoire — Cette photo permet à notre technicien de préparer votre intervention avant de se déplacer.
+                  </p>
+                </div>
+
                 <div class="msg-ok" id="rdvOk" data-i18n="rdv_ok"></div>
                 <div class="msg-err" id="rdvErr" data-i18n="rdv_err"></div>
                 <div style="display:flex;justify-content:space-between;margin-top:.5rem;">
@@ -159,11 +184,12 @@
 <footer>
   <div class="footer-inner">
     <div><div class="footer-logo">Auto<span>Zent</span></div><p class="footer-desc" data-i18n="footer_desc">Spécialistes High-Tech Auto & Mobile en Île-de-France.</p></div>
-    <div class="footer-col"><h4 data-i18n="footer_pages">Pages</h4><ul><li><a href="index.html" data-i18n="nav_home">Accueil</a></li><li><a href="services.html" data-i18n="nav_services">Services</a></li><li><a href="realisations.html" data-i18n="nav_realisations">Réalisations</a></li><li><a href="rdv.html" data-i18n="nav_rdv">Rendez-vous</a></li><li><a href="contact.html" data-i18n="nav_contact">Contact</a></li></ul></div>
-    <div class="footer-col"><h4 data-i18n="footer_contact_title">Contact</h4><ul><li><a href="contact.html">📞 06 00 00 00 00</a></li><li><a href="https://wa.me/33600000000" target="_blank">💬 WhatsApp</a></li><li><a href="https://instagram.com/autozent_services" target="_blank">📸 Instagram</a></li></ul></div>
+    <div class="footer-col"><h4 data-i18n="footer_pages">Pages</h4><ul><li><a href="index.html" data-i18n="nav_home">Accueil</a></li><li><a href="services.html" data-i18n="nav_services">Services</a></li><li><a href="realisations.html" data-i18n="nav_realisations">Réalisations</a></li><li><a href="boutique.html">Boutique</a></li>
+    <li><a href="rdv.html" data-i18n="nav_rdv">Rendez-vous</a></li><li><a href="contact.html" data-i18n="nav_contact">Contact</a></li></ul></div>
+    <div class="footer-col"><h4 data-i18n="footer_contact_title">Contact</h4><ul><li><a href="contact.html">📞 +33 7 49 15 02 61</a></li><li><a href="https://wa.me/+33 7 49 15 02 61" target="_blank">💬 WhatsApp</a></li><li><a href="https://instagram.com/autozent_services" target="_blank">📸 Instagram</a></li></ul></div>
     <div class="footer-col"><h4 data-i18n="footer_idf">Zone</h4><ul><li><a href="#">Paris</a></li><li><a href="#">92 · 93 · 94</a></li><li><a href="#">78 · 91 · 95 · 77</a></li></ul></div>
   </div>
-  <div class="footer-bottom"><p data-i18n="footer_copy">© 2025 AutoZent Services.</p><div class="footer-socials"><a href="https://wa.me/33600000000" class="social-btn" target="_blank">💬</a><a href="https://instagram.com/autozent_services" class="social-btn" target="_blank">📸</a></div></div>
+  <div class="footer-bottom"><p data-i18n="footer_copy">© 2025 AutoZent Services.</p><div class="footer-socials"><a href="https://wa.me/+33 7 49 15 02 61" class="social-btn" target="_blank">💬</a><a href="https://instagram.com/autozent_services" class="social-btn" target="_blank">📸</a></div></div>
 </footer>
 
 <script src="i18n.js"></script>
@@ -171,6 +197,35 @@
 <script>
 // Date min = today
 document.getElementById('fDate').min = new Date().toISOString().split('T')[0];
+
+// ── PHOTO INTÉRIEUR ──
+function previewPhotoInt(input) {
+  if (!input.files[0]) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    document.getElementById('photoIntPreview').src = e.target.result;
+    document.getElementById('photoIntPreview').style.display = 'block';
+    document.getElementById('photoIntPlaceholder').style.display = 'none';
+    document.getElementById('photoIntZone').style.borderColor = 'var(--orange)';
+    document.getElementById('photoIntZone').style.background = 'var(--orange-bg)';
+  };
+  reader.readAsDataURL(input.files[0]);
+}
+
+function handlePhotoDrop(e) {
+  e.preventDefault();
+  const zone = document.getElementById('photoIntZone');
+  zone.style.borderColor = 'var(--gris-3)';
+  zone.style.background = 'var(--gris-1)';
+  const file = e.dataTransfer.files[0];
+  if (file && file.type.startsWith('image/')) {
+    // Simuler l'input file
+    const dt = new DataTransfer();
+    dt.items.add(file);
+    document.getElementById('fPhotoInt').files = dt.files;
+    previewPhotoInt(document.getElementById('fPhotoInt'));
+  }
+}
 
 // Step navigation
 function goStep(n) {
@@ -181,8 +236,14 @@ function goStep(n) {
     const vehicule = document.getElementById('fVehicule').value.trim();
     if (!prenom || !tel || !vehicule) { toast('Veuillez remplir tous les champs obligatoires.', 'err'); return; }
   }
-  // validate step 2
-  if (n > 2) {
+  // validate step 3 (photo obligatoire)
+  if (n > 3) {
+    const photo = document.getElementById('fPhotoInt').files[0];
+    const ville = document.getElementById('fVille').value.trim();
+    const date  = document.getElementById('fDate').value;
+    if (!ville || !date) { toast('Veuillez remplir la ville et la date.', 'err'); return; }
+    if (!photo) { toast('Veuillez ajouter une photo de l\'intérieur du véhicule.', 'err'); document.getElementById('photoIntZone').style.borderColor='#ef4444'; return; }
+  }
     if (!document.getElementById('fService').value) { toast('Veuillez choisir un service.', 'err'); return; }
   }
   [1,2,3].forEach(i => {
