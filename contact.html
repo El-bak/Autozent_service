@@ -31,6 +31,8 @@
 .hours-time.closed{color:var(--gris-4);font-style:italic;}
 @media(max-width:900px){.contact-layout{grid-template-columns:1fr;gap:2.5rem;}.page-hero{padding:5rem 1.5rem 3rem;}}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>emailjs.init('3GTOeanMbCRz39RC9');</script>
 </head>
 <body>
 <nav>
@@ -68,12 +70,12 @@
           <h2 style="font-family:var(--font-titre);font-size:1.8rem;font-weight:700;margin-bottom:.6rem;">Nous joindre</h2>
           <div class="divider-orange"></div>
           <div class="contact-cards">
-            <a href="tel:+33 7 49 15 02 61" class="contact-card">
+            <a href="tel:+33 7 77 51 75 30" class="contact-card">
               <div class="contact-card-ico phone">📞</div>
-              <div><strong data-i18n="contact_call">Appel direct</strong><span data-i18n="contact_call_d">Disponible 7j/7 — +33 7 49 15 02 61</span></div>
+              <div><strong data-i18n="contact_call">Appel direct</strong><span data-i18n="contact_call_d">Disponible 7j/7 — +33 7 77 51 75 30</span></div>
               <span class="arrow">→</span>
             </a>
-            <a href="https://wa.me/+33 7 49 15 02 61" class="contact-card" target="_blank" rel="noopener">
+            <a href="https://wa.me/+33 7 77 51 75 30" class="contact-card" target="_blank" rel="noopener">
               <div class="contact-card-ico wa">💬</div>
               <div><strong data-i18n="contact_wa">WhatsApp</strong><span data-i18n="contact_wa_d">Message ou vocal, réponse rapide</span></div>
               <span class="arrow">→</span>
@@ -157,10 +159,10 @@
     <div><div class="footer-logo">Auto<span>Zent</span></div><p class="footer-desc" data-i18n="footer_desc">Spécialistes High-Tech Auto & Mobile en Île-de-France.</p></div>
     <div class="footer-col"><h4 data-i18n="footer_pages">Pages</h4><ul><li><a href="index.html" data-i18n="nav_home">Accueil</a></li><li><a href="services.html" data-i18n="nav_services">Services</a></li><li><a href="realisations.html" data-i18n="nav_realisations">Réalisations</a></li><li><a href="boutique.html">Boutique</a></li>
     <li><a href="rdv.html" data-i18n="nav_rdv">Rendez-vous</a></li><li><a href="contact.html" data-i18n="nav_contact">Contact</a></li></ul></div>
-    <div class="footer-col"><h4 data-i18n="footer_contact_title">Contact</h4><ul><li><a href="tel:+33 7 49 15 02 61">📞 +33 7 49 15 02 61</a></li><li><a href="https://wa.me/+33 7 49 15 02 61" target="_blank">💬 WhatsApp</a></li><li><a href="https://instagram.com/autozent_services" target="_blank">📸 Instagram</a></li></ul></div>
+    <div class="footer-col"><h4 data-i18n="footer_contact_title">Contact</h4><ul><li><a href="tel:+33 7 77 51 75 30">📞 +33 7 77 51 75 30</a></li><li><a href="https://wa.me/+33 7 77 51 75 30" target="_blank">💬 WhatsApp</a></li><li><a href="https://instagram.com/autozent_services" target="_blank">📸 Instagram</a></li></ul></div>
     <div class="footer-col"><h4 data-i18n="footer_idf">Zone</h4><ul><li><a href="#">Paris & IDF</a></li><li><a href="#">92 · 93 · 94</a></li><li><a href="#">78 · 91 · 95 · 77</a></li><li><a href="#">Oise (60) · Aisne (02)</a></li><li><a href="#">Angy · Creil · Senlis</a></li></ul></div>
   </div>
-  <div class="footer-bottom"><p data-i18n="footer_copy">© 2025 AutoZent Services.</p><div class="footer-socials"><a href="https://wa.me/+33 7 49 15 02 61" class="social-btn" target="_blank">💬</a><a href="https://instagram.com/autozent_services" class="social-btn" target="_blank">📸</a></div></div>
+  <div class="footer-bottom"><p data-i18n="footer_copy">© 2025 AutoZent Services.</p><div class="footer-socials"><a href="https://wa.me/+33 7 77 51 75 30" class="social-btn" target="_blank">💬</a><a href="https://instagram.com/autozent_services" class="social-btn" target="_blank">📸</a></div></div>
 </footer>
 
 <script src="i18n.js"></script>
@@ -172,15 +174,25 @@ document.getElementById('contactForm').addEventListener('submit', async function
   btn.disabled = true;
   btn.innerHTML = '⏳ Envoi...';
 
-  // Simulate (replace with EmailJS)
-  await new Promise(r => setTimeout(r, 900));
-
-  document.getElementById('cOk').style.display = 'block';
-  document.getElementById('cErr').style.display = 'none';
-  btn.innerHTML = '✅ Envoyé !';
-  toast('✅ Message envoyé ! On vous répond au plus vite.');
-  this.reset();
+   try {
+    await emailjs.send('service_jv1m59n', 'template_contact', {
+      nom:          document.getElementById('cNom').value,
+      contact_info: document.getElementById('cInfo').value,
+      sujet:        document.getElementById('cSujet').value,
+      message:      document.getElementById('cMsg').value,
+    });
+    document.getElementById('cOk').style.display = 'block';
+    document.getElementById('cErr').style.display = 'none';
+    btn.innerHTML = '✅ Envoyé !';
+    toast('✅ Message envoyé ! On vous répond au plus vite.');
+    this.reset();
+  } catch(err) {
+    document.getElementById('cErr').style.display = 'block';
+    btn.disabled = false;
+    btn.innerHTML = '✉️ Envoyer';
+  }
 });
 </script>
+<script src="cart.js"></script>
 </body>
 </html>

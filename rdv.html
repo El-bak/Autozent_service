@@ -26,6 +26,8 @@
 @media(max-width:900px){.rdv-layout{grid-template-columns:1fr;gap:2rem;}.select-grid{grid-template-columns:repeat(2,1fr);}.page-hero{padding:5rem 1.5rem 3rem;}}
 @media(max-width:480px){.select-grid{grid-template-columns:1fr 1fr;}.rdv-form-wrap{padding:1.5rem;}}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>emailjs.init('3GTOeanMbCRz39RC9');</script>
 </head>
 <body>
 <nav>
@@ -186,10 +188,10 @@
     <div><div class="footer-logo">Auto<span>Zent</span></div><p class="footer-desc" data-i18n="footer_desc">Spécialistes High-Tech Auto & Mobile en Île-de-France.</p></div>
     <div class="footer-col"><h4 data-i18n="footer_pages">Pages</h4><ul><li><a href="index.html" data-i18n="nav_home">Accueil</a></li><li><a href="services.html" data-i18n="nav_services">Services</a></li><li><a href="realisations.html" data-i18n="nav_realisations">Réalisations</a></li><li><a href="boutique.html">Boutique</a></li>
     <li><a href="rdv.html" data-i18n="nav_rdv">Rendez-vous</a></li><li><a href="contact.html" data-i18n="nav_contact">Contact</a></li></ul></div>
-    <div class="footer-col"><h4 data-i18n="footer_contact_title">Contact</h4><ul><li><a href="contact.html">📞 +33 7 49 15 02 61</a></li><li><a href="https://wa.me/+33 7 49 15 02 61" target="_blank">💬 WhatsApp</a></li><li><a href="https://instagram.com/autozent_services" target="_blank">📸 Instagram</a></li></ul></div>
+    <div class="footer-col"><h4 data-i18n="footer_contact_title">Contact</h4><ul><li><a href="contact.html">📞 +33 7 77 51 75 30</a></li><li><a href="https://wa.me/+33 7 77 51 75 30" target="_blank">💬 WhatsApp</a></li><li><a href="https://instagram.com/autozent_services" target="_blank">📸 Instagram</a></li></ul></div>
     <div class="footer-col"><h4 data-i18n="footer_idf">Zone</h4><ul><li><a href="#">Paris</a></li><li><a href="#">92 · 93 · 94</a></li><li><a href="#">78 · 91 · 95 · 77</a></li></ul></div>
   </div>
-  <div class="footer-bottom"><p data-i18n="footer_copy">© 2025 AutoZent Services.</p><div class="footer-socials"><a href="https://wa.me/+33 7 49 15 02 61" class="social-btn" target="_blank">💬</a><a href="https://instagram.com/autozent_services" class="social-btn" target="_blank">📸</a></div></div>
+  <div class="footer-bottom"><p data-i18n="footer_copy">© 2025 AutoZent Services.</p><div class="footer-socials"><a href="https://wa.me/+33 7 77 51 75 30" class="social-btn" target="_blank">💬</a><a href="https://instagram.com/autozent_services" class="social-btn" target="_blank">📸</a></div></div>
 </footer>
 
 <script src="i18n.js"></script>
@@ -229,22 +231,21 @@ function handlePhotoDrop(e) {
 
 // Step navigation
 function goStep(n) {
-  // validate step 1
   if (n > 1) {
     const prenom = document.getElementById('fPrenom').value.trim();
-    const tel = document.getElementById('fTel').value.trim();
+    const tel    = document.getElementById('fTel').value.trim();
     const vehicule = document.getElementById('fVehicule').value.trim();
     if (!prenom || !tel || !vehicule) { toast('Veuillez remplir tous les champs obligatoires.', 'err'); return; }
   }
-  // validate step 3 (photo obligatoire)
+  if (n > 2) {
+    if (!document.getElementById('fService').value) { toast('Veuillez choisir un service.', 'err'); return; }
+  }
   if (n > 3) {
     const photo = document.getElementById('fPhotoInt').files[0];
     const ville = document.getElementById('fVille').value.trim();
     const date  = document.getElementById('fDate').value;
     if (!ville || !date) { toast('Veuillez remplir la ville et la date.', 'err'); return; }
     if (!photo) { toast('Veuillez ajouter une photo de l\'intérieur du véhicule.', 'err'); document.getElementById('photoIntZone').style.borderColor='#ef4444'; return; }
-  }
-    if (!document.getElementById('fService').value) { toast('Veuillez choisir un service.', 'err'); return; }
   }
   [1,2,3].forEach(i => {
     document.getElementById('step'+i).style.display = i===n ? 'block' : 'none';
@@ -266,6 +267,17 @@ document.getElementById('rdvForm').addEventListener('submit', async function(e) 
   btn.disabled = true;
   btn.innerHTML = '⏳ Envoi...';
 
+// Convertir la photo en base64
+  let photoBase64 = '';
+  const photoFile = document.getElementById('fPhotoInt').files[0];
+  if (photoFile) {
+    photoBase64 = await new Promise(resolve => {
+      const reader = new FileReader();
+      reader.onload = e => resolve(e.target.result);
+      reader.readAsDataURL(photoFile);
+    });
+  }
+
   const rdv = {
     client: document.getElementById('fPrenom').value + ' ' + document.getElementById('fNom').value,
     telephone: document.getElementById('fTel').value,
@@ -276,18 +288,33 @@ document.getElementById('rdvForm').addEventListener('submit', async function(e) 
     creneau: document.getElementById('fCreneau').value,
     ville: document.getElementById('fVille').value,
     notes: document.getElementById('fDetails').value,
+    photoInterieur: photoBase64,
     technicien: 'Non assigné',
     heure: '09:00',
   };
 
-  // Simulate send (replace with EmailJS in production)
-  await new Promise(r => setTimeout(r, 1000));
-  DB.addRdv(rdv);
-
-  document.getElementById('rdvOk').style.display = 'block';
-  btn.innerHTML = '✅ Envoyé !';
-  toast('✅ Votre demande a bien été envoyée !');
+  try {
+    await emailjs.send('service_jv1m59n', 'template_rdv', {
+      client:    rdv.client,
+      telephone: rdv.telephone,
+      vehicule:  rdv.vehicule,
+      service:   rdv.service,
+      date:      rdv.date,
+      creneau:   rdv.creneau,
+      ville:     rdv.ville,
+      notes:     rdv.notes,
+    });
+    DB.addRdv(rdv);
+    document.getElementById('rdvOk').style.display = 'block';
+    btn.innerHTML = '✅ Envoyé !';
+    toast('✅ Votre demande a bien été envoyée !');
+  } catch(err) {
+    document.getElementById('rdvErr').style.display = 'block';
+    btn.disabled = false;
+    btn.innerHTML = '📅 Envoyer ma demande';
+  }
 });
 </script>
+<script src="cart.js"></script>
 </body>
 </html>

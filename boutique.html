@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Boutique CarPlay — AutoZent Services</title>
 <link rel="stylesheet" href="style.css">
-<script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&currency=EUR&locale=fr_FR" data-namespace="paypal_sdk"></script>
+<script src="https://www.paypal.com/sdk/js?client-id=Abqu6FdE3XYNkDDW-SvqOcNVitZBPRFMX7amxS02Ol-LpMGRgJ4X_JYDPvouN5Hjf2V5jr-avclGuIak&currency=EUR&locale=fr_FR" data-namespace="paypal_sdk"></script>
 <style>
 /* CART ICON IN NAV */
 .cart-btn{position:relative;background:var(--orange);color:#fff;border:none;border-radius:var(--radius-md);padding:.4rem .9rem;font-size:.85rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:.4rem;transition:background .2s;text-decoration:none;}
@@ -361,11 +361,11 @@
     <div><div class="footer-logo">Auto<span>Zent</span></div><p class="footer-desc" data-i18n="footer_desc">Spécialistes High-Tech Auto & Mobile — IDF, Oise, Aisne.</p></div>
     <div class="footer-col"><h4>Pages</h4><ul><li><a href="index.html">Accueil</a></li><li><a href="services.html">Services</a></li><li><a href="boutique.html">Boutique</a></li><li><a href="realisations.html">Réalisations</a></li><li><a href="rdv.html">Rendez-vous</a></li><li><a href="contact.html">Contact</a></li></ul></div>
     <div class="footer-col"><h4>Boutique</h4><ul><li><a href="boutique.html">CarPlay 7"</a></li><li><a href="boutique.html">CarPlay 9"</a></li><li><a href="boutique.html">CarPlay 10"</a></li><li><a href="boutique.html">CarPlay 12"</a></li></ul></div>
-      <div class="footer-col"><h4>Contact</h4><ul><li><a href="contact.html">📞 +33 7 49 15 02 61</a></li><li><a href="https://wa.me/+33 7 49 15 02 61" target="_blank">💬 WhatsApp</a></li><li><a href="https://instagram.com/autozent_services" target="_blank">📸 Instagram</a></li></ul></div>
+      <div class="footer-col"><h4>Contact</h4><ul><li><a href="contact.html">📞 +33 7 77 51 75 30</a></li><li><a href="https://wa.me/+33 7 77 51 75 30" target="_blank">💬 WhatsApp</a></li><li><a href="https://instagram.com/autozent_services" target="_blank">📸 Instagram</a></li></ul></div>
     </div>
   <div class="footer-bottom">
     <p>© 2025 AutoZent Services. · <a href="#" style="color:var(--gris-4);">CGV</a> · <a href="#" style="color:var(--gris-4);">Mentions légales</a></p>
-    <div class="footer-socials"><a href="https://wa.me/+33 7 49 15 02 61" class="social-btn" target="_blank">💬</a><a href="https://instagram.com/autozent_services" class="social-btn" target="_blank">📸</a></div>
+    <div class="footer-socials"><a href="https://wa.me/+33 7 77 51 75 30" class="social-btn" target="_blank">💬</a><a href="https://instagram.com/autozent_services" class="social-btn" target="_blank">📸</a></div>
   </div>
 </footer>
 
@@ -557,9 +557,60 @@ function payByCard() {
   const name  = document.getElementById('buyerName').value.trim();
   const email = document.getElementById('buyerEmail').value.trim();
   if (!name || !email) { toast('Renseignez votre nom et email avant de payer.','err'); return; }
-  // Simulation — intégrer Stripe ou Revolut Business ici
-  toast('Redirection vers le paiement sécurisé...','ok');
-  setTimeout(() => showOrderSuccess(email, name, 'CARD-' + Date.now()), 1200);
+
+  // Créer le modal carte
+  const existing = document.getElementById('modalCarte');
+  if (existing) existing.remove();
+
+  const modal = document.createElement('div');
+  modal.id = 'modalCarte';
+  modal.className = 'modal-overlay open';
+  modal.innerHTML = `
+    <div class="modal-box" style="max-width:420px;">
+      <button class="modal-close" onclick="document.getElementById('modalCarte').remove()">×</button>
+      <h3 style="font-family:var(--font-titre);font-size:1.3rem;font-weight:800;margin-bottom:1.2rem;">💳 Paiement par carte</h3>
+      <div class="form-group">
+        <label>Numéro de carte *</label>
+        <input type="text" id="cardNum" maxlength="19" placeholder="1234 5678 9012 3456"
+          oninput="this.value=this.value.replace(/[^0-9]/g,'').replace(/(.{4})/g,'$1 ').trim()">
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+        <div class="form-group">
+          <label>Date d'expiration *</label>
+          <input type="text" id="cardExp" maxlength="5" placeholder="MM/AA"
+            oninput="this.value=this.value.replace(/[^0-9]/g,'').replace(/^(.{2})(.+)/,'$1/$2')">
+        </div>
+        <div class="form-group">
+          <label>CVV *</label>
+          <input type="text" id="cardCvv" maxlength="3" placeholder="123"
+            oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Nom sur la carte *</label>
+        <input type="text" id="cardName" placeholder="JEAN DUPONT">
+      </div>
+      <p style="font-size:.72rem;color:var(--gris-4);text-align:center;margin-bottom:1rem;">🔒 Paiement sécurisé SSL</p>
+      <button class="btn-buy" onclick="submitCardPayment('${name}','${email}')">
+        Payer ${getCartTotal()}€
+      </button>
+    </div>`;
+  modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+  document.body.appendChild(modal);
+}
+
+function submitCardPayment(name, email) {
+  const num  = document.getElementById('cardNum')?.value.replace(/\s/g,'');
+  const exp  = document.getElementById('cardExp')?.value;
+  const cvv  = document.getElementById('cardCvv')?.value;
+  const cname= document.getElementById('cardName')?.value;
+  if (!num || num.length < 16 || !exp || !cvv || !cname) {
+    toast('Remplissez tous les champs carte.','err'); return;
+  }
+  document.getElementById('modalCarte')?.remove();
+  // ⚠️ Ici : intégrer Stripe ou Revolut Business pour le vrai débit
+  // Pour l'instant : confirmation de commande
+  showOrderSuccess(email, name, 'CARD-' + Date.now());
 }
 
 function showOrderSuccess(email, name, orderId) {
@@ -630,14 +681,36 @@ function renderProducts(list) {
 function showDetails(id) {
   const p = PRODUCTS.find(x => x.id === id);
   if (!p) return;
-  const rows = Object.entries(p.specs).map(([k,v]) => `<tr><td style="font-weight:600;width:45%;padding:.4rem .3rem;border-bottom:1px solid var(--gris-2);font-size:.82rem;">${k}</td><td style="padding:.4rem .3rem;border-bottom:1px solid var(--gris-2);font-size:.82rem;color:var(--gris-5);">${v}</td></tr>`).join('');
-  const w = window.open('','_blank');
-  if (w) w.document.write(`<html><body style="font-family:sans-serif;max-width:600px;margin:30px auto;padding:20px;">
-    <h2 style="font-weight:800;margin-bottom:8px;">${p.name}</h2>
-    <p style="color:#666;margin-bottom:16px;">${p.desc}</p>
-    <table style="width:100%;border-collapse:collapse;"><tbody>${rows}</tbody></table>
-    <div style="margin-top:20px;font-size:1.4rem;font-weight:800;color:#F4600C;">${p.price}€ <span style="font-size:.9rem;font-weight:400;color:#999;">+ ${INSTALL_PRICE}€ avec installation</span></div>
-    </body></html>`);
+  const rows = Object.entries(p.specs).map(([k,v]) =>
+    `<tr><td style="font-weight:600;width:45%;padding:.5rem .3rem;border-bottom:1px solid var(--gris-2);font-size:.83rem;">${k}</td>
+     <td style="padding:.5rem .3rem;border-bottom:1px solid var(--gris-2);font-size:.83rem;color:var(--gris-5);">${v}</td></tr>`
+  ).join('');
+
+  // Créer un modal temporaire
+  const existing = document.getElementById('modalDetails');
+  if (existing) existing.remove();
+
+  const modal = document.createElement('div');
+  modal.id = 'modalDetails';
+  modal.className = 'modal-overlay open';
+  modal.innerHTML = `
+    <div class="modal-box" style="max-width:540px;">
+      <button class="modal-close" onclick="document.getElementById('modalDetails').remove()">×</button>
+      <div class="product-brand" style="margin-bottom:.3rem;">${p.brand}</div>
+      <h3 style="font-family:var(--font-titre);font-size:1.4rem;font-weight:800;margin-bottom:.5rem;">${p.name}</h3>
+      <p style="font-size:.88rem;color:var(--gris-5);margin-bottom:1.2rem;">${p.desc}</p>
+      <table style="width:100%;border-collapse:collapse;margin-bottom:1.2rem;"><tbody>${rows}</tbody></table>
+      <div style="display:flex;align-items:baseline;gap:.5rem;margin-bottom:1.5rem;">
+        <span style="font-family:var(--font-titre);font-size:1.6rem;font-weight:800;color:var(--orange);">${p.price}€</span>
+        <span style="font-size:.82rem;color:var(--gris-4);">+ ${INSTALL_PRICE}€ avec installation</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;">
+        <button class="btn-add-cart" onclick="document.getElementById('modalDetails').remove();addToCart(${p.id},false)">🛒 Ajouter</button>
+        <button class="btn-add-install" onclick="document.getElementById('modalDetails').remove();addToCart(${p.id},true)">+ Avec install</button>
+      </div>
+    </div>`;
+  modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+  document.body.appendChild(modal);
 }
 
 /* FILTRES */

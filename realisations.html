@@ -61,6 +61,9 @@
       <button class="lang-btn" data-lang="fr">FR</button><button class="lang-btn" data-lang="en">EN</button><button class="lang-btn" data-lang="ar">AR</button><button class="lang-btn" data-lang="zh">中</button>
     </div>
   </ul>
+  <a href="boutique.html" id="navCartLink" style="position:relative;background:var(--orange);color:#fff;border-radius:8px;padding:.4rem .9rem;font-size:.85rem;font-weight:600;text-decoration:none;display:flex;align-items:center;gap:.4rem;">
+  🛒 Panier<span id="navCartBadge" style="display:none;background:#fff;color:var(--orange);font-size:.65rem;font-weight:800;border-radius:50%;width:18px;height:18px;align-items:center;justify-content:center;position:absolute;top:-6px;right:-6px;">0</span>
+</a>
   <div id="hamburger" class="hamburger"><span></span><span></span><span></span></div>
 </nav>
 
@@ -164,10 +167,10 @@
     <div><div class="footer-logo">Auto<span>Zent</span></div><p class="footer-desc" data-i18n="footer_desc">Spécialistes High-Tech Auto & Mobile en Île-de-France.</p></div>
     <div class="footer-col"><h4 data-i18n="footer_pages">Pages</h4><ul><li><a href="index.html" data-i18n="nav_home">Accueil</a></li><li><a href="services.html" data-i18n="nav_services">Services</a></li><li><a href="realisations.html" data-i18n="nav_realisations">Réalisations</a></li><li><a href="boutique.html">Boutique</a></li>
     <li><a href="rdv.html" data-i18n="nav_rdv">Rendez-vous</a></li><li><a href="contact.html" data-i18n="nav_contact">Contact</a></li></ul></div>
-    <div class="footer-col"><h4 data-i18n="footer_contact_title">Contact</h4><ul><li><a href="contact.html">📞 +33 7 49 15 02 61</a></li><li><a href="https://wa.me/+33 7 49 15 02 61" target="_blank">💬 WhatsApp</a></li><li><a href="https://instagram.com/autozent_services" target="_blank">📸 Instagram</a></li></ul></div>
+    <div class="footer-col"><h4 data-i18n="footer_contact_title">Contact</h4><ul><li><a href="contact.html">📞 +33 7 77 51 75 30</a></li><li><a href="https://wa.me/+33 7 77 51 75 30" target="_blank">💬 WhatsApp</a></li><li><a href="https://instagram.com/autozent_services" target="_blank">📸 Instagram</a></li></ul></div>
     <div class="footer-col"><h4 data-i18n="footer_idf">Zone</h4><ul><li><a href="#">Paris</a></li><li><a href="#">92 · 93 · 94</a></li><li><a href="#">78 · 91 · 95 · 77</a></li></ul></div>
   </div>
-  <div class="footer-bottom"><p data-i18n="footer_copy">© 2025 AutoZent Services.</p><div class="footer-socials"><a href="https://wa.me/+33 7 49 15 02 61" class="social-btn" target="_blank">💬</a><a href="https://instagram.com/autozent_services" class="social-btn" target="_blank">📸</a></div></div>
+  <div class="footer-bottom"><p data-i18n="footer_copy">© 2025 AutoZent Services.</p><div class="footer-socials"><a href="https://wa.me/+33 7 77 51 75 30" class="social-btn" target="_blank">💬</a><a href="https://instagram.com/autozent_services" class="social-btn" target="_blank">📸</a></div></div>
 </footer>
 
 <script src="i18n.js"></script>
@@ -346,5 +349,6 @@ function checkTeam() {
 document.addEventListener('DOMContentLoaded', () => { checkTeam(); renderGrid(); });
 window.addEventListener('langchange', () => { renderGrid(); });
 </script>
+<script src="cart.js"></script>
 </body>
 </html>

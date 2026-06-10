@@ -5,7 +5,7 @@ const I18N = {
     nav_home: "Accueil",
     nav_services: "Services",
     nav_realisations: "Réalisations",
-    nav_boutique: "Accesoires",
+    nav_boutique: "Boutique",
     nav_rdv: "Rendez-vous",
     nav_contact: "Contact",
     nav_agenda: "Espace équipe",

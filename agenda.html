@@ -248,7 +248,7 @@
     <div><div class="footer-logo">Auto<span>Zent</span></div><p class="footer-desc" data-i18n="footer_desc">Spécialistes High-Tech Auto & Mobile en Île-de-France.</p></div>
     <div class="footer-col"><h4 data-i18n="footer_pages">Pages</h4><ul><li><a href="index.html" data-i18n="nav_home">Accueil</a></li><li><a href="services.html" data-i18n="nav_services">Services</a></li><li><a href="realisations.html" data-i18n="nav_realisations">Réalisations</a></li><li><a href="boutique.html">Boutique</a></li>
     <li><a href="rdv.html" data-i18n="nav_rdv">Rendez-vous</a></li><li><a href="contact.html" data-i18n="nav_contact">Contact</a></li></ul></div>
-    <div class="footer-col"><h4 data-i18n="footer_contact_title">Contact</h4><ul><li><a href="contact.html">📞 +33 7 49 15 02 61</a></li><li><a href="https://wa.me/33600000000" target="_blank">💬 WhatsApp</a></li><li><a href="https://instagram.com/autozent_services" target="_blank">📸 Instagram</a></li></ul></div>
+    <div class="footer-col"><h4 data-i18n="footer_contact_title">Contact</h4><ul><li><a href="contact.html">📞 +33 7 77 51 75 30</a></li><li><a href="https://wa.me/33600000000" target="_blank">💬 WhatsApp</a></li><li><a href="https://instagram.com/autozent_services" target="_blank">📸 Instagram</a></li></ul></div>
     <div class="footer-col"><h4 data-i18n="footer_idf">Zone</h4><ul><li><a href="#">Paris</a></li><li><a href="#">92 · 93 · 94</a></li><li><a href="#">78 · 91 · 95 · 77</a></li></ul></div>
   </div>
   <div class="footer-bottom"><p data-i18n="footer_copy">© 2025 AutoZent Services.</p><div class="footer-socials"><a href="https://wa.me/33600000000" class="social-btn" target="_blank">💬</a><a href="https://instagram.com/autozent_services" class="social-btn" target="_blank">📸</a></div></div>
@@ -432,11 +432,71 @@ document.getElementById('addRdvForm').addEventListener('submit', e => {
 
 // ─── RDV DETAIL ───
 function showRdvDetail(id) {
-  const rdvs = DB.getRdvs();
-  const r = rdvs.find(x => x.id===id);
+  const r = DB.getRdvs().find(x => x.id === id);
   if (!r) return;
-  const msg = `📋 Intervention\n\nClient : ${r.client}\nVéhicule : ${r.vehicule||'—'}\nService : ${r.service||'—'}\nTechnicien : ${r.technicien||'—'}\nDate : ${r.date||'—'} ${r.heure||''}\nVille : ${r.ville||'—'}\nNotes : ${r.notes||'—'}\n\nSupprimer cette intervention ?`;
-  if (confirm(msg)) { DB.deleteRdv(id); renderCalendar(); renderInbox(); }
+
+  const existing = document.getElementById('modalRdvDetail');
+  if (existing) existing.remove();
+
+  const modal = document.createElement('div');
+  modal.id = 'modalRdvDetail';
+  modal.className = 'modal-overlay open';
+  modal.innerHTML = `
+    <div class="modal-box" style="max-width:560px;">
+      <button class="modal-close" onclick="document.getElementById('modalRdvDetail').remove()">×</button>
+      <h3 style="font-family:var(--font-titre);font-size:1.4rem;font-weight:800;color:var(--orange);margin-bottom:1.5rem;">📋 Détail intervention</h3>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:1.2rem;">
+        <div style="background:var(--gris-1);border-radius:var(--radius-sm);padding:.8rem;">
+          <div style="font-size:.7rem;color:var(--gris-4);margin-bottom:.2rem;text-transform:uppercase;letter-spacing:1px;">Client</div>
+          <div style="font-weight:600;font-size:.9rem;">${r.client || '—'}</div>
+          ${r.telephone ? `<div style="font-size:.8rem;color:var(--gris-5);">${r.telephone}</div>` : ''}
+        </div>
+        <div style="background:var(--gris-1);border-radius:var(--radius-sm);padding:.8rem;">
+          <div style="font-size:.7rem;color:var(--gris-4);margin-bottom:.2rem;text-transform:uppercase;letter-spacing:1px;">Véhicule</div>
+          <div style="font-weight:600;font-size:.9rem;">${r.vehicule || '—'}</div>
+        </div>
+        <div style="background:var(--gris-1);border-radius:var(--radius-sm);padding:.8rem;">
+          <div style="font-size:.7rem;color:var(--gris-4);margin-bottom:.2rem;text-transform:uppercase;letter-spacing:1px;">Service</div>
+          <div style="font-weight:600;font-size:.9rem;">${r.service || '—'}</div>
+        </div>
+        <div style="background:var(--gris-1);border-radius:var(--radius-sm);padding:.8rem;">
+          <div style="font-size:.7rem;color:var(--gris-4);margin-bottom:.2rem;text-transform:uppercase;letter-spacing:1px;">Date & Heure</div>
+          <div style="font-weight:600;font-size:.9rem;">${r.date || '—'} ${r.heure || ''}</div>
+        </div>
+        <div style="background:var(--gris-1);border-radius:var(--radius-sm);padding:.8rem;">
+          <div style="font-size:.7rem;color:var(--gris-4);margin-bottom:.2rem;text-transform:uppercase;letter-spacing:1px;">Ville</div>
+          <div style="font-weight:600;font-size:.9rem;">${r.ville || '—'}</div>
+        </div>
+        <div style="background:var(--gris-1);border-radius:var(--radius-sm);padding:.8rem;">
+          <div style="font-size:.7rem;color:var(--gris-4);margin-bottom:.2rem;text-transform:uppercase;letter-spacing:1px;">Technicien</div>
+          <div style="font-weight:600;font-size:.9rem;color:var(--orange);">${r.technicien || 'Non assigné'}</div>
+        </div>
+      </div>
+
+      ${r.notes ? `
+      <div style="background:var(--gris-1);border-radius:var(--radius-sm);padding:.8rem;margin-bottom:1.2rem;">
+        <div style="font-size:.7rem;color:var(--gris-4);margin-bottom:.3rem;text-transform:uppercase;letter-spacing:1px;">Notes</div>
+        <div style="font-size:.88rem;color:var(--gris-5);">${r.notes}</div>
+      </div>` : ''}
+
+      ${r.photoInterieur ? `
+      <div style="margin-bottom:1.5rem;">
+        <div style="font-size:.7rem;color:var(--gris-4);margin-bottom:.5rem;text-transform:uppercase;letter-spacing:1px;">📸 Photo intérieur du véhicule</div>
+        <img src="${r.photoInterieur}" style="width:100%;max-height:260px;object-fit:cover;border-radius:var(--radius-md);border:1px solid var(--gris-2);">
+      </div>` : `
+      <div style="background:#FFF4EE;border:1px dashed rgba(244,96,12,.3);border-radius:var(--radius-sm);padding:1rem;text-align:center;margin-bottom:1.5rem;">
+        <p style="font-size:.83rem;color:var(--orange-dk);">📸 Aucune photo fournie par le client</p>
+      </div>`}
+
+      <div style="display:flex;justify-content:space-between;gap:1rem;">
+        <button onclick="document.getElementById('modalRdvDetail').remove()" class="btn btn-outline">Fermer</button>
+        <button onclick="document.getElementById('modalRdvDetail').remove();if(confirm('Supprimer cette intervention ?')){DB.deleteRdv(${r.id});renderCalendar();renderInbox();}" class="btn" style="background:#fee2e2;color:#ef4444;border:1.5px solid #fca5a5;">🗑 Supprimer</button>
+      </div>
+    </div>`;
+
+  modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+  document.body.appendChild(modal);
 }
 
 // ─── INBOX ───
@@ -497,5 +557,6 @@ function deleteInboxRdv(id) {
   if (confirm('Supprimer cette demande de RDV ?')) { DB.deleteRdv(id); renderCalendar(); renderInbox(); }
 }
 </script>
+<script src="cart.js"></script>
 </body>
 </html>
