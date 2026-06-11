@@ -263,6 +263,14 @@ let weekOffset = 0;
 let filterTech = 'Tous';
 let currentUser = null;
 
+const TECH_COLORS = {
+  'Admin':   { bg: '#374151', text: '#fff' },
+  'Ankil':   { bg: '#EF4444', text: '#fff' },
+  'Karim':   { bg: '#3B82F6', text: '#fff' },
+  'Youssef': { bg: '#8B5CF6', text: '#fff' },
+  'Ahmed':   { bg: '#10B981', text: '#fff' },
+};
+
 // ─── INIT ───
 document.addEventListener('DOMContentLoaded', () => {
   currentUser = AUTH.getUser();
@@ -272,6 +280,8 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('aDate').min = new Date().toISOString().split('T')[0];
   document.getElementById('assignDate').min = new Date().toISOString().split('T')[0];
 });
+
+function isAdmin() { return currentUser?.role === 'admin'; }
 
 function populateMemberHints() {
   const hints = document.getElementById('memberHints');
@@ -285,13 +295,13 @@ function populateMemberHints() {
 }
 
 // ─── LOGIN ───
-document.getElementById('loginForm').addEventListener('submit', e => {
+document.getElementById('loginForm').addEventListener('submit', async e => {
   e.preventDefault();
   const nom = document.getElementById('loginNom').value;
   const pass = document.getElementById('loginPass').value;
-  const user = AUTH.login(nom, pass);
+  const user = await AUTH.login(nom, pass);
   if (user) {
-    currentUser = { name: user.name, ts: Date.now() };
+    currentUser = AUTH.getUser();
     showAgenda();
   } else {
     const errEl = document.getElementById('loginErr');
@@ -323,12 +333,15 @@ function showAgenda() {
 
 // ─── TECH BADGES ───
 function getAllTechs() {
-  return ['Tous', ...AUTH.MEMBERS.map(m => m.name)];
+  const techs = AUTH.MEMBERS.filter(m => m.role === 'tech').map(m => m.name);
+  return isAdmin() ? ['Tous', ...techs] : [currentUser.name];
 }
 
 function renderTechBadges() {
+  const techs = AUTH.MEMBERS.filter(m => m.role === 'tech').map(m => m.name);
+  const options = isAdmin() ? ['Tous', ...techs] : ['Tous', ...techs];
   const container = document.getElementById('techBadges');
-  container.innerHTML = getAllTechs().map(t =>
+  container.innerHTML = options.map(t =>
     `<button class="filter-btn ${filterTech===t?'active':''}" onclick="setTechFilter('${t}')">${t}</button>`
   ).join('');
 }
@@ -340,7 +353,7 @@ function setTechFilter(t) {
 }
 
 function populateTechSelects() {
-  const techs = AUTH.MEMBERS.map(m => m.name);
+  const techs = AUTH.MEMBERS.filter(m => m.role === 'tech').map(m => m.name);
   ['aTech','assignTech'].forEach(id => {
     const sel = document.getElementById(id);
     if (!sel) return;
@@ -380,14 +393,16 @@ function renderCalendar() {
     const isToday = ds===today;
     const dayRdvs = rdvs.filter(r => {
       if (r.date !== ds) return false;
-      if (filterTech==='Tous') return true;
-      return r.technicien===filterTech;
+      if (isAdmin()) return true;
+      if (filterTech === 'Tous') return r.technicien !== 'Admin';
+      return r.technicien === filterTech;
     });
     const events = dayRdvs.map(r => {
-      const isMine = r.technicien===currentUser.name;
       const isPending = !r.technicien || r.technicien==='Non assigné';
-      const cls = isPending?'pending':isMine?'mine':'other';
-      return `<div class="cal-event ${cls}" onclick="showRdvDetail(${r.id})" title="${r.client} — ${r.service}">
+      const color = TECH_COLORS[r.technicien];
+      const styleAttr = !isPending && color ? `style="background:${color.bg};color:${color.text};"` : '';
+      const cls = isPending ? 'pending' : '';
+      return `<div class="cal-event ${cls}" ${styleAttr} onclick="showRdvDetail(${r.id})" title="${r.client} — ${r.service}">
         ${r.heure?r.heure+' ':''}${r.client}<br><span style="font-weight:400;opacity:.8;">${r.service||''}${r.technicien&&r.technicien!=='Non assigné'?' · '+r.technicien:''}</span>
       </div>`;
     }).join('');
@@ -489,14 +504,61 @@ function showRdvDetail(id) {
         <p style="font-size:.83rem;color:var(--orange-dk);">📸 Aucune photo fournie par le client</p>
       </div>`}
 
-      <div style="display:flex;justify-content:space-between;gap:1rem;">
+      <div style="display:flex;justify-content:space-between;gap:.5rem;flex-wrap:wrap;">
         <button onclick="document.getElementById('modalRdvDetail').remove()" class="btn btn-outline">Fermer</button>
+        <button onclick="document.getElementById('modalRdvDetail').remove();openReportRdv(${r.id})" class="btn btn-primary btn-sm">📅 Reporter</button>
         <button onclick="document.getElementById('modalRdvDetail').remove();if(confirm('Supprimer cette intervention ?')){DB.deleteRdv(${r.id});renderCalendar();renderInbox();}" class="btn" style="background:#fee2e2;color:#ef4444;border:1.5px solid #fca5a5;">🗑 Supprimer</button>
       </div>
     </div>`;
 
   modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
   document.body.appendChild(modal);
+}
+// ─── REPORT RDV ───
+function openReportRdv(id) {
+  const r = DB.getRdvs().find(x => x.id === id);
+  if (!r) return;
+  const existing = document.getElementById('modalReport');
+  if (existing) existing.remove();
+  const modal = document.createElement('div');
+  modal.id = 'modalReport';
+  modal.className = 'modal-overlay open';
+  modal.innerHTML = `
+    <div class="modal-box" style="max-width:440px;">
+      <button class="modal-close" onclick="document.getElementById('modalReport').remove()">×</button>
+      <h3 style="font-family:var(--font-titre);font-size:1.3rem;font-weight:800;color:var(--orange);margin-bottom:1.5rem;">📅 Reporter le RDV</h3>
+      <p style="font-size:.88rem;color:var(--gris-5);margin-bottom:1.5rem;"><strong>${r.client}</strong> — ${r.vehicule} · ${r.service}</p>
+      <div class="form-row">
+        <div class="form-group"><label>Nouvelle date *</label><input type="date" id="reportDate" value="${r.date}" min="${new Date().toISOString().split('T')[0]}"></div>
+        <div class="form-group">
+          <label>Nouveau créneau</label>
+          <select id="reportCreneau">
+            <option ${r.creneau==='Matin (8h–12h)'?'selected':''}>Matin (8h–12h)</option>
+            <option ${r.creneau==='Après-midi (12h–17h)'?'selected':''}>Après-midi (12h–17h)</option>
+            <option ${r.creneau==='Soirée (17h–20h)'?'selected':''}>Soirée (17h–20h)</option>
+            <option ${r.creneau==='Flexible'?'selected':''}>Flexible</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group"><label>Nouvelle heure</label><input type="time" id="reportHeure" value="${r.heure||'09:00'}"></div>
+      <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:.5rem;" onclick="confirmReport(${r.id})">✅ Confirmer le report</button>
+    </div>`;
+  modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+  document.body.appendChild(modal);
+}
+
+function confirmReport(id) {
+  const date = document.getElementById('reportDate').value;
+  const creneau = document.getElementById('reportCreneau').value;
+  const heure = document.getElementById('reportHeure').value;
+  if (!date) { toast('Choisissez une date.', 'err'); return; }
+  const rdvs = DB.getRdvs();
+  const r = rdvs.find(x => x.id === id);
+  if (r) { r.date = date; r.creneau = creneau; r.heure = heure; DB.saveRdvs(rdvs); }
+  document.getElementById('modalReport').remove();
+  renderCalendar();
+  renderInbox();
+  toast('✅ RDV reporté avec succès !');
 }
 
 // ─── INBOX ───
@@ -521,8 +583,8 @@ function renderInbox() {
       <td style="font-size:.82rem;">${r.ville||'—'}</td>
       <td><span style="font-size:.8rem;font-weight:600;color:${r.technicien&&r.technicien!=='Non assigné'?'var(--orange)':'var(--gris-4)'};">${r.technicien||'Non assigné'}</span></td>
       <td><div class="inbox-actions">
-        <button class="btn-assign" onclick="openAssign(${r.id})">Assigner</button>
-        <button class="btn-del" onclick="deleteInboxRdv(${r.id})">✕</button>
+        ${isAdmin() ? `<button class="btn-assign" onclick="openAssign(${r.id})">Assigner</button>
+        <button class="btn-del" onclick="deleteInboxRdv(${r.id})">✕</button>` : '<span style="color:var(--gris-4);font-size:.78rem;">—</span>'}
       </div></td>
     </tr>`).join('')}</tbody>
   </table>`;

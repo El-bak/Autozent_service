@@ -60,16 +60,17 @@ const AUTH = {
   // Team members: { username (prenom), password }
   // Ton ami peut modifier cette liste
   MEMBERS: [
-    { name: 'Admin',   pass: 'autozent2025' },
-    { name: 'Karim',   pass: 'karim123' },
-    { name: 'Youssef', pass: 'youssef123' },
-    { name: 'Ahmed',   pass: 'ahmed123' },
+    { name: 'Admin',   pass: 'autozent2025', role: 'admin' },
+    { name: 'Ankil',   pass: 'ankil123', role: 'tech' },
+    { name: 'Karim',   pass: 'karim123', role: 'tech' },
+    { name: 'Youssef', pass: 'youssef123', role: 'tech' },
+    { name: 'Ahmed',   pass: 'ahmed123', role: 'tech' },
   ],
 
   login(name, pass) {
     const member = this.MEMBERS.find(m => m.name.toLowerCase() === name.trim().toLowerCase() && m.pass === pass);
     if (member) {
-      localStorage.setItem('az_user', JSON.stringify({ name: member.name, ts: Date.now() }));
+      localStorage.setItem('az_user', JSON.stringify({ name: member.name, ts: Date.now(), role: member.role }));
       return member;
     }
     return null;
@@ -180,20 +181,21 @@ function todayStr() { return dateToStr(new Date()); }
    retombe sur les comptes locaux si offline
 ════════════════════════════════════════ */
 AUTH._originalLogin = AUTH.login.bind(AUTH);
-AUTH.login = async function(name, pass) {
+AUTH.login = async function(name, pass) { 
   // 1. Essayer Django
   try {
     const djangoUser = await tryDjangoLogin(name, pass);
-    if (djangoUser) {
-      // Stocker comme user local pour compatibilité
+    if (djangoUser) { /*Lorque je vais connecté le front au backend, je vais devoir supprimé le code a partir de là jursqua return*/
+      const member = AUTH.MEMBERS.find(m => m.name.toLowerCase() === djangoUser.name.toLowerCase());
+      const role = member?.role || djangoUser.role || 'tech';
       localStorage.setItem('az_user', JSON.stringify({
         name: djangoUser.name,
-        role: djangoUser.role,
+        role: role,
         djangoId: djangoUser.djangoId,
         ts: Date.now(),
         useDjango: true
       }));
-      return { name: djangoUser.name };
+      return { name: djangoUser.name, role };
     }
   } catch(e) { /* backend offline */ }
   // 2. Fallback local

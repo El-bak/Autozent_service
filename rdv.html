@@ -305,9 +305,25 @@ document.getElementById('rdvForm').addEventListener('submit', async function(e) 
       notes:     rdv.notes,
     });
     DB.addRdv(rdv);
-    document.getElementById('rdvOk').style.display = 'block';
     btn.innerHTML = '✅ Envoyé !';
     toast('✅ Votre demande a bien été envoyée !');
+    setTimeout(() => {
+      document.querySelector('.rdv-form-wrap').innerHTML = `
+        <div style="text-align:center;padding:2rem 1rem;">
+          <div style="font-size:3rem;margin-bottom:1rem;">🎉</div>
+          <h3 style="font-family:var(--font-titre);font-size:1.5rem;color:var(--noir);margin-bottom:.5rem;">Demande envoyée !</h3>
+          <p style="color:var(--gris-5);font-size:.95rem;margin-bottom:.5rem;">Merci <strong>${rdv.client}</strong>, nous avons bien reçu votre demande.</p>
+          <p style="color:var(--gris-5);font-size:.88rem;margin-bottom:1.5rem;">Nous vous contactons sous <strong>24h</strong> au <strong>${rdv.telephone}</strong> pour confirmer le créneau.</p>
+          <div style="background:var(--gris-1);border-radius:var(--radius-md);padding:1rem;text-align:left;font-size:.85rem;color:var(--gris-5);margin-bottom:1.5rem;">
+            <p>🚗 <strong>${rdv.vehicule}</strong></p>
+            <p>🔧 ${rdv.service}</p>
+            <p>📅 ${rdv.date} · ${rdv.creneau}</p>
+            <p>📍 ${rdv.ville}</p>
+          </div>
+          <a href="index.html" class="btn btn-primary">← Retour à l'accueil</a>
+        </div>
+      `;
+    }, 1500);
   } catch(err) {
     document.getElementById('rdvErr').style.display = 'block';
     btn.disabled = false;
