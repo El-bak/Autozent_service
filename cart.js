@@ -409,7 +409,7 @@ function cartGenerateInvoice({ name, email, orderId }) {
   <table><thead><tr><th>Description</th><th>Qté</th><th>P.U.</th><th>Total</th></tr></thead>
   <tbody>${rows}<tr class="total"><td colspan="3" style="text-align:right;">TOTAL TTC</td><td>${cartTotal(list)}€</td></tr></tbody></table>
   <p style="font-size:12px;color:#777;">TVA non applicable — Art. 293 B du CGI</p>
-  <div class="footer">AutoZent Services · contact@autozent.fr · Merci pour votre confiance !</div>
+  <div class="footer">AutoZent Services · AutoZent Services · Autozentservices@gmail.com · +33 7 77 51 75 30 · Merci pour votre confiance !</div>
   </body></html>`;
   const w = window.open('', '_blank');
   if (w) { w.document.write(html); w.document.close(); setTimeout(() => w.print(), 500); }

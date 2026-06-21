@@ -7,13 +7,10 @@
 <link rel="stylesheet" href="style.css">
 <script src="https://www.paypal.com/sdk/js?client-id=Abqu6FdE3XYNkDDW-SvqOcNVitZBPRFMX7amxS02Ol-LpMGRgJ4X_JYDPvouN5Hjf2V5jr-avclGuIak&currency=EUR&locale=fr_FR" data-namespace="paypal_sdk"></script>
 <style>
-/* CART ICON IN NAV */
 .cart-btn{position:relative;background:var(--orange);color:#fff;border:none;border-radius:var(--radius-md);padding:.4rem .9rem;font-size:.85rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:.4rem;transition:background .2s;text-decoration:none;}
 .cart-btn:hover{background:var(--orange-lt);}
 .cart-count{background:#fff;color:var(--orange);font-size:.65rem;font-weight:800;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;position:absolute;top:-6px;right:-6px;}
 .cart-count.hidden{display:none;}
-
-/* CART DRAWER */
 .cart-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:1800;backdrop-filter:blur(2px);}
 .cart-overlay.open{display:block;}
 .cart-drawer{position:fixed;top:0;right:-420px;width:420px;max-width:100vw;height:100vh;background:var(--blanc);z-index:1900;display:flex;flex-direction:column;box-shadow:-8px 0 32px rgba(0,0,0,.15);transition:right .35s cubic-bezier(.22,.68,0,1.2);}
@@ -21,23 +18,20 @@
 .cart-header{padding:1.4rem 1.6rem;border-bottom:1px solid var(--gris-2);display:flex;align-items:center;justify-content:space-between;}
 .cart-header h3{font-family:var(--font-titre);font-size:1.3rem;font-weight:800;}
 .cart-header-right{display:flex;gap:.6rem;align-items:center;}
-.cart-close{background:var(--gris-2);border:none;border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;color:var(--gris-5);transition:background .2s;}
-.cart-close:hover{background:var(--gris-3);}
+.cart-close{background:var(--gris-2);border:none;border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;color:var(--gris-5);}
 .cart-body{flex:1;overflow-y:auto;padding:1.2rem 1.6rem;}
 .cart-empty{text-align:center;padding:3rem 1rem;color:var(--gris-4);}
 .cart-empty .ico{font-size:3rem;margin-bottom:1rem;}
 .cart-item{display:flex;gap:1rem;padding:1rem 0;border-bottom:1px solid var(--gris-2);align-items:flex-start;}
 .cart-item:last-child{border-bottom:none;}
-.cart-item-img{width:64px;height:64px;border-radius:var(--radius-sm);background:var(--gris-1);display:flex;align-items:center;justify-content:center;font-size:1.8rem;flex-shrink:0;overflow:hidden;}
-.cart-item-img img{width:100%;height:100%;object-fit:cover;}
+.cart-item-img{width:64px;height:64px;border-radius:var(--radius-sm);background:var(--gris-1);display:flex;align-items:center;justify-content:center;font-size:1.8rem;flex-shrink:0;}
 .cart-item-info{flex:1;min-width:0;}
 .cart-item-name{font-family:var(--font-titre);font-size:.95rem;font-weight:700;color:var(--noir);margin-bottom:.2rem;line-height:1.2;}
 .cart-item-opt{font-size:.75rem;color:var(--gris-4);margin-bottom:.5rem;}
 .cart-item-controls{display:flex;align-items:center;gap:.6rem;}
-.qty-btn{background:var(--gris-2);border:none;border-radius:4px;width:26px;height:26px;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--noir);transition:background .15s;}
-.qty-btn:hover{background:var(--gris-3);}
+.qty-btn{background:var(--gris-2);border:none;border-radius:4px;width:26px;height:26px;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--noir);}
 .qty-val{font-family:var(--font-mono);font-size:.85rem;font-weight:600;min-width:20px;text-align:center;}
-.cart-item-remove{background:none;border:none;color:var(--gris-4);cursor:pointer;font-size:.8rem;padding:.2rem .4rem;border-radius:4px;transition:all .15s;margin-left:.3rem;}
+.cart-item-remove{background:none;border:none;color:var(--gris-4);cursor:pointer;font-size:.8rem;padding:.2rem .4rem;border-radius:4px;margin-left:.3rem;transition:all .15s;}
 .cart-item-remove:hover{background:#fee2e2;color:#ef4444;}
 .cart-item-price{font-family:var(--font-titre);font-size:1rem;font-weight:800;color:var(--orange);white-space:nowrap;margin-left:.5rem;}
 .cart-footer{padding:1.2rem 1.6rem;border-top:1px solid var(--gris-2);background:var(--gris-1);}
@@ -47,45 +41,32 @@
 .cart-actions{display:flex;flex-direction:column;gap:.6rem;}
 .btn-clear{background:none;border:1.5px solid var(--gris-3);color:var(--gris-4);padding:.55rem;border-radius:var(--radius-sm);font-size:.82rem;cursor:pointer;text-align:center;transition:all .2s;font-family:var(--font-corps);}
 .btn-clear:hover{border-color:#ef4444;color:#ef4444;background:#fee2e2;}
-
-/* PAGE HERO */
 .page-hero{background:var(--noir);padding:5.5rem 3rem 3.5rem;position:relative;overflow:hidden;}
 .page-hero::before{content:'';position:absolute;top:-40%;left:50%;transform:translateX(-50%);width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(244,96,12,.1) 0%,transparent 70%);pointer-events:none;}
 .page-hero h1{color:#fff;font-size:clamp(2.2rem,5vw,4rem);}
-.page-hero .lead{color:rgba(255,255,255,.6);margin:0 auto;}
-
-/* PROMO BANNER */
 .promo-banner{background:var(--orange);color:#fff;padding:.7rem 2rem;text-align:center;font-size:.88rem;font-weight:600;letter-spacing:.2px;}
 .promo-banner span{opacity:.82;font-weight:400;margin-left:.5rem;}
-
-/* SHOP LAYOUT */
 .shop-layout{display:grid;grid-template-columns:240px 1fr;gap:2.5rem;align-items:start;}
 .filters-panel{background:var(--blanc);border:1px solid var(--gris-2);border-radius:var(--radius-lg);padding:1.5rem;position:sticky;top:calc(var(--nav-h) + 1.5rem);}
 .filters-panel h3{font-family:var(--font-titre);font-size:1rem;font-weight:700;margin-bottom:1.2rem;}
 .filter-group{margin-bottom:1.4rem;}
 .filter-group-title{font-family:var(--font-mono);font-size:.65rem;color:var(--gris-4);letter-spacing:2px;text-transform:uppercase;margin-bottom:.6rem;}
-.filter-option{display:flex;align-items:center;gap:.5rem;padding:.28rem 0;cursor:pointer;font-size:.85rem;color:var(--gris-5);transition:color .15s;}
+.filter-option{display:flex;align-items:center;gap:.5rem;padding:.28rem 0;cursor:pointer;font-size:.85rem;color:var(--gris-5);}
 .filter-option:hover{color:var(--orange);}
 .filter-option input{accent-color:var(--orange);}
 .price-range input[type=range]{accent-color:var(--orange);width:100%;}
 .price-labels{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:.7rem;color:var(--gris-4);}
-
-/* PRODUCTS */
 .products-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.8rem;flex-wrap:wrap;gap:.8rem;}
 .products-count{font-size:.82rem;color:var(--gris-4);}
 .products-sort select{background:var(--gris-1);border:1px solid var(--gris-2);color:var(--noir);padding:.38rem .7rem;border-radius:var(--radius-sm);font-size:.82rem;outline:none;}
 .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.5rem;}
-
-/* PRODUCT CARD */
 .product-card{background:var(--blanc);border:1px solid var(--gris-2);border-radius:var(--radius-lg);overflow:hidden;transition:box-shadow .3s,transform .25s;position:relative;}
 .product-card:hover{box-shadow:var(--shadow-md);transform:translateY(-3px);}
 .product-badge{position:absolute;top:.8rem;left:.8rem;z-index:2;font-family:var(--font-mono);font-size:.62rem;font-weight:600;letter-spacing:1px;padding:.22rem .55rem;border-radius:4px;text-transform:uppercase;}
 .product-badge.new{background:var(--orange);color:#fff;}
 .product-badge.promo{background:#059669;color:#fff;}
 .product-badge.bestseller{background:var(--noir);color:#fff;}
-.product-img-wrap{background:var(--gris-1);height:185px;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;}
-.product-img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform .4s;}
-.product-card:hover .product-img-wrap img{transform:scale(1.04);}
+.product-img-wrap{background:var(--gris-1);height:185px;display:flex;align-items:center;justify-content:center;overflow:hidden;}
 .product-img-placeholder{font-size:4rem;opacity:.25;}
 .product-body{padding:1.2rem;}
 .product-brand{font-family:var(--font-mono);font-size:.65rem;color:var(--gris-4);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:.25rem;}
@@ -95,95 +76,77 @@
 .product-price-row{display:flex;align-items:baseline;gap:.4rem;margin-bottom:.9rem;}
 .product-price{font-family:var(--font-titre);font-size:1.4rem;font-weight:800;color:var(--orange);}
 .product-price-old{font-size:.82rem;color:var(--gris-4);text-decoration:line-through;}
-.product-price-install{font-size:.72rem;color:var(--gris-4);display:block;margin-top:.1rem;}
 .product-actions{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;}
 .btn-add-cart{background:var(--orange);color:#fff;border:none;padding:.65rem .5rem;border-radius:var(--radius-sm);font-weight:600;font-size:.8rem;cursor:pointer;width:100%;transition:all .2s;font-family:var(--font-corps);display:flex;align-items:center;justify-content:center;gap:.3rem;}
-.btn-add-cart:hover{background:var(--orange-lt);transform:translateY(-1px);}
+.btn-add-cart:hover{background:var(--orange-lt);}
 .btn-add-install{background:var(--noir);color:#fff;border:none;padding:.65rem .5rem;border-radius:var(--radius-sm);font-weight:500;font-size:.78rem;cursor:pointer;width:100%;transition:all .2s;font-family:var(--font-corps);}
 .btn-add-install:hover{background:#333;}
 .btn-details-sm{grid-column:1/-1;background:transparent;color:var(--gris-5);border:1.5px solid var(--gris-2);padding:.5rem;border-radius:var(--radius-sm);font-size:.78rem;cursor:pointer;font-family:var(--font-corps);transition:all .2s;}
 .btn-details-sm:hover{border-color:var(--orange);color:var(--orange);}
-
-/* MODAL PAIEMENT */
 .modal-box.pay-box{max-width:480px;}
-.install-toggle{display:flex;gap:.5rem;margin-bottom:1.2rem;}
-.install-opt{flex:1;padding:.8rem;border:1.5px solid var(--gris-2);border-radius:var(--radius-md);text-align:center;cursor:pointer;transition:all .2s;font-size:.82rem;font-weight:500;color:var(--gris-5);}
-.install-opt.selected{border-color:var(--orange);background:var(--orange-bg);color:var(--orange);font-weight:600;}
 .pay-divider{text-align:center;font-size:.75rem;color:var(--gris-4);margin:.7rem 0;position:relative;}
 .pay-divider::before,.pay-divider::after{content:'';position:absolute;top:50%;width:42%;height:1px;background:var(--gris-2);}
 .pay-divider::before{left:0;}.pay-divider::after{right:0;}
-.btn-card{width:100%;background:#191C1F;color:#fff;border:none;border-radius:var(--radius-md);padding:.82rem;font-weight:600;font-size:.88rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.5rem;transition:opacity .2s;font-family:var(--font-corps);}
-.btn-card:hover{opacity:.88;}
-
-/* GARANTIES */
+.btn-card{width:100%;background:#191C1F;color:#fff;border:none;border-radius:var(--radius-md);padding:.82rem;font-weight:600;font-size:.88rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.5rem;font-family:var(--font-corps);}
 .garanties-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem;}
 .garantie-card{text-align:center;padding:1.4rem 1rem;}
 .garantie-ico{font-size:1.8rem;margin-bottom:.7rem;}
 .garantie-title{font-family:var(--font-titre);font-size:.95rem;font-weight:700;color:var(--noir);margin-bottom:.3rem;}
 .garantie-desc{font-size:.8rem;color:var(--gris-5);line-height:1.55;}
-
-/* FAQ */
 .faq-list{display:flex;flex-direction:column;gap:.7rem;max-width:740px;margin:0 auto;}
 .faq-item{border:1px solid var(--gris-2);border-radius:var(--radius-md);overflow:hidden;}
-.faq-q{padding:1rem 1.3rem;font-weight:600;font-size:.9rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;color:var(--noir);transition:background .2s;}
+.faq-q{padding:1rem 1.3rem;font-weight:600;font-size:.9rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;color:var(--noir);}
 .faq-q:hover{background:var(--gris-1);}
 .faq-a{display:none;padding:0 1.3rem 1rem;font-size:.85rem;color:var(--gris-5);line-height:1.65;}
 .faq-a.open{display:block;}
 .faq-arrow{color:var(--orange);font-size:1rem;transition:transform .3s;}
 .faq-q.open .faq-arrow{transform:rotate(180deg);}
-
-/* ORDER SUCCESS */
 .order-success{display:none;text-align:center;padding:2rem 1rem;}
 .order-success .ico{font-size:3.5rem;margin-bottom:1rem;}
 .order-ref{font-family:var(--font-mono);background:var(--gris-1);border:1px solid var(--gris-2);padding:.4rem 1rem;border-radius:var(--radius-sm);font-size:.78rem;display:inline-block;margin:.8rem 0;}
-
 @media(max-width:1024px){.shop-layout{grid-template-columns:1fr;}.filters-panel{position:static;}.garanties-grid{grid-template-columns:1fr 1fr;}}
 @media(max-width:640px){.products-grid{grid-template-columns:1fr;}.garanties-grid{grid-template-columns:1fr 1fr;}.cart-drawer{width:100vw;}.page-hero{padding:5rem 1.5rem 3rem;}}
 </style>
 </head>
 <body>
-
-<!-- NAV -->
 <nav>
   <a href="index.html" class="nav-logo">Auto<span>Zent</span></a>
   <ul class="nav-links" id="navLinks">
-  <li><a href="index.html" data-i18n="nav_home">Accueil</a></li>
-  <li><a href="services.html" data-i18n="nav_services">Services</a></li>
-  <li><a href="realisations.html" data-i18n="nav_realisations">Réalisations</a></li>
-  <li><a href="boutique.html" data-i18n="nav_boutique" style="color:var(--orange);font-weight:600;">Boutique</a></li>
-  <li><a href="rdv.html" data-i18n="nav_rdv">Rendez-vous</a></li>
-  <li><a href="contact.html" data-i18n="nav_contact">Contact</a></li>
-  <li><a href="agenda.html" data-i18n="nav_agenda">Espace équipe</a></li>
-  <div class="nav-lang">
-    <button class="lang-btn" data-lang="fr">FR</button>
-    <button class="lang-btn" data-lang="en">EN</button>
-    <button class="lang-btn" data-lang="ar">AR</button>
-    <button class="lang-btn" data-lang="zh">中</button>
-  </div>
-</ul>
-  <!-- PANIER BOUTON -->
+    <li><a href="index.html" data-i18n="nav_home">Accueil</a></li>
+    <li><a href="services.html" data-i18n="nav_services">Services</a></li>
+    <li><a href="realisations.html" data-i18n="nav_realisations">Réalisations</a></li>
+    <li><a href="boutique.html" style="color:var(--orange);font-weight:600;" data-i18n="nav_boutique">Boutique</a></li>
+    <li><a href="rdv.html" data-i18n="nav_rdv">Rendez-vous</a></li>
+    <li><a href="contact.html" data-i18n="nav_contact">Contact</a></li>
+    <li><a href="agenda.html" data-i18n="nav_agenda">Espace équipe</a></li>
+    <div class="nav-lang">
+      <button class="lang-btn" data-lang="fr">FR</button>
+      <button class="lang-btn" data-lang="en">EN</button>
+      <button class="lang-btn" data-lang="ar">AR</button>
+      <button class="lang-btn" data-lang="zh">中</button>
+    </div>
+  </ul>
   <a href="#" class="cart-btn" onclick="toggleCart(event)">
-    🛒 Panier
+    🛒 <span data-i18n="cart_title">Mon panier</span>
     <span class="cart-count hidden" id="cartCount">0</span>
   </a>
   <div id="hamburger" class="hamburger"><span></span><span></span><span></span></div>
 </nav>
 
-<!-- CART OVERLAY + DRAWER -->
 <div class="cart-overlay" id="cartOverlay" onclick="toggleCart(event)"></div>
 <div class="cart-drawer" id="cartDrawer">
   <div class="cart-header">
-    <h3>🛒 Mon panier</h3>
+    <h3>🛒 <span data-i18n="cart_title">Mon panier</span></h3>
     <div class="cart-header-right">
-      <button class="btn-clear" id="btnClearCart" onclick="clearCart()" style="padding:.3rem .8rem;font-size:.75rem;border-radius:var(--radius-sm);">Vider le panier</button>
+      <button class="btn-clear" onclick="clearCart()" style="padding:.3rem .8rem;font-size:.75rem;border-radius:var(--radius-sm);" data-i18n="cart_clear">Vider</button>
       <button class="cart-close" onclick="toggleCart(event)">×</button>
     </div>
   </div>
   <div class="cart-body" id="cartBody">
     <div class="cart-empty" id="cartEmpty">
       <div class="ico">🛒</div>
-      <p style="font-weight:600;margin-bottom:.3rem;">Votre panier est vide</p>
-      <p style="font-size:.82rem;">Ajoutez des produits pour commencer.</p>
+      <p style="font-weight:600;margin-bottom:.3rem;" data-i18n="cart_empty_title">Votre panier est vide</p>
+      <p style="font-size:.82rem;" data-i18n="cart_empty_sub">Ajoutez des produits pour commencer.</p>
     </div>
   </div>
   <div class="cart-footer" id="cartFooter" style="display:none;">
@@ -196,79 +159,144 @@
     </div>
     <div class="cart-actions">
       <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="goToCheckout()">
-        Passer au paiement →
+        <span data-i18n="cart_checkout">Passer au paiement →</span>
       </button>
     </div>
   </div>
 </div>
 
-<!-- PROMO -->
 <div class="promo-banner">
-  🔥 Installation offerte pour tout achat de CarPlay ce mois-ci
-  <span>· Offre valable jusqu'au 30 juin 2025</span>
+  <span data-i18n="shop_promo">🔥 Installation offerte pour tout achat de CarPlay ce mois-ci</span>
+  <span data-i18n="shop_promo_date">· Offre valable jusqu'au 30 juin 2025</span>
 </div>
 
 <div class="page-top">
-<!-- HERO -->
 <div class="page-hero">
   <div style="max-width:1160px;margin:0 auto;">
-    <div class="eyebrow" style="justify-content:flex-start;"><span style="color:var(--orange);">Boutique en ligne</span></div>
-    <h1 class="display anim-fade-up d1" style="color:#fff;margin-bottom:.8rem;">
-      Écrans CarPlay &<br>Android Auto
-    </h1>
+    <div class="eyebrow" style="justify-content:flex-start;"><span style="color:var(--orange);" data-i18n="shop_eyebrow">Boutique en ligne</span></div>
+    <h1 id="shopHeroTitle" class="display anim-fade-up d1" style="color:#fff;margin-bottom:.8rem;">Écrans CarPlay &<br>Android Auto</h1>
     <div class="divider-orange"></div>
-    <p class="lead anim-fade-up d2" style="color:rgba(255,255,255,.6);max-width:520px;">
+    <p id="shopHeroSub" class="lead anim-fade-up d2" style="color:rgba(255,255,255,.6);max-width:520px;">
       Matériel sélectionné et testé. Commandez en ligne — livraison ou installation à domicile sur IDF, Oise et Aisne.
     </p>
     <div class="anim-fade-up d3" style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:1.8rem;">
-      <a href="#produits" class="btn btn-primary">Voir les produits</a>
-      <a href="rdv.html" class="btn" style="background:rgba(255,255,255,.1);color:#fff;border:1.5px solid rgba(255,255,255,.2);padding:.8rem 1.8rem;border-radius:var(--radius-md);font-weight:600;font-size:.9rem;">Installation uniquement →</a>
+      <a href="#produits" class="btn btn-primary" data-i18n="shop_cta1">Voir les produits</a>
+      <a href="rdv.html" class="btn" style="background:rgba(255,255,255,.1);color:#fff;border:1.5px solid rgba(255,255,255,.2);padding:.8rem 1.8rem;border-radius:var(--radius-md);font-weight:600;font-size:.9rem;" data-i18n="shop_cta2">Installation uniquement →</a>
     </div>
   </div>
 </div>
 
-<!-- BOUTIQUE -->
+<!-- ════ COMPATIBILITÉ VÉHICULE ════ -->
+<section class="section" style="background:var(--noir);padding:3.5rem 0;" id="compatibilite">
+  <div class="container">
+    <div class="scroll-reveal" style="text-align:center;margin-bottom:2.2rem;">
+      <div class="eyebrow" style="justify-content:center;"><span style="color:var(--orange);" data-i18n="engagements_eyebrow">Compatibilité</span></div>
+      <h2 class="display" style="color:#fff;font-size:clamp(1.8rem,3.5vw,2.8rem);" data-i18n="compat_check_title">Vérifiez la compatibilité</h2>
+      <p style="color:rgba(255,255,255,.6);font-size:.95rem;margin-top:.5rem;" data-i18n="compat_check_sub">Nos écrans sont universels. Entrez votre véhicule pour le confirmer en 10 secondes.</p>
+    </div>
+
+    <!-- SELECTS -->
+    <div class="scroll-reveal" style="max-width:900px;margin:0 auto;">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1rem;" id="compatGrid">
+
+        <!-- MARQUE -->
+        <div>
+          <label style="font-family:var(--font-mono);font-size:.65rem;color:rgba(255,255,255,.45);letter-spacing:2px;text-transform:uppercase;display:block;margin-bottom:.5rem;" data-i18n="compat_label_marque">Marque</label>
+          <select id="selMarque" onchange="onMarqueChange()" style="width:100%;background:#1C1C1A;border:1.5px solid rgba(255,255,255,.12);color:#fff;padding:.75rem 1rem;border-radius:var(--radius-md);font-size:.9rem;font-family:var(--font-corps);cursor:pointer;appearance:none;background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%228%22 viewBox=%220 0 12 8%22%3E%3Cpath d=%22M1 1l5 5 5-5%22 stroke=%22%23F4600C%22 stroke-width=%222%22 fill=%22none%22 stroke-linecap=%22round%22/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 1rem center;padding-right:2.5rem;">
+            <option value="" data-i18n="compat_select_marque">Sélectionnez la marque</option>
+            <option>Alfa Romeo</option><option>Audi</option><option>BMW</option>
+            <option>Citroën</option><option>Dacia</option><option>DS Automobiles</option>
+            <option>Fiat</option><option>Ford</option><option>Honda</option>
+            <option>Hyundai</option><option>Jaguar</option><option>Jeep</option>
+            <option>Kia</option><option>Land Rover</option><option>Mazda</option>
+            <option>Mercedes-Benz</option><option>Mini</option><option>Mitsubishi</option>
+            <option>Nissan</option><option>Opel</option><option>Peugeot</option>
+            <option>Porsche</option><option>Renault</option><option>Seat</option>
+            <option>Skoda</option><option>Subaru</option><option>Suzuki</option>
+            <option>Toyota</option><option>Volkswagen</option><option>Volvo</option>
+          </select>
+        </div>
+
+        <!-- MODÈLE -->
+        <div>
+          <label style="font-family:var(--font-mono);font-size:.65rem;color:rgba(255,255,255,.45);letter-spacing:2px;text-transform:uppercase;display:block;margin-bottom:.5rem;" data-i18n="compat_label_modele">Modèle</label>
+          <select id="selModele" onchange="onModeleChange()" disabled style="width:100%;background:#1C1C1A;border:1.5px solid rgba(255,255,255,.12);color:#fff;padding:.75rem 1rem;border-radius:var(--radius-md);font-size:.9rem;font-family:var(--font-corps);cursor:pointer;appearance:none;background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%228%22 viewBox=%220 0 12 8%22%3E%3Cpath d=%22M1 1l5 5 5-5%22 stroke=%22%23F4600C%22 stroke-width=%222%22 fill=%22none%22 stroke-linecap=%22round%22/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 1rem center;padding-right:2.5rem;opacity:.5;">
+            <option value="" data-i18n="compat_select_modele">Sélectionnez le modèle</option>
+          </select>
+        </div>
+
+        <!-- ANNÉE -->
+        <div>
+          <label style="font-family:var(--font-mono);font-size:.65rem;color:rgba(255,255,255,.45);letter-spacing:2px;text-transform:uppercase;display:block;margin-bottom:.5rem;" data-i18n="compat_label_annee">Année</label>
+          <select id="selAnnee" disabled style="width:100%;background:#1C1C1A;border:1.5px solid rgba(255,255,255,.12);color:#fff;padding:.75rem 1rem;border-radius:var(--radius-md);font-size:.9rem;font-family:var(--font-corps);cursor:pointer;appearance:none;background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%228%22 viewBox=%220 0 12 8%22%3E%3Cpath d=%22M1 1l5 5 5-5%22 stroke=%22%23F4600C%22 stroke-width=%222%22 fill=%22none%22 stroke-linecap=%22round%22/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 1rem center;padding-right:2.5rem;opacity:.5;">
+            <option value="" data-i18n="compat_select_annee">Sélectionnez l'année</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- BOUTON -->
+      <button id="btnVerif" onclick="checkCompat()" disabled
+        style="width:100%;background:var(--orange);color:#fff;border:none;padding:1rem;border-radius:var(--radius-md);font-weight:700;font-size:1rem;cursor:pointer;font-family:var(--font-corps);transition:all .2s;opacity:.5;display:flex;align-items:center;justify-content:center;gap:.6rem;">
+        🔍 <span data-i18n="compat_btn">Vérifier la compatibilité</span>
+      </button>
+
+      <!-- RÉSULTAT -->
+      <div id="compatResult" style="display:none;margin-top:1.5rem;background:rgba(5,150,105,.12);border:1.5px solid rgba(5,150,105,.4);border-radius:var(--radius-lg);padding:1.5rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
+        <div>
+          <div id="compatResultTitle" style="font-family:var(--font-titre);font-size:1.3rem;font-weight:800;color:#34D399;margin-bottom:.3rem;"></div>
+          <div id="compatResultVehicule" style="font-size:.88rem;color:rgba(255,255,255,.7);margin-bottom:.4rem;"></div>
+          <div id="compatResultMsg" style="font-size:.88rem;color:rgba(255,255,255,.6);"></div>
+        </div>
+        <div style="display:flex;gap:.8rem;flex-wrap:wrap;">
+          <a href="#produits" onclick="document.getElementById('compatResult').style.display='none';" class="btn btn-primary" style="padding:.65rem 1.4rem;">
+            <span data-i18n="shop_cta1">Voir les produits</span> ↓
+          </a>
+          <a id="compatRdvLink" href="rdv.html" class="btn" style="background:rgba(255,255,255,.1);color:#fff;border:1.5px solid rgba(255,255,255,.2);padding:.65rem 1.4rem;border-radius:var(--radius-md);font-weight:600;font-size:.88rem;text-decoration:none;">
+            <span data-i18n="compat_ok_rdv">Réserver l'installation</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="section" id="produits">
   <div class="container">
     <div class="shop-layout">
-
-      <!-- FILTRES -->
       <aside class="filters-panel scroll-reveal">
-        <h3>Filtrer</h3>
+        <h3 data-i18n="filter_title">Filtrer</h3>
         <div class="filter-group">
-          <div class="filter-group-title">Taille</div>
-          <label class="filter-option"><input type="checkbox" value="7"  onchange="applyFilters()"> 7 pouces</label>
-          <label class="filter-option"><input type="checkbox" value="9"  onchange="applyFilters()"> 9 pouces</label>
-          <label class="filter-option"><input type="checkbox" value="10" onchange="applyFilters()"> 10 pouces</label>
-          <label class="filter-option"><input type="checkbox" value="12" onchange="applyFilters()"> 12 pouces</label>
+          <div class="filter-group-title" data-i18n="filter_size">Taille</div>
+          <label class="filter-option"><input type="checkbox" value="7" onchange="applyFilters()"> <span data-i18n="pouces_7">7 pouces</span></label>
+          <label class="filter-option"><input type="checkbox" value="9" onchange="applyFilters()"> <span data-i18n="pouces_9">9 pouces</span></label>
+          <label class="filter-option"><input type="checkbox" value="10" onchange="applyFilters()"> <span data-i18n="pouces_10">10 pouces</span></label>
+          <label class="filter-option"><input type="checkbox" value="12" onchange="applyFilters()"> <span data-i18n="pouces_12">12 pouces</span></label>
         </div>
         <div class="filter-group">
-          <div class="filter-group-title">Compatibilité</div>
-          <label class="filter-option"><input type="checkbox" value="carplay" onchange="applyFilters()"> Apple CarPlay</label>
-          <label class="filter-option"><input type="checkbox" value="android" onchange="applyFilters()"> Android Auto</label>
-          <label class="filter-option"><input type="checkbox" value="wifi"    onchange="applyFilters()"> Sans fil</label>
-          <label class="filter-option"><input type="checkbox" value="camera"  onchange="applyFilters()"> Caméra incluse</label>
+          <div class="filter-group-title" data-i18n="filter_compat">Compatibilité</div>
+          <label class="filter-option"><input type="checkbox" value="carplay" onchange="applyFilters()"> <span data-i18n="compat_carplay">Apple CarPlay</span></label>
+          <label class="filter-option"><input type="checkbox" value="android" onchange="applyFilters()"> <span data-i18n="compat_android">Android Auto</span></label>
+          <label class="filter-option"><input type="checkbox" value="wifi" onchange="applyFilters()"> <span data-i18n="compat_wifi">Sans fil</span></label>
+          <label class="filter-option"><input type="checkbox" value="camera" onchange="applyFilters()"> <span data-i18n="compat_camera">Caméra incluse</span></label>
         </div>
         <div class="filter-group">
-          <div class="filter-group-title">Budget max</div>
+          <div class="filter-group-title" data-i18n="filter_budget">Budget max</div>
           <div class="price-range">
             <input type="range" id="priceRange" min="100" max="800" value="800" step="10" oninput="updatePriceLabel(this.value)">
             <div class="price-labels"><span>100€</span><span id="priceLabel">800€</span></div>
           </div>
         </div>
-        <button class="btn btn-outline btn-sm" style="width:100%;justify-content:center;margin-top:.3rem;" onclick="resetFilters()">Réinitialiser</button>
+        <button class="btn btn-outline btn-sm" style="width:100%;justify-content:center;margin-top:.3rem;" onclick="resetFilters()" data-i18n="filter_reset">Réinitialiser</button>
       </aside>
-
-      <!-- PRODUITS -->
       <div>
         <div class="products-header scroll-reveal">
           <div class="products-count" id="productsCount">6 produits</div>
           <div class="products-sort">
-            <select onchange="sortProducts(this.value)">
-              <option value="default">Trier par défaut</option>
-              <option value="price-asc">Prix croissant</option>
-              <option value="price-desc">Prix décroissant</option>
-              <option value="popular">Popularité</option>
+            <select id="sortSelect" onchange="sortProducts(this.value)">
+              <option value="default" data-i18n="sort_default">Trier par défaut</option>
+              <option value="price-asc" data-i18n="sort_price_asc">Prix croissant</option>
+              <option value="price-desc" data-i18n="sort_price_desc">Prix décroissant</option>
+              <option value="popular" data-i18n="sort_popular">Popularité</option>
             </select>
           </div>
         </div>
@@ -278,39 +306,25 @@
   </div>
 </section>
 
-<!-- GARANTIES -->
 <section class="section section-alt">
   <div class="container">
     <div style="text-align:center;margin-bottom:2.5rem;" class="scroll-reveal">
-      <div class="eyebrow" style="justify-content:center;"><span>Engagements</span></div>
-      <h2 class="display">Achetez en confiance</h2>
+      <div class="eyebrow" style="justify-content:center;"><span data-i18n="engagements_eyebrow">Engagements</span></div>
+      <h2 class="display" data-i18n="engagements_title">Achetez en confiance</h2>
       <div class="divider-orange center"></div>
     </div>
-    <div class="garanties-grid">
-      <div class="garantie-card scroll-reveal delay-1"><div class="garantie-ico">🛡️</div><div class="garantie-title">Garantie 2 ans</div><div class="garantie-desc">Pièces et main-d'œuvre incluses sur tous nos écrans.</div></div>
-      <div class="garantie-card scroll-reveal delay-2"><div class="garantie-ico">🔧</div><div class="garantie-title">Pose à domicile</div><div class="garantie-desc">Techniciens certifiés — IDF, Oise (60), Aisne (02).</div></div>
-      <div class="garantie-card scroll-reveal delay-3"><div class="garantie-ico">💳</div><div class="garantie-title">Paiement sécurisé</div><div class="garantie-desc">PayPal et carte bancaire. Facture PDF par email.</div></div>
-      <div class="garantie-card scroll-reveal delay-4"><div class="garantie-ico">↩️</div><div class="garantie-title">Retour 14 jours</div><div class="garantie-desc">Produit non ouvert et non installé — remboursement sans condition.</div></div>
-    </div>
+    <div class="garanties-grid" id="garantiesGrid"></div>
   </div>
 </section>
 
-<!-- FAQ -->
 <section class="section">
   <div class="container">
     <div style="text-align:center;margin-bottom:2.5rem;" class="scroll-reveal">
-      <div class="eyebrow" style="justify-content:center;"><span>FAQ</span></div>
-      <h2 class="display">Questions fréquentes</h2>
+      <div class="eyebrow" style="justify-content:center;"><span data-i18n="faq_eyebrow">FAQ</span></div>
+      <h2 class="display" data-i18n="faq_title">Questions fréquentes</h2>
       <div class="divider-orange center"></div>
     </div>
-    <div class="faq-list scroll-reveal">
-      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Est-ce compatible avec mon véhicule ?<span class="faq-arrow">▾</span></div><div class="faq-a">Nos écrans sont universels et compatibles avec la quasi-totalité des véhicules. En cas de doute, envoyez-nous votre modèle et l'année — on confirme avant commande.</div></div>
-      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Puis-je commander sans installation ?<span class="faq-arrow">▾</span></div><div class="faq-a">Oui. Vous recevez le matériel par livraison et installez vous-même. La garantie pose ne s'applique que si l'installation est faite par AutoZent.</div></div>
-      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Durée d'une installation ?<span class="faq-arrow">▾</span></div><div class="faq-a">Entre 1h30 et 3h selon le modèle de véhicule. Le technicien vient chez vous — aucun déplacement de votre part.</div></div>
-      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Comment est expédié le produit ?<span class="faq-arrow">▾</span></div><div class="faq-a">Commande sans installation : expédition sous 2-3 jours ouvrés (Colissimo). Avec installation : le technicien apporte le matériel le jour de l'intervention.</div></div>
-      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Vais-je recevoir une facture ?<span class="faq-arrow">▾</span></div><div class="faq-a">Oui. Une facture PDF est générée automatiquement et envoyée par email immédiatement après le paiement.</div></div>
-      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">CarPlay sans fil — compatible avec tous les iPhones ?<span class="faq-arrow">▾</span></div><div class="faq-a">Compatible iPhone 5 et supérieur sous iOS 7.1 minimum. Pour Android Auto sans fil : Android 11 minimum.</div></div>
-    </div>
+    <div class="faq-list scroll-reveal" id="faqList"></div>
   </div>
 </section>
 </div>
@@ -320,52 +334,55 @@
   <div class="modal-box pay-box">
     <button class="modal-close" onclick="closeModal('modalPay')">×</button>
     <div id="payDetail">
-      <h3 style="font-family:var(--font-titre);font-size:1.4rem;font-weight:800;margin-bottom:1.2rem;">Finaliser la commande</h3>
-
-      <!-- RÉSUMÉ PANIER -->
+      <h3 style="font-family:var(--font-titre);font-size:1.4rem;font-weight:800;margin-bottom:1.2rem;" data-i18n="checkout_title">Finaliser la commande</h3>
       <div style="background:var(--gris-1);border-radius:var(--radius-md);padding:1rem;margin-bottom:1.2rem;max-height:200px;overflow-y:auto;" id="payCartSummary"></div>
-
-      <!-- INFOS CLIENT -->
-      <div class="form-group"><label>Nom complet *</label><input type="text" id="buyerName" required placeholder="Jean Dupont"></div>
-      <div class="form-group"><label>Email * (pour la facture)</label><input type="email" id="buyerEmail" required placeholder="jean@email.com"></div>
-      <div class="form-group"><label>Téléphone</label><input type="tel" id="buyerPhone" placeholder="06 12 34 56 78"></div>
-
-      <!-- TOTAL -->
+      <div class="form-group"><label data-i18n="checkout_name">Nom complet *</label><input type="text" id="buyerName" required placeholder="Jean Dupont"></div>
+      <div class="form-group"><label data-i18n="checkout_email">Email * (pour la facture)</label><input type="email" id="buyerEmail" required placeholder="jean@email.com"></div>
+      <div class="form-group"><label data-i18n="checkout_phone">Téléphone</label><input type="tel" id="buyerPhone" placeholder="06 12 34 56 78"></div>
       <div style="background:var(--orange-bg);border:1px solid rgba(244,96,12,.2);border-radius:var(--radius-md);padding:.9rem 1.2rem;display:flex;justify-content:space-between;align-items:center;margin-bottom:1.2rem;">
-        <span style="font-size:.85rem;color:var(--gris-5);">Total TTC</span>
+        <span style="font-size:.85rem;color:var(--gris-5);" data-i18n="checkout_total_label">Total TTC</span>
         <span style="font-family:var(--font-titre);font-size:1.8rem;font-weight:800;color:var(--orange);" id="payTotal">0€</span>
       </div>
-
-      <!-- PAYPAL -->
       <div id="paypalContainer"></div>
       <div class="pay-divider">ou payer par carte</div>
-      <button class="btn-card" onclick="payByCard()">💳 Payer par carte bancaire</button>
-      <p style="text-align:center;font-size:.7rem;color:var(--gris-4);margin-top:.5rem;">🔒 Paiement sécurisé SSL</p>
+      <button class="btn-card" onclick="payByCard()" data-i18n="checkout_card_btn">💳 Payer par carte bancaire</button>
+      <p style="text-align:center;font-size:.7rem;color:var(--gris-4);margin-top:.5rem;" data-i18n="checkout_ssl">🔒 Paiement sécurisé SSL</p>
     </div>
-
-    <!-- SUCCÈS -->
     <div class="order-success" id="orderSuccess">
       <div class="ico">✅</div>
-      <h3 style="font-family:var(--font-titre);font-size:1.6rem;margin-bottom:.4rem;">Commande confirmée !</h3>
-      <p style="font-size:.88rem;color:var(--gris-5);">Facture envoyée à <strong id="orderEmail"></strong></p>
+      <h3 style="font-family:var(--font-titre);font-size:1.6rem;margin-bottom:.4rem;" data-i18n="order_ok_title">Commande confirmée !</h3>
+      <p style="font-size:.88rem;color:var(--gris-5);"><span data-i18n="order_ok_sub">Facture envoyée à</span> <strong id="orderEmail"></strong></p>
       <div class="order-ref" id="orderRef"></div>
-      <p style="font-size:.82rem;color:var(--gris-5);margin-top:.8rem;">On vous contacte sous <strong>24h</strong> pour l'installation ou la livraison.</p>
-      <button class="btn btn-primary" style="margin-top:1.2rem;" onclick="closeModal('modalPay');clearCart();">Fermer</button>
+      <p style="font-size:.82rem;color:var(--gris-5);margin-top:.8rem;" data-i18n="order_ok_contact">On vous contacte sous 24h pour l'installation ou la livraison.</p>
+      <button class="btn btn-primary" style="margin-top:1.2rem;" onclick="closeModal('modalPay');clearCart();" data-i18n="order_close">Fermer</button>
     </div>
   </div>
 </div>
 
-<!-- FOOTER -->
 <footer>
   <div class="footer-inner">
     <div><div class="footer-logo">Auto<span>Zent</span></div><p class="footer-desc" data-i18n="footer_desc">Spécialistes High-Tech Auto & Mobile — IDF, Oise, Aisne.</p></div>
-    <div class="footer-col"><h4>Pages</h4><ul><li><a href="index.html">Accueil</a></li><li><a href="services.html">Services</a></li><li><a href="boutique.html">Boutique</a></li><li><a href="realisations.html">Réalisations</a></li><li><a href="rdv.html">Rendez-vous</a></li><li><a href="contact.html">Contact</a></li></ul></div>
-    <div class="footer-col"><h4>Boutique</h4><ul><li><a href="boutique.html">CarPlay 7"</a></li><li><a href="boutique.html">CarPlay 9"</a></li><li><a href="boutique.html">CarPlay 10"</a></li><li><a href="boutique.html">CarPlay 12"</a></li></ul></div>
-      <div class="footer-col"><h4>Contact</h4><ul><li><a href="contact.html">📞 +33 7 77 51 75 30</a></li><li><a href="https://wa.me/+33 7 77 51 75 30" target="_blank">💬 WhatsApp</a></li><li><a href="https://instagram.com/autozent_services" target="_blank">📸 Instagram</a></li></ul></div>
-    </div>
+    <div class="footer-col"><h4 data-i18n="footer_pages">Pages</h4><ul>
+      <li><a href="index.html" data-i18n="nav_home">Accueil</a></li>
+      <li><a href="services.html" data-i18n="nav_services">Services</a></li>
+      <li><a href="boutique.html" data-i18n="nav_boutique">Boutique</a></li>
+      <li><a href="realisations.html" data-i18n="nav_realisations">Réalisations</a></li>
+      <li><a href="rdv.html" data-i18n="nav_rdv">Rendez-vous</a></li>
+      <li><a href="contact.html" data-i18n="nav_contact">Contact</a></li>
+    </ul></div>
+    <div class="footer-col"><h4 data-i18n="nav_boutique">Boutique</h4><ul>
+      <li><a href="boutique.html">CarPlay 7"</a></li><li><a href="boutique.html">CarPlay 9"</a></li>
+      <li><a href="boutique.html">CarPlay 10"</a></li><li><a href="boutique.html">CarPlay 12"</a></li>
+    </ul></div>
+    <div class="footer-col"><h4 data-i18n="footer_contact_title">Contact</h4><ul>
+      <li><a href="tel:+33777517530">📞 +33 7 77 51 75 30</a></li>
+      <li><a href="https://wa.me/33777517530" target="_blank">💬 WhatsApp</a></li>
+      <li><a href="https://instagram.com/autozent_services" target="_blank">📸 Instagram</a></li>
+    </ul></div>
+  </div>
   <div class="footer-bottom">
     <p>© 2025 AutoZent Services. · <a href="#" style="color:var(--gris-4);">CGV</a> · <a href="#" style="color:var(--gris-4);">Mentions légales</a></p>
-    <div class="footer-socials"><a href="https://wa.me/+33 7 77 51 75 30" class="social-btn" target="_blank">💬</a><a href="https://instagram.com/autozent_services" class="social-btn" target="_blank">📸</a></div>
+    <div class="footer-socials"><a href="https://wa.me/33777517530" class="social-btn" target="_blank">💬</a><a href="https://instagram.com/autozent_services" class="social-btn" target="_blank">📸</a></div>
   </div>
 </footer>
 
@@ -373,94 +390,76 @@
 <script src="app.js"></script>
 <script>
 const INSTALL_PRICE = 170;
-const PRODUCTS = [
-  { id:1, brand:'AutoZent', name:'Autoradio CarPlay 7" Sans Fil', taille:7, price:179, oldPrice:null, badge:'new', compat:['carplay','android','wifi'], tags:['CarPlay SF','Android Auto SF','GPS','BT 5.0'], desc:'Écran 7" — CarPlay et Android Auto sans fil. GPS intégré. Compatible tous véhicules.', specs:{'Taille':'7"','Résolution':'1024×600','CarPlay':'Sans fil','Android Auto':'Sans fil','GPS':'Intégré','RAM/ROM':'2Go/32Go','Bluetooth':'5.0'}, popular:3 },
-  { id:2, brand:'AutoZent', name:'Autoradio CarPlay 9" Sans Fil', taille:9, price:229, oldPrice:279, badge:'bestseller', compat:['carplay','android','wifi'], tags:['CarPlay SF','Android Auto SF','HD','GPS'], desc:'Notre meilleur vendeur. Écran 9" HD — CarPlay et Android Auto sans fil. Entrée caméra recul intégrée.', specs:{'Taille':'9"','Résolution':'1280×720 HD','CarPlay':'Sans fil','Android Auto':'Sans fil','Caméra recul':'Entrée intégrée','RAM/ROM':'2Go/32Go','Bluetooth':'5.0'}, popular:10 },
-  { id:3, brand:'AutoZent Pro', name:'Autoradio CarPlay 10" + Caméra HD', taille:10, price:319, oldPrice:null, badge:'promo', compat:['carplay','android','wifi','camera'], tags:['CarPlay SF','Android Auto SF','Caméra HD incluse','Octa-core'], desc:'Pack complet : écran 10" + caméra de recul HD offerte. Processeur octa-core, 4Go RAM.', specs:{'Taille':'10.1"','Résolution':'1280×800 HD','CarPlay':'Sans fil','Android Auto':'Sans fil','Caméra recul':'Incluse HD','RAM/ROM':'4Go/64Go','Processeur':'Octa-core'}, popular:8 },
-  { id:4, brand:'AutoZent Pro', name:'Autoradio CarPlay 12" Panoramique', taille:12, price:449, oldPrice:549, badge:null, compat:['carplay','android','wifi'], tags:['Full HD','CarPlay SF','6Go RAM','DSP Audio'], desc:'Écran panoramique 12.3" Full HD. DSP audio intégré. Idéal SUV et berlines premium.', specs:{'Taille':'12.3"','Résolution':'1920×720 Full HD','CarPlay':'Sans fil','Android Auto':'Sans fil','RAM/ROM':'6Go/128Go','DSP Audio':'Intégré','Processeur':'Octa-core 2GHz'}, popular:5 },
-  { id:5, brand:'AutoZent', name:'Autoradio CarPlay 9" + DAB+', taille:9, price:269, oldPrice:null, badge:null, compat:['carplay','android','wifi'], tags:['CarPlay SF','Android Auto SF','DAB+'], desc:'Écran 9" avec radio numérique DAB+ intégrée. Réception parfaite, sans parasites.', specs:{'Taille':'9"','Résolution':'1280×720 HD','CarPlay':'Sans fil','Android Auto':'Sans fil','DAB+':'Intégré','RAM/ROM':'3Go/32Go'}, popular:4 },
-  { id:6, brand:'AutoZent Pro', name:'Autoradio CarPlay 10" 4G SIM', taille:10, price:379, oldPrice:null, badge:'new', compat:['carplay','android','wifi'], tags:['CarPlay SF','Android Auto SF','4G SIM','Hotspot WiFi'], desc:'Slot SIM 4G intégré. Transformez votre voiture en hotspot WiFi. Connexion permanente sans partage téléphone.', specs:{'Taille':'10.1"','Résolution':'1280×800 HD','CarPlay':'Sans fil','Android Auto':'Sans fil','4G SIM':'Slot intégré','WiFi Hotspot':'Oui','RAM/ROM':'4Go/64Go'}, popular:6 },
+
+/* ════ DONNÉES PRODUITS (sans nom/desc — traduits via t()) ════ */
+const PRODUCTS_BASE = [
+  { id:1, brand:'AutoZent',     taille:7,  price:179, oldPrice:null, badge:'new',        compat:['carplay','android','wifi'],          tags:['CarPlay SF','Android Auto SF','GPS','BT 5.0'],            specs:{'Taille':'7"','Résolution':'1024×600','CarPlay':'Sans fil','Android Auto':'Sans fil','GPS':'Intégré','RAM/ROM':'2Go/32Go','Bluetooth':'5.0'}, popular:3  },
+  { id:2, brand:'AutoZent',     taille:9,  price:229, oldPrice:279,  badge:'bestseller', compat:['carplay','android','wifi'],          tags:['CarPlay SF','Android Auto SF','HD','GPS'],                specs:{'Taille':'9"','Résolution':'1280×720 HD','CarPlay':'Sans fil','Android Auto':'Sans fil','Caméra recul':'Entrée intégrée','RAM/ROM':'2Go/32Go','Bluetooth':'5.0'}, popular:10 },
+  { id:3, brand:'AutoZent Pro', taille:10, price:319, oldPrice:null, badge:'promo',      compat:['carplay','android','wifi','camera'], tags:['CarPlay SF','Android Auto SF','Caméra HD incluse','Octa-core'], specs:{'Taille':'10.1"','Résolution':'1280×800 HD','CarPlay':'Sans fil','Android Auto':'Sans fil','Caméra recul':'Incluse HD','RAM/ROM':'4Go/64Go','Processeur':'Octa-core'}, popular:8  },
+  { id:4, brand:'AutoZent Pro', taille:12, price:449, oldPrice:549,  badge:null,         compat:['carplay','android','wifi'],          tags:['Full HD','CarPlay SF','6Go RAM','DSP Audio'],             specs:{'Taille':'12.3"','Résolution':'1920×720 Full HD','CarPlay':'Sans fil','Android Auto':'Sans fil','RAM/ROM':'6Go/128Go','DSP Audio':'Intégré','Processeur':'Octa-core 2GHz'}, popular:5  },
+  { id:5, brand:'AutoZent',     taille:9,  price:269, oldPrice:null, badge:null,         compat:['carplay','android','wifi'],          tags:['CarPlay SF','Android Auto SF','DAB+'],                    specs:{'Taille':'9"','Résolution':'1280×720 HD','CarPlay':'Sans fil','Android Auto':'Sans fil','DAB+':'Intégré','RAM/ROM':'3Go/32Go'}, popular:4  },
+  { id:6, brand:'AutoZent Pro', taille:10, price:379, oldPrice:null, badge:'new',        compat:['carplay','android','wifi'],          tags:['CarPlay SF','Android Auto SF','4G SIM','Hotspot WiFi'],   specs:{'Taille':'10.1"','Résolution':'1280×800 HD','CarPlay':'Sans fil','Android Auto':'Sans fil','4G SIM':'Slot intégré','WiFi Hotspot':'Oui','RAM/ROM':'4Go/64Go'}, popular:6  },
 ];
 
-/* ════════ PANIER ════════ */
-let cart = JSON.parse(localStorage.getItem('az_cart') || '[]');
+/* Retourne les produits avec noms/descriptions dans la langue active */
+function getProducts() {
+  return PRODUCTS_BASE.map(p => ({
+    ...p,
+    name: t('p'+p.id+'_name'),
+    desc: t('p'+p.id+'_desc'),
+  }));
+}
 
+/* ════ PANIER ════ */
+let cart = JSON.parse(localStorage.getItem('az_cart') || '[]');
 function saveCart() { localStorage.setItem('az_cart', JSON.stringify(cart)); }
 
 function addToCart(productId, withInstall = false) {
-  const p = PRODUCTS.find(x => x.id === productId);
+  const products = getProducts();
+  const p = products.find(x => x.id === productId);
   if (!p) return;
   const key = `${productId}_${withInstall ? 'install' : 'seul'}`;
   const existing = cart.find(i => i.key === key);
+  /* Labels traduits */
+  const optLabel = withInstall ? t('option_avec_install') : t('option_seul');
   if (existing) {
     existing.qty++;
+    existing.name = p.name; // mise à jour si langue changée
   } else {
-    cart.push({
-      key,
-      productId,
-      name: p.name,
-      option: withInstall ? 'Avec installation' : 'Produit seul',
-      unitPrice: withInstall ? p.price + INSTALL_PRICE : p.price,
-      qty: 1,
-    });
+    cart.push({ key, productId, name: p.name, option: optLabel,
+      unitPrice: withInstall ? p.price + INSTALL_PRICE : p.price, qty: 1 });
   }
-  saveCart();
-  renderCart();
-  // Flash animation
-  const btn = document.querySelector(`[data-add="${productId}"]${withInstall ? '[data-install]' : ':not([data-install])'}`) ;
-  if (btn) { btn.textContent = '✅ Ajouté !'; setTimeout(() => { btn.textContent = withInstall ? '+ Avec install' : '🛒 Ajouter'; }, 1200); }
-  // Open drawer briefly
+  saveCart(); renderCart();
+  const btn = document.querySelector(`[data-add="${productId}"]${withInstall ? '[data-install]' : ':not([data-install])'}`);
+  if (btn) { const orig = btn.textContent; btn.textContent = '✅'; setTimeout(() => { btn.textContent = withInstall ? t('btn_add_install') : t('btn_add_cart'); }, 1200); }
   openCartDrawer();
 }
 
-function removeFromCart(key) {
-  cart = cart.filter(i => i.key !== key);
-  saveCart();
-  renderCart();
-}
-
+function removeFromCart(key) { cart = cart.filter(i => i.key !== key); saveCart(); renderCart(); }
 function changeQty(key, delta) {
-  const item = cart.find(i => i.key === key);
-  if (!item) return;
+  const item = cart.find(i => i.key === key); if (!item) return;
   item.qty += delta;
   if (item.qty <= 0) { removeFromCart(key); return; }
-  saveCart();
-  renderCart();
+  saveCart(); renderCart();
 }
-
-function clearCart() {
-  cart = [];
-  saveCart();
-  renderCart();
-}
-
+function clearCart() { cart = []; saveCart(); renderCart(); }
 function getCartTotal() { return cart.reduce((s, i) => s + i.unitPrice * i.qty, 0); }
 function getCartCount() { return cart.reduce((s, i) => s + i.qty, 0); }
 
 function renderCart() {
-  const body  = document.getElementById('cartBody');
+  const body = document.getElementById('cartBody');
   const empty = document.getElementById('cartEmpty');
-  const footer= document.getElementById('cartFooter');
-  const count = document.getElementById('cartCount');
+  const footer = document.getElementById('cartFooter');
   const badge = document.getElementById('cartCount');
-  const total = getCartTotal();
-  const n     = getCartCount();
-
-  // Badge nav
-  badge.textContent = n;
-  badge.classList.toggle('hidden', n === 0);
-
+  const n = getCartCount();
+  badge.textContent = n; badge.classList.toggle('hidden', n === 0);
   if (cart.length === 0) {
     if (empty) empty.style.display = 'block';
     footer.style.display = 'none';
-    body.innerHTML = '';
-    body.appendChild(empty);
-    return;
+    body.innerHTML = ''; body.appendChild(empty); return;
   }
-
   if (empty) empty.style.display = 'none';
   footer.style.display = 'block';
-
   body.innerHTML = cart.map(item => `
     <div class="cart-item">
       <div class="cart-item-img">📱</div>
@@ -474,12 +473,10 @@ function renderCart() {
           <button class="cart-item-remove" onclick="removeFromCart('${item.key}')">🗑 Supprimer</button>
         </div>
       </div>
-      <div class="cart-item-price">${(item.unitPrice * item.qty)}€</div>
-    </div>
-  `).join('');
-
+      <div class="cart-item-price">${item.unitPrice * item.qty}€</div>
+    </div>`).join('');
   document.getElementById('cartItemCount').textContent = `${n} article${n > 1 ? 's' : ''}`;
-  document.getElementById('cartTotal').textContent = total + '€';
+  document.getElementById('cartTotal').textContent = getCartTotal() + '€';
 }
 
 function openCartDrawer() {
@@ -487,112 +484,96 @@ function openCartDrawer() {
   document.getElementById('cartOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
-
 function toggleCart(e) {
   e.preventDefault();
-  const drawer = document.getElementById('cartDrawer');
-  const overlay= document.getElementById('cartOverlay');
-  const isOpen = drawer.classList.contains('open');
-  if (isOpen) {
-    drawer.classList.remove('open');
-    overlay.classList.remove('open');
-    document.body.style.overflow = '';
-  } else {
-    openCartDrawer();
-  }
+  const d = document.getElementById('cartDrawer'), o = document.getElementById('cartOverlay');
+  if (d.classList.contains('open')) { d.classList.remove('open'); o.classList.remove('open'); document.body.style.overflow = ''; }
+  else openCartDrawer();
 }
 
-/* ════════ CHECKOUT ════════ */
+/* ════ CHECKOUT ════ */
 function goToCheckout() {
-  if (cart.length === 0) { toast('Votre panier est vide.', 'err'); return; }
-  // Fermer le drawer
+  if (cart.length === 0) { toast(t('cart_empty_title'), 'err'); return; }
   document.getElementById('cartDrawer').classList.remove('open');
   document.getElementById('cartOverlay').classList.remove('open');
   document.body.style.overflow = '';
-  // Remplir le modal paiement
   const summary = document.getElementById('payCartSummary');
   summary.innerHTML = cart.map(i =>
     `<div style="display:flex;justify-content:space-between;font-size:.82rem;padding:.3rem 0;border-bottom:1px solid var(--gris-2);">
       <span>${i.name} <span style="color:var(--gris-4);">× ${i.qty}</span> <span style="font-size:.72rem;color:var(--gris-4);">(${i.option})</span></span>
       <strong>${i.unitPrice * i.qty}€</strong>
     </div>`
-  ).join('') + `<div style="display:flex;justify-content:space-between;font-size:.9rem;padding:.5rem 0;font-weight:700;"><span>Total</span><span style="color:var(--orange);">${getCartTotal()}€</span></div>`;
+  ).join('') + `<div style="display:flex;justify-content:space-between;font-size:.9rem;padding:.5rem 0;font-weight:700;">
+    <span>Total</span><span style="color:var(--orange);">${getCartTotal()}€</span>
+  </div>`;
   document.getElementById('payTotal').textContent = getCartTotal() + '€';
   document.getElementById('orderSuccess').style.display = 'none';
   document.getElementById('payDetail').style.display = 'block';
-  renderPaypal();
-  openModal('modalPay');
+  renderPaypal(); openModal('modalPay');
 }
 
-/* ════════ PAYPAL ════════ */
+/* ════ PAYPAL ════ */
 function renderPaypal() {
   const container = document.getElementById('paypalContainer');
   container.innerHTML = '<div id="paypal-btn-wrap"></div>';
   if (typeof paypal_sdk === 'undefined') {
-    container.innerHTML = `<p style="font-size:.75rem;color:var(--gris-4);text-align:center;">⚠️ PayPal SDK non chargé — configurez votre Client ID dans boutique.html ligne 5.</p>`;
-    return;
+    container.innerHTML = `<p style="font-size:.75rem;color:var(--gris-4);text-align:center;">⚠️ PayPal SDK non chargé.</p>`; return;
   }
   const total = getCartTotal();
-  const desc  = cart.map(i => `${i.name} ×${i.qty}`).join(', ');
+  const desc = cart.map(i => `${i.name} ×${i.qty}`).join(', ');
   paypal_sdk.Buttons({
     style: { layout:'horizontal', color:'gold', shape:'rect', label:'paypal', height:42 },
     createOrder(data, actions) {
       const name = document.getElementById('buyerName').value.trim();
-      const email= document.getElementById('buyerEmail').value.trim();
-      if (!name || !email) { toast('Renseignez votre nom et email avant de payer.','err'); return Promise.reject(); }
-      return actions.order.create({
-        purchase_units: [{ description: desc, amount: { value: total.toFixed(2), currency_code:'EUR' } }]
-      });
+      const email = document.getElementById('buyerEmail').value.trim();
+      if (!name || !email) { toast('Renseignez votre nom et email avant de payer.', 'err'); return Promise.reject(); }
+      return actions.order.create({ purchase_units: [{ description: desc, amount: { value: total.toFixed(2), currency_code:'EUR' } }] });
     },
     onApprove(data, actions) {
       return actions.order.capture().then(details => {
-        showOrderSuccess(details.payer.email_address, details.payer.name.given_name + ' ' + details.payer.name.surname, details.id);
+        showOrderSuccess(details.payer.email_address, `${details.payer.name.given_name} ${details.payer.name.surname}`, details.id);
       });
     },
-    onError() { toast('Erreur PayPal. Réessayez ou payez par carte.','err'); }
+    onError() { toast('Erreur PayPal. Réessayez ou payez par carte.', 'err'); }
   }).render('#paypal-btn-wrap');
 }
 
+/* ════ PAIEMENT CARTE — labels traduits ════ */
 function payByCard() {
-  const name  = document.getElementById('buyerName').value.trim();
+  const name = document.getElementById('buyerName').value.trim();
   const email = document.getElementById('buyerEmail').value.trim();
-  if (!name || !email) { toast('Renseignez votre nom et email avant de payer.','err'); return; }
-
-  // Créer le modal carte
-  const existing = document.getElementById('modalCarte');
-  if (existing) existing.remove();
-
+  if (!name || !email) { toast('Renseignez votre nom et email avant de payer.', 'err'); return; }
+  const existing = document.getElementById('modalCarte'); if (existing) existing.remove();
   const modal = document.createElement('div');
-  modal.id = 'modalCarte';
-  modal.className = 'modal-overlay open';
+  modal.id = 'modalCarte'; modal.className = 'modal-overlay open';
   modal.innerHTML = `
     <div class="modal-box" style="max-width:420px;">
       <button class="modal-close" onclick="document.getElementById('modalCarte').remove()">×</button>
-      <h3 style="font-family:var(--font-titre);font-size:1.3rem;font-weight:800;margin-bottom:1.2rem;">💳 Paiement par carte</h3>
+      <h3 style="font-family:var(--font-titre);font-size:1.3rem;font-weight:800;margin-bottom:1.2rem;">${t('card_title')}</h3>
       <div class="form-group">
-        <label>Numéro de carte *</label>
+        <label>${t('card_num')}</label>
         <input type="text" id="cardNum" maxlength="19" placeholder="1234 5678 9012 3456"
           oninput="this.value=this.value.replace(/[^0-9]/g,'').replace(/(.{4})/g,'$1 ').trim()">
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
         <div class="form-group">
-          <label>Date d'expiration *</label>
+          <label>${t('card_exp')}</label>
           <input type="text" id="cardExp" maxlength="5" placeholder="MM/AA"
             oninput="this.value=this.value.replace(/[^0-9]/g,'').replace(/^(.{2})(.+)/,'$1/$2')">
         </div>
         <div class="form-group">
-          <label>CVV *</label>
+          <label>${t('card_cvv')}</label>
           <input type="text" id="cardCvv" maxlength="3" placeholder="123"
             oninput="this.value=this.value.replace(/[^0-9]/g,'')">
         </div>
       </div>
       <div class="form-group">
-        <label>Nom sur la carte *</label>
+        <label>${t('card_name')}</label>
         <input type="text" id="cardName" placeholder="JEAN DUPONT">
       </div>
-      <p style="font-size:.72rem;color:var(--gris-4);text-align:center;margin-bottom:1rem;">🔒 Paiement sécurisé SSL</p>
-      <button class="btn-buy" onclick="submitCardPayment('${name}','${email}')">
-        Payer ${getCartTotal()}€
+      <p style="font-size:.72rem;color:var(--gris-4);text-align:center;margin-bottom:1rem;">${t('checkout_ssl')}</p>
+      <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="submitCardPayment('${name}','${email}')">
+        ${t('card_pay_btn')} ${getCartTotal()}€
       </button>
     </div>`;
   modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
@@ -600,33 +581,27 @@ function payByCard() {
 }
 
 function submitCardPayment(name, email) {
-  const num  = document.getElementById('cardNum')?.value.replace(/\s/g,'');
-  const exp  = document.getElementById('cardExp')?.value;
-  const cvv  = document.getElementById('cardCvv')?.value;
-  const cname= document.getElementById('cardName')?.value;
-  if (!num || num.length < 16 || !exp || !cvv || !cname) {
-    toast('Remplissez tous les champs carte.','err'); return;
-  }
+  const num = (document.getElementById('cardNum')?.value || '').replace(/\s/g,'');
+  const exp = document.getElementById('cardExp')?.value;
+  const cvv = document.getElementById('cardCvv')?.value;
+  const cname = document.getElementById('cardName')?.value;
+  if (!num || num.length < 16 || !exp || !cvv || !cname) { toast('Remplissez tous les champs carte.', 'err'); return; }
   document.getElementById('modalCarte')?.remove();
-  // ⚠️ Ici : intégrer Stripe ou Revolut Business pour le vrai débit
-  // Pour l'instant : confirmation de commande
   showOrderSuccess(email, name, 'CARD-' + Date.now());
 }
 
 function showOrderSuccess(email, name, orderId) {
   const ref = 'AZ-' + Date.now().toString(36).toUpperCase();
   document.getElementById('orderEmail').textContent = email;
-  document.getElementById('orderRef').textContent   = 'Réf : ' + ref;
-  document.getElementById('payDetail').style.display  = 'none';
+  document.getElementById('orderRef').textContent = 'Réf : ' + ref;
+  document.getElementById('payDetail').style.display = 'none';
   document.getElementById('orderSuccess').style.display = 'block';
   generateInvoice({ name, email, orderId: ref });
 }
 
 function generateInvoice({ name, email, orderId }) {
   const date = new Date().toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'});
-  const rows = cart.map(i =>
-    `<tr><td>${i.name} (${i.option})</td><td>${i.qty}</td><td>${i.unitPrice}€</td><td>${i.unitPrice*i.qty}€</td></tr>`
-  ).join('');
+  const rows = cart.map(i => `<tr><td>${i.name} (${i.option})</td><td>${i.qty}</td><td>${i.unitPrice}€</td><td>${i.unitPrice*i.qty}€</td></tr>`).join('');
   const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Facture ${orderId}</title>
   <style>body{font-family:sans-serif;max-width:700px;margin:40px auto;font-size:14px;color:#222;}
   .logo{font-size:22px;font-weight:900;}.logo span{color:#F4600C;}
@@ -644,55 +619,59 @@ function generateInvoice({ name, email, orderId }) {
   <table><thead><tr><th>Description</th><th>Qté</th><th>P.U.</th><th>Total</th></tr></thead>
   <tbody>${rows}<tr class="total"><td colspan="3" style="text-align:right;">TOTAL TTC</td><td>${getCartTotal()}€</td></tr></tbody></table>
   <p style="font-size:12px;color:#777;">TVA non applicable — Art. 293 B du CGI</p>
-  <div class="footer">AutoZent Services · contact@autozent.fr · Merci pour votre confiance !</div>
+  <div class="footer">AutoZent Services · Autozentservices@gmail.com · +33 7 77 51 75 30</div>
   </body></html>`;
   const w = window.open('','_blank');
-  if (w) { w.document.write(html); w.document.close(); setTimeout(()=>w.print(),500); }
+  if (w) { w.document.write(html); w.document.close(); setTimeout(() => w.print(), 500); }
 }
 
-/* ════════ GRILLE PRODUITS ════════ */
+/* ════ GRILLE PRODUITS — tout traduit ════ */
 function renderProducts(list) {
   const grid = document.getElementById('productsGrid');
-  document.getElementById('productsCount').textContent = `${list.length} produit${list.length>1?'s':''}`;
-  grid.innerHTML = list.map(p => `
+  const n = list.length;
+  document.getElementById('productsCount').textContent = `${n} produit${n > 1 ? 's' : ''}`;
+  const btnAdd = t('btn_add_cart');
+  const btnInstall = t('btn_add_install');
+  const btnDetails = t('btn_details');
+  const installSuffix = t('install_suffix');
+  grid.innerHTML = list.map(p => {
+    const badgeLabel = p.badge ? t('badge_' + p.badge) : '';
+    return `
     <div class="product-card">
-      ${p.badge?`<div class="product-badge ${p.badge}">${p.badge==='new'?'Nouveau':p.badge==='promo'?'Promo':'Best-seller'}</div>`:''}
+      ${p.badge ? `<div class="product-badge ${p.badge}">${badgeLabel}</div>` : ''}
       <div class="product-img-wrap"><div class="product-img-placeholder">📱</div></div>
       <div class="product-body">
         <div class="product-brand">${p.brand}</div>
         <div class="product-name">${p.name}</div>
-        <div class="product-specs">${p.tags.map(t=>`<span class="spec-tag">${t}</span>`).join('')}</div>
-        <div class="product-desc" style="font-size:.8rem;color:var(--gris-5);margin-bottom:.8rem;">${p.desc}</div>
+        <div class="product-specs">${p.tags.map(tg => `<span class="spec-tag">${tg}</span>`).join('')}</div>
+        <div style="font-size:.8rem;color:var(--gris-5);margin-bottom:.8rem;">${p.desc}</div>
         <div class="product-price-row">
           <span class="product-price">${p.price}€</span>
-          ${p.oldPrice?`<span class="product-price-old">${p.oldPrice}€</span>`:''}
+          ${p.oldPrice ? `<span class="product-price-old">${p.oldPrice}€</span>` : ''}
         </div>
-        <div style="font-size:.72rem;color:var(--gris-4);margin-bottom:.9rem;">+ ${INSTALL_PRICE}€ avec installation à domicile</div>
+        <div style="font-size:.72rem;color:var(--gris-4);margin-bottom:.9rem;">+ ${INSTALL_PRICE}€ ${installSuffix}</div>
         <div class="product-actions">
-          <button class="btn-add-cart" data-add="${p.id}" onclick="addToCart(${p.id},false)">🛒 Ajouter</button>
-          <button class="btn-add-install" data-add="${p.id}" data-install onclick="addToCart(${p.id},true)">+ Avec install</button>
-          <button class="btn-details-sm" onclick="showDetails(${p.id})">Voir les détails</button>
+          <button class="btn-add-cart" data-add="${p.id}" onclick="addToCart(${p.id},false)">${btnAdd}</button>
+          <button class="btn-add-install" data-add="${p.id}" data-install onclick="addToCart(${p.id},true)">${btnInstall}</button>
+          <button class="btn-details-sm" onclick="showDetails(${p.id})">${btnDetails}</button>
         </div>
       </div>
-    </div>
-  `).join('');
+    </div>`; }).join('');
 }
 
+/* ════ MODAL DÉTAILS — tout traduit ════ */
 function showDetails(id) {
-  const p = PRODUCTS.find(x => x.id === id);
-  if (!p) return;
+  const p = getProducts().find(x => x.id === id); if (!p) return;
   const rows = Object.entries(p.specs).map(([k,v]) =>
     `<tr><td style="font-weight:600;width:45%;padding:.5rem .3rem;border-bottom:1px solid var(--gris-2);font-size:.83rem;">${k}</td>
      <td style="padding:.5rem .3rem;border-bottom:1px solid var(--gris-2);font-size:.83rem;color:var(--gris-5);">${v}</td></tr>`
   ).join('');
-
-  // Créer un modal temporaire
-  const existing = document.getElementById('modalDetails');
-  if (existing) existing.remove();
-
+  const existing = document.getElementById('modalDetails'); if (existing) existing.remove();
   const modal = document.createElement('div');
-  modal.id = 'modalDetails';
-  modal.className = 'modal-overlay open';
+  modal.id = 'modalDetails'; modal.className = 'modal-overlay open';
+  const btnAdd = t('btn_add_cart');
+  const btnInstall = t('btn_add_install');
+  const installSuffix = t('install_suffix');
   modal.innerHTML = `
     <div class="modal-box" style="max-width:540px;">
       <button class="modal-close" onclick="document.getElementById('modalDetails').remove()">×</button>
@@ -702,55 +681,203 @@ function showDetails(id) {
       <table style="width:100%;border-collapse:collapse;margin-bottom:1.2rem;"><tbody>${rows}</tbody></table>
       <div style="display:flex;align-items:baseline;gap:.5rem;margin-bottom:1.5rem;">
         <span style="font-family:var(--font-titre);font-size:1.6rem;font-weight:800;color:var(--orange);">${p.price}€</span>
-        <span style="font-size:.82rem;color:var(--gris-4);">+ ${INSTALL_PRICE}€ avec installation</span>
+        <span style="font-size:.82rem;color:var(--gris-4);">+ ${INSTALL_PRICE}€ ${installSuffix}</span>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;">
-        <button class="btn-add-cart" onclick="document.getElementById('modalDetails').remove();addToCart(${p.id},false)">🛒 Ajouter</button>
-        <button class="btn-add-install" onclick="document.getElementById('modalDetails').remove();addToCart(${p.id},true)">+ Avec install</button>
+        <button class="btn-add-cart" onclick="document.getElementById('modalDetails').remove();addToCart(${p.id},false)">${btnAdd}</button>
+        <button class="btn-add-install" onclick="document.getElementById('modalDetails').remove();addToCart(${p.id},true)">${btnInstall}</button>
       </div>
     </div>`;
   modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
   document.body.appendChild(modal);
 }
 
-/* FILTRES */
+/* ════ GARANTIES — dynamiques ════ */
+function renderGaranties() {
+  const items = [
+    { ico:'🛡️', tk:'g1_t', dk:'g1_d' }, { ico:'🔧', tk:'g2_t', dk:'g2_d' },
+    { ico:'💳', tk:'g3_t', dk:'g3_d' }, { ico:'↩️', tk:'g4_t', dk:'g4_d' },
+  ];
+  const grid = document.getElementById('garantiesGrid');
+  if (grid) grid.innerHTML = items.map((g, i) => `
+    <div class="garantie-card scroll-reveal delay-${i+1}">
+      <div class="garantie-ico">${g.ico}</div>
+      <div class="garantie-title">${t(g.tk)}</div>
+      <div class="garantie-desc">${t(g.dk)}</div>
+    </div>`).join('');
+}
+
+/* ════ FAQ — dynamique ════ */
+function renderFaq() {
+  const list = document.getElementById('faqList');
+  if (!list) return;
+  list.innerHTML = [1,2,3,4,5,6].map(i => `
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">${t('faq_q'+i)}<span class="faq-arrow">▾</span></div>
+      <div class="faq-a">${t('faq_a'+i)}</div>
+    </div>`).join('');
+}
+
+/* ════ HERO innerHTML (pour le <br>) ════ */
+function renderHero() {
+  const titleEl = document.getElementById('shopHeroTitle');
+  const subEl   = document.getElementById('shopHeroSub');
+  if (titleEl) titleEl.innerHTML = t('shop_hero_title');
+  if (subEl)   subEl.textContent = t('shop_hero_sub');
+}
+
+/* ════ FILTRES ════ */
 function applyFilters() {
+  const products = getProducts();
   const tailles = [...document.querySelectorAll('input[value="7"],input[value="9"],input[value="10"],input[value="12"]')].filter(c=>c.checked).map(c=>+c.value);
   const compats = [...document.querySelectorAll('input[value="carplay"],input[value="android"],input[value="wifi"],input[value="camera"]')].filter(c=>c.checked).map(c=>c.value);
-  const max     = +document.getElementById('priceRange').value;
-  renderProducts(PRODUCTS.filter(p => {
+  const max = +document.getElementById('priceRange').value;
+  renderProducts(products.filter(p => {
     if (tailles.length && !tailles.includes(p.taille)) return false;
     if (compats.length && !compats.every(c=>p.compat.includes(c))) return false;
     if (p.price > max) return false;
     return true;
   }));
 }
-function updatePriceLabel(v) { document.getElementById('priceLabel').textContent=v+'€'; applyFilters(); }
+function updatePriceLabel(v) { document.getElementById('priceLabel').textContent = v + '€'; applyFilters(); }
 function resetFilters() {
   document.querySelectorAll('.filters-panel input[type=checkbox]').forEach(c=>c.checked=false);
-  document.getElementById('priceRange').value=800;
-  document.getElementById('priceLabel').textContent='800€';
-  renderProducts(PRODUCTS);
+  document.getElementById('priceRange').value = 800;
+  document.getElementById('priceLabel').textContent = '800€';
+  renderProducts(getProducts());
 }
 function sortProducts(v) {
-  let list=[...PRODUCTS];
+  let list = getProducts();
   if (v==='price-asc')  list.sort((a,b)=>a.price-b.price);
   if (v==='price-desc') list.sort((a,b)=>b.price-a.price);
   if (v==='popular')    list.sort((a,b)=>b.popular-a.popular);
   renderProducts(list);
 }
-
-/* FAQ */
 function toggleFaq(el) {
-  const a = el.nextElementSibling;
-  const open = el.classList.contains('open');
-  document.querySelectorAll('.faq-q').forEach(q=>{q.classList.remove('open');q.nextElementSibling.classList.remove('open');});
+  const a = el.nextElementSibling, open = el.classList.contains('open');
+  document.querySelectorAll('.faq-q').forEach(q => { q.classList.remove('open'); if(q.nextElementSibling) q.nextElementSibling.classList.remove('open'); });
   if (!open) { el.classList.add('open'); a.classList.add('open'); }
 }
 
-/* INIT */
+/* ════ TOUT RE-RENDRE AU CHANGEMENT DE LANGUE ════ */
+function renderAll() {
+  renderProducts(getProducts());
+  renderGaranties();
+  renderFaq();
+  renderHero();
+}
+
+/* ════ SÉLECTEUR VÉHICULE ════ */
+const VEHICLES = {
+  "Alfa Romeo":   ["147","156","159","166","Giulia","Giulietta","Mito","Stelvio","Tonale"],
+  "Audi":         ["A1","A2","A3","A4","A5","A6","A7","A8","Q2","Q3","Q5","Q7","Q8","TT","R8"],
+  "BMW":          ["Série 1","Série 2","Série 3","Série 4","Série 5","Série 6","Série 7","X1","X2","X3","X4","X5","X6","X7","Z4","M3","M4","M5"],
+  "Citroën":      ["C1","C2","C3","C3 Aircross","C4","C4 Cactus","C5","C5 Aircross","C5 X","DS3","DS4","DS5","Berlingo","C-Elysée","Jumpy","SpaceTourer"],
+  "Dacia":        ["Duster","Logan","Sandero","Spring","Jogger","Lodgy","Dokker","Bigster"],
+  "DS Automobiles":["DS3","DS3 Crossback","DS4","DS5","DS7 Crossback","DS9"],
+  "Fiat":         ["500","500X","500L","Bravo","Punto","Tipo","Panda","Doblo","Ducato","Freemont"],
+  "Ford":         ["Fiesta","Focus","Mondeo","Mustang","Edge","Escape","Explorer","EcoSport","Puma","Kuga","S-Max","Galaxy","Transit","Ranger","Maverick"],
+  "Honda":        ["Civic","Jazz","CR-V","HR-V","FR-V","Accord","Legend","NSX","e"],
+  "Hyundai":      ["i10","i20","i30","i40","Tucson","Santa Fe","Kona","Bayon","Ioniq","Ioniq 5","Ioniq 6","Nexo"],
+  "Jaguar":       ["E-Pace","F-Pace","F-Type","I-Pace","XE","XF","XJ","XK"],
+  "Jeep":         ["Cherokee","Compass","Grand Cherokee","Renegade","Wrangler","Gladiator","Avenger"],
+  "Kia":          ["Ceed","Picanto","Rio","Soul","Sportage","Sorento","Stinger","Niro","EV6","EV9","Stonic","Proceed","XCeed"],
+  "Land Rover":   ["Defender","Discovery","Discovery Sport","Freelander","Range Rover","Range Rover Evoque","Range Rover Sport","Range Rover Velar"],
+  "Mazda":        ["Mazda2","Mazda3","Mazda6","CX-3","CX-30","CX-5","CX-60","MX-5","MX-30","CX-80"],
+  "Mercedes-Benz":["Classe A","Classe B","Classe C","Classe CLA","Classe CLS","Classe E","Classe G","Classe GL","Classe GLA","Classe GLB","Classe GLC","Classe GLE","Classe GLS","Classe S","Classe SL","AMG GT","EQA","EQB","EQC","EQS","EQE","Sprinter","Vito"],
+  "Mini":         ["Mini 3 portes","Mini 5 portes","Mini Cabrio","Mini Clubman","Mini Countryman","Mini Paceman","Mini Coupe","Mini Roadster","Mini Cabrio","Aceman"],
+  "Mitsubishi":   ["ASX","Eclipse Cross","L200","Outlander","Pajero","Space Star","Colt"],
+  "Nissan":       ["Juke","Leaf","Micra","Navara","Note","Pathfinder","Qashqai","X-Trail","Ariya","Townstar","NV200"],
+  "Opel":         ["Adam","Astra","Cascada","Corsa","Crossland","Grandland","Insignia","Meriva","Mokka","Vivaro","Zafira","Combo","Rocks-e"],
+  "Peugeot":      ["106","107","108","206","207","208","306","307","308","408","508","2008","3008","5008","Expert","Partner","Rifter","Traveller","e-208","e-2008","e-308"],
+  "Porsche":      ["911","Cayenne","Macan","Panamera","Taycan","718 Boxster","718 Cayman"],
+  "Renault":      ["Captur","Clio","Espace","Express","Kadjar","Kangoo","Koleos","Laguna","Logan","Master","Megane","Modus","Sandero","Scenic","Trafic","Twingo","Talisman","Zoe","Austral","Arkana","Symbioz"],
+  "Seat":         ["Altea","Arona","Ateca","Cordoba","Ibiza","Leon","Mii","Tarraco","Toledo"],
+  "Skoda":        ["Citigo","Fabia","Kamiq","Karoq","Kodiaq","Octavia","Rapid","Superb","Scala","Enyaq","Elroq"],
+  "Subaru":       ["Forester","Impreza","Legacy","Outback","XV","WRX","BRZ","Solterra"],
+  "Suzuki":       ["Baleno","Celerio","Ignis","Jimny","S-Cross","Splash","Swift","SX4","Vitara"],
+  "Toyota":       ["Auris","Avensis","Aygo","C-HR","Camry","Corolla","Corolla Cross","GR86","Highlander","Land Cruiser","Prius","Proace","RAV4","Supra","Verso","Yaris","bZ4X","Hilux"],
+  "Volkswagen":   ["Arteon","Caddy","Caravelle","Golf","ID.3","ID.4","ID.5","ID.6","ID.7","Multivan","Passat","Polo","Sharan","T-Cross","T-Roc","Taigo","Tiguan","Touareg","Touran","Up","Amarok","Crafter","Transporter"],
+  "Volvo":        ["C30","C40","C70","S40","S60","S80","S90","V40","V50","V60","V70","V90","XC40","XC60","XC70","XC90","EX30","EX40","EX90","EC40"],
+};
+
+function onMarqueChange() {
+  const marque = document.getElementById('selMarque').value;
+  const selModele = document.getElementById('selModele');
+  const selAnnee  = document.getElementById('selAnnee');
+  selModele.innerHTML = `<option value="">${t('compat_select_modele')}</option>`;
+  selAnnee.innerHTML  = `<option value="">${t('compat_select_annee')}</option>`;
+  selModele.disabled = !marque;
+  selAnnee.disabled  = true;
+  document.getElementById('btnVerif').disabled = true;
+  document.getElementById('btnVerif').style.opacity = '.5';
+  if (!marque) { selModele.style.opacity='.5'; return; }
+  selModele.style.opacity = '1';
+  const modeles = VEHICLES[marque] || [];
+  modeles.sort().forEach(m => {
+    const opt = document.createElement('option'); opt.value = m; opt.textContent = m;
+    selModele.appendChild(opt);
+  });
+  document.getElementById('compatResult').style.display = 'none';
+}
+
+function onModeleChange() {
+  const modele = document.getElementById('selModele').value;
+  const selAnnee = document.getElementById('selAnnee');
+  selAnnee.innerHTML = `<option value="">${t('compat_select_annee')}</option>`;
+  selAnnee.disabled  = !modele;
+  document.getElementById('btnVerif').disabled = true;
+  document.getElementById('btnVerif').style.opacity = '.5';
+  if (!modele) { selAnnee.style.opacity='.5'; return; }
+  selAnnee.style.opacity = '1';
+  const currentYear = new Date().getFullYear();
+  for (let y = currentYear; y >= 2000; y--) {
+    const opt = document.createElement('option'); opt.value = y; opt.textContent = y;
+    selAnnee.appendChild(opt);
+  }
+  selAnnee.addEventListener('change', function() {
+    const ok = !!this.value;
+    document.getElementById('btnVerif').disabled = !ok;
+    document.getElementById('btnVerif').style.opacity = ok ? '1' : '.5';
+    document.getElementById('compatResult').style.display = 'none';
+  }, { once: false });
+}
+
+function checkCompat() {
+  const marque = document.getElementById('selMarque').value;
+  const modele = document.getElementById('selModele').value;
+  const annee  = document.getElementById('selAnnee').value;
+  if (!marque || !modele || !annee) return;
+
+  const vehiculeStr = `${marque} ${modele} ${annee}`;
+  document.getElementById('compatResultTitle').textContent = t('compat_ok_title');
+  document.getElementById('compatResultVehicule').textContent = vehiculeStr;
+  document.getElementById('compatResultMsg').textContent = t('compat_ok_msg');
+  // Pré-remplir le lien RDV avec le véhicule
+  document.getElementById('compatRdvLink').href = `rdv.html?vehicule=${encodeURIComponent(vehiculeStr)}`;
+
+  const result = document.getElementById('compatResult');
+  result.style.display = 'flex';
+  result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+  // Pré-remplir aussi le champ véhicule du formulaire RDV si on est sur la même page
+  const fVehicule = document.getElementById('fVehicule');
+  if (fVehicule) fVehicule.value = vehiculeStr;
+}
+
+/* INIT: pré-remplir depuis URL (si redirigé depuis boutique) */
 document.addEventListener('DOMContentLoaded', () => {
-  renderProducts(PRODUCTS);
+  const params = new URLSearchParams(window.location.search);
+  const veh = params.get('vehicule');
+  if (veh && document.getElementById('fVehicule')) {
+    document.getElementById('fVehicule').value = veh;
+  }
+  renderAll();
+  renderCart();
+});
+
+window.addEventListener('langchange', () => {
+  renderAll();
   renderCart();
 });
 </script>
